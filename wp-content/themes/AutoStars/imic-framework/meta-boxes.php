@@ -7,7 +7,7 @@ $meta_boxes = array();
 $meta_boxes[] = array(
     'id' => 'post_page_meta_box',
     'title' => __('Page/Post Header Options', 'framework'),
-   'pages' => array('post','page','cars', 'product'),
+   'pages' => array('post','page','yachts', 'product'),
     'fields' => array(
 		array(
             'name' => __('Choose Header Type', 'framework'),
@@ -517,7 +517,7 @@ $meta_boxes[] = array(
 $meta_boxes[] = array(
     'id' => 'browse-specification',
     'title' => __('Secondary Bar', 'framework'),
-    'pages' => array('page', 'post', 'cars'),
+    'pages' => array('page', 'post', 'yachts'),
     'fields' => array(
 	array(
             'name' => __('Bar type', 'framework'),
@@ -527,7 +527,7 @@ $meta_boxes[] = array(
             'options' => array(
 			'1' => __('Browse/Social Bar', 'framework'),
 			'2' => __('Breadcrumb', 'framework'),
-			'3' => __('Saved Cars Bar','framework'),
+			'3' => __('Saved Yachts Bar','framework'),
 			'4' => __('Categories Bar','framework'),
 			'0' => __('None','framework'),
             ),
@@ -620,7 +620,7 @@ $meta_boxes[] = array(
   ================================================== */
 $meta_boxes[] = array(
     'id' => 'template-home1',
-    'title' => __('Vehicle Section', 'framework'),
+    'title' => __('Yacht Section', 'framework'),
     'pages' => array('page'),
 	 'show' => array(
 // With all conditions below, use this logical operator to combine them. Default is 'OR'. Case insensitive. Optional.
@@ -630,9 +630,9 @@ $meta_boxes[] = array(
 ), 
     'fields' => array(
 		array(
-            'name' => __('Enabled/Disable Vehicle Listing', 'framework'),
+            'name' => __('Enabled/Disable Yacht Listing', 'framework'),
             'id' => $prefix . 'home_vehicle_switch',
-            'desc' => __("Select Enabled to active Vehicle Listing.", 'framework'),
+            'desc' => __("Select Enabled to active Yacht Listing.", 'framework'),
             'type' => 'select',
             'options' => array(
 			'1' => __('Enable', 'framework'),
@@ -661,7 +661,7 @@ $meta_boxes[] = array(
 		array(
             'name' => __('Section Title', 'framework'),
             'id' => $prefix . 'home_vehicle_title',
-            'desc' => __("Enter Vehicle section title.", 'framework'),
+            'desc' => __("Enter Yacht section title.", 'framework'),
             'type' => 'text',
             'std' => '',
         ),
@@ -679,9 +679,9 @@ $meta_boxes[] = array(
 			'std' => 3,
         ),
 		array(
-            'name' => __('Vehicle Count', 'framework'),
+            'name' => __('Yacht Count', 'framework'),
             'id' => $prefix . 'home_vehicle_count',
-            'desc' => __("Select the vehicle count.", 'framework'),
+            'desc' => __("Select the yacht count.", 'framework'),
 			'type' => 'select',
             'options' => array(
 				'1' => __('1','framework'),
@@ -800,8 +800,8 @@ array(
 );
 $meta_boxes[] = array(
 		'title' => __( 'Extra Tabs', 'rwmb' ),
-		 'pages' => array('cars'), 
-		 'id' => 'cars-tabs',
+		 'pages' => array('yachts'), 
+		 'id' => 'yachts-tabs',
 		'fields' => array(
 		array(
 			'name'  => __('Tab Area 1', 'framework'),
@@ -963,21 +963,21 @@ $meta_boxes[] = array(
 		array(
             'name' => __('Section Title', 'framework'),
             'id' => $prefix . 'home_news_title',
-            'desc' => __("Enter Vehicle section title.", 'framework'),
+            'desc' => __("Enter Yacht section title.", 'framework'),
             'type' => 'text',
             'std' => '',
         ),
 		array(
             'name' => __('All News Title', 'framework'),
             'id' => $prefix . 'home_allnews_title',
-            'desc' => __("Enter Vehicle section title.", 'framework'),
+            'desc' => __("Enter Yacht section title.", 'framework'),
             'type' => 'text',
             'std' => '',
         ),
 		array(
             'name' => __('All News URL', 'framework'),
             'id' => $prefix . 'home_allnews_url',
-            'desc' => __("Enter Vehicle section title.", 'framework'),
+            'desc' => __("Enter Yacht section title.", 'framework'),
             'type' => 'text',
             'std' => '',
         ),
@@ -1226,7 +1226,7 @@ $meta_boxes[] = array(
 		array(
             'name' => __('Section URL', 'framework'),
             'id' => $prefix . 'search_by_specification_url',
-            'desc' => __("Enter all vehicles URL.", 'framework'),
+            'desc' => __("Enter all yachts URL.", 'framework'),
             'type' => 'text',
             'std' => '',
         ),
@@ -1346,7 +1346,7 @@ $meta_boxes[] = array(
             'std' => '',
         ),
 		array(
-            'name' => __('Sold Cars', 'framework'),
+            'name' => __('Sold Yachts', 'framework'),
             'id' => $prefix . 'user_sold_cars',
             'desc' => __("Number of listings sold by this user.", 'framework'),
             'type' => 'text',
@@ -1538,93 +1538,6 @@ $meta_boxes[] = array(
             'desc' => __("Enter number of days for listing active, Ex-10.", 'framework'),
             'type' => 'text',
             'std' => '',
-        ),
-    )
-);
-$meta_boxes[] = array(
-    'id' => 'plans-details2',
-    'title' => __('Periodic Plan', 'framework'),
-    'pages' => array('plan'),
-    'fields' => array(
-		array(
-            'name' => __('Plan Validity In', 'framework'),
-            'id' => $prefix . 'plan_validity',
-            'desc' => __("Select Plan Validity.", 'framework'),
-            'type' => 'select',
-            'options' => array(
-							'0' => __('Select', 'framework'),
-							'day' => __('Days', 'framework'),
-							'week' => __('Week','framework'),
-							'month' => __('Month','framework'),
-            ),
-						'std' => 0,
-        ),
-			array(
-            'name' => __('Select No of Days', 'framework'),
-            'id' => $prefix . 'plan_validity_days',
-            'desc' => __("Select Plan Validity In Days.", 'framework'),
-            'type' => 'select',
-            'options' => array(
-							'1' => __('One', 'framework'),
-							'2' => __('Two','framework'),
-							'3' => __('Three','framework'),
-							'4' => __('Four','framework'),
-							'5' => __('Five','framework'),
-							'6' => __('Six','framework'),
-            ),
-						'std' => 1,
-        ),
-				array(
-            'name' => __('Select No of Weeks', 'framework'),
-            'id' => $prefix . 'plan_validity_weeks',
-            'desc' => __("Select Plan Validity In Weeks.", 'framework'),
-            'type' => 'select',
-            'options' => array(
-							'1' => __('One', 'framework'),
-							'2' => __('Two','framework'),
-							'3' => __('Three','framework'),
-							'4' => __('Four','framework'),
-            ),
-						'std' => 1,
-        ),
-				array(
-            'name' => __('Select No of Months', 'framework'),
-            'id' => $prefix . 'plan_validity_months',
-            'desc' => __("Select Plan Validity In Months.", 'framework'),
-            'type' => 'select',
-            'options' => array(
-							'1' => __('One', 'framework'),
-							'2' => __('Two','framework'),
-							'3' => __('Three','framework'),
-							'4' => __('Four','framework'),
-							'5' => __('Five', 'framework'),
-							'6' => __('Six','framework'),
-							'7' => __('Seven','framework'),
-							'8' => __('Eight','framework'),
-							'9' => __('Nine', 'framework'),
-							'10' => __('Ten','framework'),
-							'11' => __('Eleven','framework'),
-							'12' => __('Twelve','framework'),
-            ),
-						'std' => 1,
-        ),
-				array(
-            'name' => __('Number of Listings Allowed', 'framework'),
-            'id' => $prefix . 'plan_validity_listings',
-            'desc' => __("Enter number of listings allowed into selected plan.", 'framework'),
-            'type' => 'text',
-            'std' => '',
-        ),
-				array(
-            'name' => __('Listings Validity', 'framework'),
-            'id' => $prefix . 'plan_validity_expire_listing',
-            'desc' => __("Deactivate Listings with Plan. In case of No, above periodic listing field would work.", 'framework'),
-            'type' => 'select',
-            'options' => array(
-							'0' => __('No', 'framework'),
-							'1' => __('Yes', 'framework'),
-            ),
-						'std' => 0,
         ),
     )
 );

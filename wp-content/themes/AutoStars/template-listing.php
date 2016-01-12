@@ -52,7 +52,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                             	<div class="tool-box-head">
                                 <?php if(is_user_logged_in()) { ?>
                             		<a href="<?php echo esc_url(add_query_arg('saved',1,$listing_page_url)); ?>" class="basic-link pull-right"><?php _e('View all','framework'); ?></a><?php } ?>
-                            		<h5><?php _e('Saved cars','framework'); ?></h5>
+                            		<h5><?php _e('Saved yachts','framework'); ?></h5>
                                 </div>
                                 <div class="tool-box-in">
                                 	<ul class="saved-cars-box listing tool-car-listing">
@@ -65,8 +65,6 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
 											$highlighted_specs = (isset($imic_options['highlighted_specs']))?$imic_options['highlighted_specs']:'';
 											$unique_specs = $imic_options['unique_specs'];	
 											foreach($saved_cars as $car) {
-												$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $car[0]);	
-												$highlighted_specs = $new_highlighted_specs;
 												$specifications = get_post_meta($car[0],'feat_data',true);
 												$unique_value = imic_vehicle_price($car[0],$unique_specs,$specifications);
 												$highlight_value = imic_vehicle_title($car[0],$highlighted_specs,$specifications);
@@ -81,12 +79,10 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                         </li>';
 										if($total++==2) { break; } }
 										}
-										else { echo '<li class="blank">'.__('No Saved Cars yet','framework').'</li>'; }
+										else { echo '<li class="blank">'.__('No Saved Yachts yet','framework').'</li>'; }
 									} }
 									if(!empty($_SESSION['saved_vehicle_id1'])) {
 									$highlighted_specs = $imic_options['highlighted_specs'];
-									$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['saved_vehicle_id1']);
-									$highlighted_specs = $new_highlighted_specs;
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['saved_vehicle_id1'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['saved_vehicle_id1'],$unique_specs,$specifications);
@@ -101,8 +97,6 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                             <div id="one" class="delete session-save-car"><a href="#"><i class="icon-delete"></i></a></div>
                                         </li><?php } if(!empty($_SESSION['saved_vehicle_id2'])) {
 											$highlighted_specs = $imic_options['highlighted_specs'];
-											$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['saved_vehicle_id2']);
-											$highlighted_specs = $new_highlighted_specs;
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['saved_vehicle_id2'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['saved_vehicle_id2'],$unique_specs,$specifications);
@@ -117,8 +111,6 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                             <div id="two" class="delete session-save-car"><a href="#"><i class="icon-delete"></i></a></div>
                                         </li><?php } if(!empty($_SESSION['saved_vehicle_id3'])) {
 											$highlighted_specs = $imic_options['highlighted_specs'];
-											$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['saved_vehicle_id3']);
-											$highlighted_specs = $new_highlighted_specs;
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['saved_vehicle_id3'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['saved_vehicle_id3'],$unique_specs,$specifications);
@@ -134,7 +126,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                         </li><?php } if(!empty($_SESSION['saved_vehicle_id1'])&&!empty($_SESSION['saved_vehicle_id2'])&&!empty($_SESSION['saved_vehicle_id3'])) {
 											echo '<li>'.__('Please login/register to add more','framework').'</li>';
 										} if(empty($_SESSION['saved_vehicle_id1'])&&empty($_SESSION['saved_vehicle_id2'])&&empty($_SESSION['saved_vehicle_id3'])&&empty($saved_cars)&&(!is_user_logged_in())) {
-										echo '<li class="blank">'.__('No Saved Cars yet','framework').'</li>'; } ?>
+										echo '<li class="blank">'.__('No Saved Yachts yet','framework').'</li>'; } ?>
                                         
                                     </ul>
                                 </div>
@@ -205,7 +197,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                     	<li><a href="#"><i class="fa fa-clock-o"></i></a>
                         	<div class="tool-box">
                             	<div class="tool-box-head">
-                            		<h5><?php _e('Recently viewed cars','framework'); ?></h5>
+                            		<h5><?php _e('Recently viewed yachts','framework'); ?></h5>
                                 </div>
                                 <div class="tool-box-in">
                                 	<ul id="viewed-cars-listbox" class="listing tool-car-listing">
@@ -217,8 +209,6 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                     	<?php 
 									if(!empty($_SESSION['viewed_vehicle_id1'])) {
 									$highlighted_specs = $imic_options['highlighted_specs'];
-									$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['viewed_vehicle_id1']);
-									$highlighted_specs = $new_highlighted_specs;
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['viewed_vehicle_id1'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['viewed_vehicle_id1'],$unique_specs,$specifications);
@@ -234,8 +224,6 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                             <div id="seven" class="delete session-save-car"><a href="#"><i class="icon-delete"></i></a></div>
                                         </li><?php } if(!empty($_SESSION['viewed_vehicle_id2'])) {
 											$highlighted_specs = $imic_options['highlighted_specs'];
-											$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['viewed_vehicle_id2']);
-											$highlighted_specs = $new_highlighted_specs;
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['viewed_vehicle_id2'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['viewed_vehicle_id2'],$unique_specs,$specifications);
@@ -250,8 +238,6 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                             <div id="eight" class="delete session-save-car"><a href="#"><i class="icon-delete"></i></a></div>
                                         </li><?php } if(!empty($_SESSION['viewed_vehicle_id3'])) {
 											$highlighted_specs = $imic_options['highlighted_specs'];
-											$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['viewed_vehicle_id3']);
-											$highlighted_specs = $new_highlighted_specs;
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['viewed_vehicle_id3'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['viewed_vehicle_id3'],$unique_specs,$specifications);
@@ -478,19 +464,15 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
 								elseif($integer==1) {
 									if($numeric_specs_type==0)
 									{
-										$slug = "int_".$spec_slug;
-										$comparision = "<span>".__("Less Than ","framework").'</span>';
+										$slug = "int_".$spec_slug; 
+                                        if($spec_slug == 'price')
+										  $comparision = "<span>".__("Under $","framework").'</span>';
+                                        else $comparision = "<span>".__("Under ","framework").'</span>';
 									}
 									else
 									{
 										$slug = "range_".$spec_slug;
 										$comparision = '';
-										$min_val = get_post_meta($filter, 'imic_plugin_range_min_value', true);
-										$max_val = get_post_meta($filter, 'imic_plugin_range_max_value', true);
-										$steps = get_post_meta($filter, 'imic_plugin_range_steps', true);
-										$min_val = ($min_val!='')?$min_val:0;
-										$max_val = ($max_val!='')?$max_val:100000;
-										$steps = ($steps!='')?$steps:1000;
 									}
 								}
 								else {
@@ -507,8 +489,8 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                         <div class="accordion-inner">
                                             <ul data-ids="<?php echo 'fieldfltr-'.($filter+2648); ?>" id="<?php echo esc_attr($slug); ?>" class="filter-options-list list-group search-fields">
                                             <?php if($integer==1&&$numeric_specs_type==1) { ?>
-                                            <li><b><?php echo esc_attr($value_label); ?> <span class="left"><?php echo esc_attr($min_val); ?></span> - 
-<span class="right"><?php echo esc_attr($max_val); ?></span></b> <input id="ex2" type="text" class="span2" value="" data-slider-min="<?php echo esc_attr($min_val); ?>" data-slider-max="<?php echo esc_attr($max_val); ?>" data-slider-step="<?php echo esc_attr($steps); ?>" data-slider-value="[<?php echo esc_attr($min_val); ?>,<?php echo esc_attr($max_val); ?>]" data-imic-start="" data-imic-end=""/>
+                                            <li><b><?php echo esc_attr($value_label); ?> <span class="left">0</span> - 
+<span class="right">10000</span></b> <input id="ex2" type="text" class="span2" value="" data-slider-min="0" data-slider-max="100000" data-slider-step="<?php echo esc_attr($slider_range_step); ?>" data-slider-value="[0,10000]" data-imic-start="" data-imic-end=""/>
 <br />
 <!--<span class="left">0</span> - 
 <span class="right">10000</span>-->
@@ -559,7 +541,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
 						$term_slug = get_query_var('list-cat');
 						if($term_slug!='')
 						{
-                    		$listing_tags = get_terms('cars-tag',array('hide_empty'=>true));
+                    		$listing_tags = get_terms('yachts-tag',array('hide_empty'=>true));
 							foreach($listing_tags as $tag)
 							{
 								$tag_description = get_option("taxonomy_".$tag->term_id."_metas");
@@ -588,7 +570,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                 				<div class="widget_tag_cloud matched-tags-list">';
 											foreach($list_tags as $tab) 
 											{
-												$tag_name = get_term_by('slug', $tab, 'cars-tag');
+												$tag_name = get_term_by('slug', $tab, 'yachts-tag');
                                                 echo '<a href="javascript:void(0);" class="">'.$tag_name->name.'</a>';
                                            	} 
 											echo '</div><br/>';
@@ -742,19 +724,18 @@ if(!empty($qrs))
 										{
 											$detailed_specs = array();
 										}
-										$detailed_specs = imic_filter_lang_specs($detailed_specs);
 										$category_rail = (isset($imic_options['category_rail']))?$imic_options['category_rail']:'0';
 										$additional_specs_all = get_post_meta($additional_specs,'specifications_value',true);
 										$highlighted_specs = (isset($imic_options['highlighted_specs']))?$imic_options['highlighted_specs']:array();
 										$unique_specs = (isset($imic_options['unique_specs']))?$imic_options['unique_specs']:'';
 										if($have_int==1)
 										{	
-											$args_cars = array ('post_type'=>'cars','orderby' => 'meta_value_num','order' => $order,'tax_query'=>$term_array,'meta_query' => $arrays,'posts_per_page'=>$posts_page,'post_status'=>'publish','offset'=>$offset);
+											$args_cars = array ('post_type'=>'yachts','orderby' => 'meta_value_num','order' => $order,'tax_query'=>$term_array,'meta_query' => $arrays,'posts_per_page'=>$posts_page,'post_status'=>'publish','offset'=>$offset);
 $cars_listing = new WP_Query( $args_cars ); 
 										}
 										else
 										{
-											$args_cars = array ('post_type'=>'cars','order' => $order,'tax_query'=>$term_array,'meta_query' => $arrays,'posts_per_page'=>$posts_page,'post_status'=>'publish','offset'=>$offset);
+											$args_cars = array ('post_type'=>'yachts','order' => $order,'tax_query'=>$term_array,'meta_query' => $arrays,'posts_per_page'=>$posts_page,'post_status'=>'publish','offset'=>$offset);
 $cars_listing = new WP_Query( $args_cars ); 
 										}
 									if ( $cars_listing->have_posts() ) :
@@ -765,9 +746,6 @@ $cars_listing = new WP_Query( $args_cars );
 											$badge_ids = imic_classified_badge_specs(get_the_ID(), $badge_ids);
 											$detailed_specs = imic_classified_short_specs(get_the_ID(), $detailed_specs);
 										}
-										$badge_ids = imic_filter_lang_specs($badge_ids);
-										$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, get_the_ID());
-										$highlighted_specs = $new_highlighted_specs;
 										$saved_car_user = array();
 										$post_author_id = get_post_field( 'post_author', get_the_ID() );
 										$user_info_id = get_user_meta($post_author_id,'imic_user_info_id',true);

@@ -28,8 +28,6 @@ $pageSidebar2 = get_post_meta(get_the_ID(),'imic_select_sidebar_from_list', true
 											foreach($saved_cars as $car) {
 												$specifications = get_post_meta($car[0],'feat_data',true);
 												$unique_value = imic_vehicle_price($car[0],$unique_specs,$specifications);
-												$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $car[0]);
-												$highlighted_specs = $new_highlighted_specs;
 												$highlight_value = imic_vehicle_title($car[0],$highlighted_specs,$specifications);
 											echo '<li>
                                         	<div class="checkb"><input id="saved-'.esc_attr($car[0]).'" value="0" type="checkbox" class="compare-check"></div>
@@ -42,15 +40,13 @@ $pageSidebar2 = get_post_meta(get_the_ID(),'imic_select_sidebar_from_list', true
                                         </li>';
 										if($total++==2) { break; } }
 										}
-										else { echo '<li class="blank">'.__('No Saved Cars yet','framework').'</li>'; }
+										else { echo '<li class="blank">'.__('No Saved Yachts yet','framework').'</li>'; }
 									} }
 									if(!empty($_SESSION['saved_vehicle_id1'])) {
 									$highlighted_specs = $imic_options['highlighted_specs'];
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['saved_vehicle_id1'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['saved_vehicle_id1'],$unique_specs,$specifications);
-									$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['saved_vehicle_id1']);
-									$highlighted_specs = $new_highlighted_specs;
 									$highlight_value = imic_vehicle_title($_SESSION['saved_vehicle_id1'],$highlighted_specs,$specifications); ?>
                                     	<li>
                                         	<div class="checkb"><input value="0" id="saved-<?php echo esc_attr($_SESSION["saved_vehicle_id1"]); ?>" class="compare-check" type="checkbox"></div>
@@ -63,8 +59,6 @@ $pageSidebar2 = get_post_meta(get_the_ID(),'imic_select_sidebar_from_list', true
                                         </li><?php } if(!empty($_SESSION['saved_vehicle_id2'])) {
 											$highlighted_specs = $imic_options['highlighted_specs'];
 									$unique_specs = $imic_options['unique_specs'];
-									$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['saved_vehicle_id2']);
-									$highlighted_specs = $new_highlighted_specs;
 									$specifications = get_post_meta($_SESSION['saved_vehicle_id2'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['saved_vehicle_id2'],$unique_specs,$specifications);
 									$highlight_value = imic_vehicle_title($_SESSION['saved_vehicle_id2'],$highlighted_specs,$specifications); ?>
@@ -78,8 +72,6 @@ $pageSidebar2 = get_post_meta(get_the_ID(),'imic_select_sidebar_from_list', true
                                             <div id="two" class="delete session-save-car"><a href="#"><i class="icon-delete"></i></a></div>
                                         </li><?php } if(!empty($_SESSION['saved_vehicle_id3'])) {
 											$highlighted_specs = $imic_options['highlighted_specs'];
-											$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['saved_vehicle_id3']);
-										$highlighted_specs = $new_highlighted_specs;
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['saved_vehicle_id3'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['saved_vehicle_id3'],$unique_specs,$specifications);
@@ -95,7 +87,7 @@ $pageSidebar2 = get_post_meta(get_the_ID(),'imic_select_sidebar_from_list', true
                                         </li><?php } if(!empty($_SESSION['saved_vehicle_id1'])&&!empty($_SESSION['saved_vehicle_id2'])&&!empty($_SESSION['saved_vehicle_id3'])) {
 											echo '<li>'.__('Please login/register to add more','framework').'</li>';
 										} if(empty($_SESSION['saved_vehicle_id1'])&&empty($_SESSION['saved_vehicle_id2'])&&empty($_SESSION['saved_vehicle_id3'])&&empty($saved_cars)&&(!is_user_logged_in())) {
-										echo '<li class="blank">'.__('No Saved Cars yet','framework').'</li>'; } ?>
+										echo '<li class="blank">'.__('No Saved Yachts yet','framework').'</li>'; } ?>
                                         
                                     </ul>
                                 </div>
@@ -178,8 +170,6 @@ $pageSidebar2 = get_post_meta(get_the_ID(),'imic_select_sidebar_from_list', true
                                     	<?php 
 									if(!empty($_SESSION['viewed_vehicle_id1'])) {
 									$highlighted_specs = $imic_options['highlighted_specs'];
-									$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['viewed_vehicle_id1']);
-									$highlighted_specs = $new_highlighted_specs;
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['viewed_vehicle_id1'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['viewed_vehicle_id1'],$unique_specs,$specifications);
@@ -195,8 +185,6 @@ $pageSidebar2 = get_post_meta(get_the_ID(),'imic_select_sidebar_from_list', true
                                             <div id="seven" class="delete session-save-car"><a href="#"><i class="icon-delete"></i></a></div>
                                         </li><?php } if(!empty($_SESSION['viewed_vehicle_id2'])) {
 											$highlighted_specs = $imic_options['highlighted_specs'];
-											$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['viewed_vehicle_id2']);
-										$highlighted_specs = $new_highlighted_specs;
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['viewed_vehicle_id2'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['viewed_vehicle_id2'],$unique_specs,$specifications);
@@ -211,8 +199,6 @@ $pageSidebar2 = get_post_meta(get_the_ID(),'imic_select_sidebar_from_list', true
                                             <div id="eight" class="delete session-save-car"><a href="#"><i class="icon-delete"></i></a></div>
                                         </li><?php } if(!empty($_SESSION['viewed_vehicle_id3'])) {
 											$highlighted_specs = $imic_options['highlighted_specs'];
-											$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $_SESSION['viewed_vehicle_id3']);
-										$highlighted_specs = $new_highlighted_specs;
 									$unique_specs = $imic_options['unique_specs'];
 									$specifications = get_post_meta($_SESSION['viewed_vehicle_id3'],'feat_data',true);
 									$unique_value = imic_vehicle_price($_SESSION['viewed_vehicle_id3'],$unique_specs,$specifications);

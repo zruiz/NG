@@ -13,6 +13,9 @@ if(is_plugin_active("imithemes-listing/listing.php")) {
 /* META BOX IN USER ROLE TAXONOMY
 ==================================================== */
 require_once(ImicFrameworkPath . '/user-role-fields.php');
+/* CSV IMPORTER
+==================================================== */
+//require_once (ImicFrameworkPath . '/imic-import-csv.php');
 /* META BOX FRAMEWORK
 ================================================== */
 require_once(ImicFrameworkPath . '/meta-box/meta-box.php');
@@ -107,11 +110,7 @@ if (!function_exists('imic_enqueue_scripts')) {
 				$mortgage_message = __('Please fill all fields', 'framework');
 				$enquiry_email_msg = __('Please enter Email', 'framework');
 				$enquiry_form_sending = __('Sending Information...', 'framework');
-				$enquiry_form_success = __('Details forwarded to dealer', 'framework');
-				$exceed_msg = __('You can not select more than 3 listings to compare', 'framework');
-				$compares = __('Compare ', 'framework');
-				$already_saved = __('You have already saved this search', 'framework');
-				$success_saved = __('Successfully Saved', 'framework');
+				$enquiry_form_success = __('Details forwarded to broker', 'framework');
 	   $distance_measure = (isset($imic_options['distance_calculate']))?$imic_options['distance_calculate']:'miles';
         //**register script**//
 		wp_register_script('imic_jquery_modernizr', IMIC_THEME_PATH . '/js/modernizr.js', array(), $theme_info->get( 'Version' ), true);
@@ -135,7 +134,6 @@ if (!function_exists('imic_enqueue_scripts')) {
 		wp_register_script('imic_search_location', IMIC_THEME_PATH . '/js/search_location.js', array(), $theme_info->get( 'Version' ), true);
 		wp_register_script('imic_enquiry_email', IMIC_THEME_PATH . '/js/enquiry_email.js', array(), $theme_info->get( 'Version' ), true);
 		wp_register_script('imic_bootstrap_slider', IMIC_THEME_PATH . '/js/bootstrap-slider.js', array(), $theme_info->get( 'Version' ), true);
-		wp_register_script('imic_common_scripts', IMIC_THEME_PATH . '/js/common_scripts.js', array(), $theme_info->get( 'Version' ), true);
         //**End register script**//
         //**Enqueue script**//
 		wp_enqueue_script('imic_jquery_modernizr');
@@ -156,10 +154,8 @@ if (!function_exists('imic_enqueue_scripts')) {
 		wp_enqueue_script('imic_search_location');
 		wp_localize_script('imic_search_location','searches',array('ajaxurl'=>admin_url('admin-ajax.php'),'measure'=>$distance_measure));
 		wp_localize_script('imic_search_filter','values',array('ajaxurl'=>admin_url('admin-ajax.php'),'tmpurl'=>get_template_directory_uri()));
-		wp_enqueue_script('imic_common_scripts');
-		wp_localize_script('imic_common_scripts','common',array('ajaxurl'=>admin_url('admin-ajax.php')));
 		wp_enqueue_script('imic_vehicle_add');
-		wp_localize_script('imic_vehicle_add','dashboard',array('ajaxurl'=>admin_url('admin-ajax.php'), 'exceed'=>$exceed_msg, 'compmsg'=>$compares, 'asaved'=>$already_saved, 'ssaved'=>$success_saved));
+		wp_localize_script('imic_vehicle_add','values',array('ajaxurl'=>admin_url('admin-ajax.php')));
 		wp_localize_script('imic_jquery_init','values',array('ajaxurl'=>admin_url('admin-ajax.php'),'tmpurl'=>get_template_directory_uri(),'basic'=>$basic,'advanced'=>$advanced));
 		wp_localize_script('imic_jquery_init','overform',array('basic'=>$basic,'advanced'=>$advanced, 'mortgage'=>$mortgage_message));
 		wp_enqueue_script('imic_enquiry_email');

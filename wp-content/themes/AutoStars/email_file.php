@@ -8,7 +8,7 @@ $email = $_POST['Email'];
 $name = esc_attr($_POST['Name']);
 $car = $_POST['Vehicle_ID'];
 $post_type = get_post_type($car);
-if($post_type=="cars") { $address = get_post_meta($car,'imic_plugin_contact_email',true); if($address=='') { $address = get_option('admin_email'); } }
+if($post_type=="yachts") { $address = get_post_meta($car,'imic_plugin_contact_email',true); if($address=='') { $address = get_option('admin_email'); } }
 else { $address = get_option('admin_email'); }
 echo $car;
 $subject = $email_subject;

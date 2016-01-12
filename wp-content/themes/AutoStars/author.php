@@ -50,7 +50,7 @@ if(is_plugin_active("imithemes-listing/listing.php")) { ?>
                         <div class="col-md-3 col-sm-4 col-xs-6">
                             <div class="dealer-block-add">
                                 <span><?php echo esc_attr_e('Member since ','framework'); ?><strong><?php echo esc_attr(date("M, Y", strtotime($user_info->user_registered)));?></strong></span>
-                                <span><?php echo esc_attr_e('Active listings ','framework'); ?><strong><?php echo esc_attr(imic_count_user_posts_by_type($user->ID,'cars')); ?></strong></span>
+                                <span><?php echo esc_attr_e('Active listings ','framework'); ?><strong><?php echo esc_attr(imic_count_user_posts_by_type($user->ID,'yachts')); ?></strong></span>
                             </div>
                         </div>
                     </div>
@@ -78,13 +78,13 @@ if(is_plugin_active("imithemes-listing/listing.php")) { ?>
 										$additional_specs_all = get_post_meta($additional_specs,'specifications_value',true);
 										$highlighted_specs = $imic_options['highlighted_specs'];
 										$unique_specs = $imic_options['unique_specs'];	
-									$args_cars = array('post_type'=>'cars','posts_per_page'=>-1,'post_status'=>'publish','author'=>$user->ID,'meta_query'=>array(array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'=')));
+									$args_cars = array('post_type'=>'yachts','posts_per_page'=>-1,'post_status'=>'publish','author'=>$user->ID,'meta_query'=>array(array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'=')));
 									$cars_listing = new WP_Query( $args_cars );
 									if ( $cars_listing->have_posts() ) : ?>
 										<!-- Recently Listed Vehicles -->
                             <section class="listing-block recent-vehicles">
                                 <div class="listing-header">
-                                    <h3><?php echo esc_attr_e('Our Recently Listed Vehicles','framework'); ?></h3>
+                                    <h3><?php echo esc_attr_e('Our Recently Listed Yachts','framework'); ?></h3>
                                 </div>
                                 <div class="listing-container">
                                     <div class="carousel-wrapper">
@@ -94,8 +94,6 @@ if(is_plugin_active("imithemes-listing/listing.php")) { ?>
 											$cars_listing->the_post();
 										$specifications = get_post_meta(get_the_ID(),'feat_data',true);
 										$unique_value = imic_vehicle_price(get_the_ID(),$unique_specs,$specifications);
-										$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, get_the_ID());
-										$highlighted_specs = $new_highlighted_specs;
 										$highlight_value = imic_vehicle_title(get_the_ID(),$highlighted_specs,$specifications);
 										$details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
 										$badges = imic_vehicle_all_specs(get_the_ID(),$badge_ids,$specifications);

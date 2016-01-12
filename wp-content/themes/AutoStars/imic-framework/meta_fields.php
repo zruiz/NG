@@ -19,28 +19,6 @@ if(!function_exists('imic_get_specs_values_status'))
 		return $result;
 	}
 }
-if(!function_exists('imic_filter_lang_specs_plugin'))
-{
-	function imic_filter_lang_specs_plugin($specs)
-	{
-		$new_specs = array();
-		if((!empty($specs))&&(class_exists('SitePress')))
-		{
-			foreach($specs as $spec)
-			{
-				if(class_exists('SitePress')&&ICL_LANGUAGE_CODE==imic_langcode_post_id( $spec ))
-				{
-					$new_specs[] = $spec;
-				}
-			}
-		}
-		else
-		{
-			$new_specs = $specs;
-		}
-		return $new_specs;
-	}
-}
 if (!function_exists('imic_register_post_box')) {
     add_action('admin_init', 'imic_register_post_box');
     function imic_register_post_box() {
@@ -77,27 +55,6 @@ $meta_box = array(
 		'2' => __('Normal','framework'),
             ),
 	'std' => 0,
-        ),
-				array(
-            'name' => __('Minimum Value', 'framework'),
-            'id' => $prefix . 'range_min_value',
-            'desc' => __("Please insert range selector minimum value, you should enable range filter from listing settings under Theme Options.", 'framework'),
-            'type' => 'text',
-            'std' => '',
-        ),
-				array(
-            'name' => __('Maximum Value', 'framework'),
-            'id' => $prefix . 'range_max_value',
-            'desc' => __("Please insert range selector maximum value, you should enable range filter from listing settings under Theme Options.", 'framework'),
-            'type' => 'text',
-            'std' => '',
-        ),
-				array(
-            'name' => __('Filter Steps', 'framework'),
-            'id' => $prefix . 'range_steps',
-            'desc' => __("Please insert steps between minimum and maximum value of filter.Ex-100, then filter will increase or decrease value by minimum of 100", 'framework'),
-            'type' => 'text',
-            'std' => '',
         ),
 		array(
             'name' => __('Value Label', 'framework'),
@@ -147,9 +104,9 @@ $meta_box = array(
 	'std' => 1,
         ),
 		array(
-            'name' => __('Show for vehicle edit', 'framework'),
+            'name' => __('Show for yacht edit', 'framework'),
             'id' => $prefix . 'show_for_vehicle',
-            'desc' => __("Select whether to display this as custom field while editing listing from the wp-dashboard > Cars.", 'framework'),
+            'desc' => __("Select whether to display this as custom field while editing listing from the wp-dashboard > Yachts.", 'framework'),
             'type' => 'select',
             'options' => array(
 		'1' => __('Yes', 'framework'),
@@ -171,7 +128,7 @@ if (!function_exists('imic_register_car_additional_specs')) {
 $meta_box = array(
     'id' => 'cars-additional_specs',
     'title' => __('Additional Specifications', 'framework'),
-    'pages' => array('cars'),
+    'pages' => array('yachts'),
     'show_names' => true,
     'fields' => array(
 		array(
@@ -220,7 +177,7 @@ $meta_box = array(
 		array(
             'name' => __('Manual', 'framework'),
             'id' => $prefix . 'car_manual',
-            'desc' => __("Upload Vehicle Manual.", 'framework'),
+            'desc' => __("Upload Yacht Deck Plan.", 'framework'),
             'type' => 'file_input',
             'std' => '',
         ),
@@ -288,7 +245,7 @@ if (!function_exists('imic_register_cars_specification_values')) {
         $prefix = 'imic_plugin_';
 		//Car Details Meta Box
 		$meta_boxes[] = array(
-		'title' => __( 'Car Details', 'rwmb' ),
+		'title' => __( 'Yacht Details', 'rwmb' ),
 		 'pages' => array('specification'),
 		'fields' => array(
 			array(
@@ -345,7 +302,7 @@ add_action( 'save_post', 'imic_update_event_fields_data', 10, 2 );
  */
 function add_event_fields_clone() 
 {
-    add_meta_box('event_schedule',__('Specifications','framework'),'imic_event_feilds_output','cars','normal','core');
+    add_meta_box('event_schedule',__('Specifications','framework'),'imic_event_feilds_output','yachts','normal','core');
 }
 /**
  * Print the Meta Box content
@@ -376,9 +333,6 @@ function imic_event_feilds_output()
 				$ints[] = $post_specs->ID;
 			}
 		} 
-		$ids = imic_filter_lang_specs_plugin($ids);
-		$chars = imic_filter_lang_specs_plugin($chars);
-		$ints = imic_filter_lang_specs_plugin($ints);
 		$i=0;
         foreach( $ids as $id ) 
         {
@@ -457,13 +411,10 @@ function imic_event_feilds_output()
           
           <div class="rwmb-field rwmb-select-wrapper"><div class="rwmb-label">
               <label><?php echo get_the_title($char); ?></label></div>
-              <?php if(!empty($values[1])) {
-								$parent_class = (imic_get_child_values_status($values)==1)?'parent-spec':''; ?>
+              <?php if(!empty($values[1])) { ?>
               <div class="rwmb-input">
               <select type="text"
-              data-specid="<?php echo esc_attr($char); ?>" 
-              data-listid="<?php echo esc_attr($post->ID); ?>"
-                     class="meta_feat_title rwmb-select <?php echo esc_attr($parent_class); ?>"
+                     class="meta_feat_title rwmb-select"
                      name="char_<?php echo esc_attr($char_slug); ?>"
               >
               <option value=""><?php _e('Select','framework'); ?></option>
@@ -480,29 +431,7 @@ function imic_event_feilds_output()
             <?php if(!empty($values[0]['imic_plugin_specification_values_child'])) { ?>
           	<div class="rwmb-field rwmb-select-wrapper"><div class="rwmb-label">
               <label><?php echo get_post_meta($char,'imic_plugin_sub_field_label',true); ?></label></div>
-              <div class="rwmb-input child-spec">
-              <?php
-							if($spec_value!='')
-							{
-								$current_value = get_post_meta($post->ID, 'child_'.$char_slug, true);
-							echo '<select type="text" class="meta_feat_title rwmb-select" name="child_'.esc_attr($char_slug).'">';
-              foreach($values as $value) {
-								if($spec_value==$value['imic_plugin_specification_values'])
-								{
-									$child_vals = $value['imic_plugin_specification_values_child'];
-									$child_vals = explode(',', $child_vals);
-									break;
-								}
-							}
-							foreach($child_vals as $val)
-							{
-								$selected = ($current_value==$val||$current_value==" ".$val)?'selected':'';
-								echo '<option '.$selected.' value="'.$val.'">'.$val.'</option>';
-							}
-             echo '</select>';
-							}
-						 ?>
-              </div>
+              <div class="rwmb-input"><input type="text" class="meta_feat_title" name="child_<?php echo esc_attr($char_slug); ?>" value="<?php echo esc_attr(get_post_meta($post->ID, 'child_'.$char_slug, true)); ?>"/></div>
             </div>
           <?php } ?>
           </div>
@@ -552,7 +481,7 @@ function imic_update_event_fields_data( $post_id, $post_object )
         return;
     // Verify authenticity
 	// Check the user's permissions.
-	if ( isset( $_POST['post_type'] ) && 'cars' == $_POST['post_type'] ) {
+	if ( isset( $_POST['post_type'] ) && 'yachts' == $_POST['post_type'] ) {
 		if ( ! current_user_can( 'edit_page', $post_id ) ) {
 			return;
 		}
@@ -610,10 +539,8 @@ function imic_update_event_fields_data( $post_id, $post_object )
 function add_admin_scripts_event( $hook ) {
     global $post;
     if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
-        if ( 'cars' === $post->post_type ) {     
+        if ( 'yachts' === $post->post_type ) {     
 			wp_enqueue_style(  'myscript', get_stylesheet_directory_uri().'/css/clone_fields.css' );
-			wp_enqueue_script(  'imic_listing_admin', get_stylesheet_directory_uri().'/js/listing_admin.js' );
-			wp_localize_script('imic_listing_admin','listadm',array('ajaxurl'=>admin_url('admin-ajax.php')));
         }
     }
 }
