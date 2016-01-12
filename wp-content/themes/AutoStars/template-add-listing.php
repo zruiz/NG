@@ -8,6 +8,10 @@ $paypal_site = '';
 $opt_plans = $imic_options['opt_plans'];
 $listing_status_set = $imic_options['opt_listing_status'];
 $file_upload = (isset($imic_options['filetype_required']))?$imic_options['filetype_required']:'0';
+$select_plan = __('Please select payment plan', 'framework');
+$successfully_saved = __('Successfully Saved.', 'framework');
+$upload_images = __('Please upload images.', 'framework');
+$finish_tabs = __('Please complete previous tabs.', 'framework');
 wp_localize_script('imic_add_listing','values',array('ajaxurl'=>admin_url('admin-ajax.php'),'tmpurl'=>get_template_directory_uri(),'plans'=>$opt_plans,'isDefault'=>FRONT_MEDIA_ALLOW::check_file_input_method(), 'fileupload' => $file_upload));
 //Get Page Banner Type
 if(is_home()) { $id = get_option('page_for_posts'); }
@@ -42,22 +46,11 @@ $paypal_site = $imic_options['paypal_site'];
 $paypal_currency = $imic_options['paypal_currency'];
 $paypal_email = $imic_options['paypal_email'];
 $plan = get_query_var('plans');
-$plan_price = '';
-if($plan) {
-	$plan_price = get_post_meta($plan,'imic_plan_price',true);
-	if($plan_price!=0&&$plan_price!=''&&$plan_price!='free') {
-	$paypal_site = ($paypal_site=="1")?"https://www.paypal.com/cgi-bin/webscr":"https://www.sandbox.paypal.com/cgi-bin/webscr"; }
-	else {
-	if(($plan!='')&&($update_id!='')) {
-	$paypal_site = add_query_arg(array('plans'=>$plan,'edit'=>$update_id),$thanks);}
-	else { $paypal_site = ''; }
-	}
-}
 $required_value = '';
 $vehicle_switch = get_post_meta($id,'imic_home_vehicle_switch',true);
 $parallax_switch = get_post_meta($id,'imic_home_third_parallax_section',true);
 $pricing_switch = get_post_meta($id,'imic_home_pricing_switch',true);
-$tab_class1 = $tab_class2 = $tab_class3 = $tab_class4 = $tab_class5 = $animation = $active_tab1 = $active_tab2 = $active_tab3 = $active_tab4 = $active_tab5 = '';
+$tab_class1 = $tab_class2 = $tab_class3 = $tab_class4 = $tab_class5 = $animation = $active_tab1 = $active_tab2 = $active_tab3 = $active_tab4 = $active_tab5 = $plan_price = '';
 $vehicle_author_id = get_post_field( 'post_author', $update_id);
 global $current_user;
 get_currentuserinfo();
@@ -68,6 +61,80 @@ if(is_user_logged_in())
 	echo ($user_id==$vehicle_author_id)?'':'<div id="not-valid"></div>';
 }
 $user_info_id = get_user_meta($user_id,'imic_user_info_id',true);
+$user_plan = get_post_meta($user_info_id, 'imic_user_all_plans', false);
+if(!empty($user_plan)&&$plan=='')
+{
+	foreach($user_plan as $user_plan_each)
+	{
+		$selected_plan_listings = get_post_meta($user_info_id, 'imic_allowed_listings_'.$user_plan_each, true);
+		if($selected_plan_listings>0)
+		{
+			$plan = $user_plan_each;
+			break;
+		}
+	}
+}
+$plan_type = get_post_meta($plan, 'imic_plan_validity', true);
+$plan_recurring = ($plan_type!='0')?$plan_type:'';
+$eligible_listing = '';
+$new_plan = $plan;
+if($plan_recurring!=''||!empty($new_plan))
+{ 
+	if(in_array($new_plan, $user_plan)||!empty($new_plan))
+	{ 
+		$selected_plan = get_post_meta($user_info_id, 'imic_user_plan_'.$new_plan, true);
+		$selected_plan_listings = get_post_meta($user_info_id, 'imic_allowed_listings_'.$new_plan, true);
+		if(!empty($selected_plan))
+		{
+			foreach($selected_plan as $key=>$value)
+			{
+					$listing_ids = $value;
+					$listings_plan = explode(',', $listing_ids);
+			}
+		}
+		if($selected_plan_listings>0||in_array($update_id, $listings_plan))
+		{
+			if(!empty($selected_plan))
+			{
+				foreach($selected_plan as $key=>$value)
+				{
+					switch($plan_type)
+					{
+						case 'day':
+						$plan_validity_number = get_post_meta($new_plan, 'imic_plan_validity_days', true);
+						break;
+						case 'week':
+						$plan_validity_number = get_post_meta($new_plan, 'imic_plan_validity_weeks', true);
+						break;
+						case 'month':
+						$plan_validity_number = get_post_meta($new_plan, 'imic_plan_validity_months', true);
+						break;
+					}
+					$valid_with_plan = get_post_meta($new_plan, 'imic_plan_validity_expire_listing', true);
+						$start_date = date('Y-m-d', $key);
+						$end_date = strtotime(date("Y-m-d", strtotime($start_date)) . " +".$plan_validity_number." ".$plan_type);
+					if((date('Y-m-d', $end_date))>(date('Y-m-d')))
+					{
+						$eligible_listing = 1;
+					}
+				}
+			}
+		}
+	}
+}
+if($plan) {
+	$plan_price = get_post_meta($plan,'imic_plan_price',true);
+	if($plan_price!=0&&$plan_price!=''&&$plan_price!='free'&&$eligible_listing!=1) {
+	$paypal_site = ($paypal_site=="1")?"https://www.paypal.com/cgi-bin/webscr":"https://www.sandbox.paypal.com/cgi-bin/webscr"; }
+	else {
+	if(($plan!='')&&($update_id!='')) {
+	$paypal_site = add_query_arg(array('plans'=>$plan,'edit'=>$update_id),$thanks);}
+	elseif($new_plan!='') {
+	$paypal_site = add_query_arg(array('plans'=>$new_plan),$thanks);}
+	else { $paypal_site = ''; }
+	}
+}
+wp_localize_script('imic_add_listing','adds',array('remain'=>$eligible_listing, 'plans'=>$plan, 'selectplan'=>$select_plan, 'successaved'=>$successfully_saved, 'noimage'=>$upload_images, 'tabs'=>$finish_tabs));
 $urole = ''; $user_role = wp_get_post_terms($user_info_id, 'user-role');
 $list_ad = array('order'=>'');
 if(!empty($user_role)) { $urole = $user_role[0]->term_id; $list_ad = get_option('taxonomy_'.$urole.'_metas'); }
@@ -114,7 +181,7 @@ $active_form_search = ($default_form=='0')?'active':'';
 $active_custom_form = ($default_form=='1')?'active':'';
 $active_tab_search = ($default_form=='0')?'active in':'';
 $active_tab_custom = ($default_form=='1')?'active in':'';
-$paypal_site = ($opt_plans==1)?$paypal_site:$thanks;
+$paypal_site = ($opt_plans==1&&$eligible_listing==1)?$paypal_site:$thanks;
 $browse_specification_switch = get_post_meta(get_the_ID(),'imic_browse_by_specification_switch',true);
 $browse_listing = imic_get_template_url("template-listing.php");
 if($browse_specification_switch==1) {
@@ -130,7 +197,7 @@ if($browse_specification_switch==4)
 }
 $specification_data_type = (isset($imic_options['specification_fields_type']))?$imic_options['specification_fields_type']:"0"; ?>
 <!-- Start Body Content -->
-  	<div class="main" role="main">
+  	<div class="main" role="main" id="main-form-content">
     	<div id="content" class="content full">
         	<div class="container">
             	
@@ -223,9 +290,9 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                 <li class="tabs-listing <?php echo esc_attr($tab_class1.' '.$active_tab1); ?>" data-target="#listing-add-form-one" data-rel="listing-add-form-one" data-toggle="tab">
                                     <a href="javascript:void(0);">
                                         <span class="step-state"></span>
-                                        <span class="step-icon"><i class="fa fa-user"></i></span>
+                                        <span class="step-icon"><i class="fa fa-plus-square"></i></span>
                                         <strong class="step-title"><?php echo esc_attr_e('Create Listing','framework'); ?></strong>
-                                        <span class="step-desc"><?php echo esc_attr_e('Enter your listing specifications','framework'); ?></span>
+                                        <span class="step-desc"><?php echo esc_attr_e('Select your listing','framework'); ?></span>
                                     </a>
                                 </li>
                                 <li class="tabs-listing <?php echo esc_attr($tab_class2.' '.$active_tab2); ?>" data-target="#listing-add-form-two" data-rel="listing-add-form-two" data-toggle="tab">
@@ -285,8 +352,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                     		<section class="listing-form-content">
                     			<!-- AD LISTING FORM STEP ONE -->
                       			<div id="listing-add-form-one" class="tab-pane fade <?php echo ($active_tab1!='')?$active_tab1.' in':''; ?>">
-                        			<h3><?php echo esc_attr_e('Enter your yacht specifications','framework'); ?></h3>
-                            		<!-- <div class="lighter"><p><?php echo esc_attr_e('Listing can be added with a starting point of choosing your yacht wither by searching listing using Shipyard, Model, Year or can add a completely unique listing.','framework'); ?></p></div> -->
+                        			<h3><?php echo esc_attr_e('Enter your vehicle details','framework'); ?></h3>
+                            		<div class="lighter"><p><?php echo esc_attr_e('Listing can be added with a starting point of choosing your yacht wither by searching listing using Shipyard, Model, Year or can add a completely unique listing.','framework'); ?></p></div>
                                     <?php if($imic_options['ad_listing_fields']==0) { ?>
                                     <div class="spacer-10"></div>
                                     <?php } ?>
@@ -298,17 +365,18 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                         </ul>
                                         <?php } ?>
                                         <div class="tab-content">
-                    						<!-- YACHT SEARCH AD LISTING -->
+                    						<!-- VEHICLE SEARCH AD LISTING -->
                                             <?php $first = 0; if(!empty($search_fields)) { $first = 1;
 											if($imic_options['ad_listing_fields']==0)
 											{ ?>
                                             <div id="searchvehicle" class="tab-pane fade <?php echo $active_tab_search; ?>">
                                                 <div class="alert alert-warning fade in">
-                                                    <strong><?php echo esc_attr_e('Find','framework'); ?></strong><?php echo esc_attr_e(' your listing using the dropdowns below. First select its Shipyard, then Model and later select its Year. ','framework'); ?><a data-toggle="tab" href="#addcustom"><?php echo esc_attr_e('Add custom yacht details','framework'); ?></a>
+                                                    <strong><?php echo esc_attr_e('Find','framework'); ?></strong><?php echo esc_attr_e(' your listing using the dropdowns below. First select its Shipyard, then Model and later select its year. ','framework'); ?><a data-toggle="tab" href="#addcustom"><?php echo esc_attr_e('Add custom yacht details','framework'); ?></a>
                                                 </div>
                                                 <div class="row">
                                                 <?php if(!empty($search_fields)) { echo '<div class="col-md-6">';
-													foreach($search_fields as $field) { 
+													$new_search_fields = imic_filter_lang_specs($search_fields);
+                      		 foreach($new_search_fields as $field) { 
 													$editable = get_post_meta($field,'imic_plugin_status_after_payment',true);
 													$disable = (($editable==0)&&($payment_status!=0))?'disabled':'';
 													$post_data = get_post($field);
@@ -332,7 +400,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 													$required = ($required==1)?'mandatory':'';
 													echo '<label>Select '.get_the_title($field).'</label>';
 													if(!empty($values[0]['imic_plugin_specification_values'])) {
-                                                        echo '<select id="'.esc_attr($input_id).'" name="'.basename(get_permalink($field)).'" '.$disable.' class="sortable-specs form-control selectpicker search-cars-fields '.$required.'">';
+                     			echo '<select id="'.esc_attr($input_id).'" name="'.basename(get_permalink($field)).'" '.$disable.' class="sortable-specs form-control selectpicker search-cars-fields finder '.$required.'">';
 														echo '<option value="0">'.__('Select','framework').'</option>';
 														if($update_id!='') {
 															if($integer==0) {
@@ -383,7 +451,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 															$key = array_search($field,$specifications['sch_title']);
 															$required_value = $specifications['start_time'][$key];
 														}
-														echo '<input '.esc_attr($disable).' type="text" id="'.$input_id.'" value="'.$required_value.'" name="'.basename(get_permalink($field)).'" class="form-control custom-cars-fields '.esc_attr($required).'" placeholder="'.get_the_title($field).'*">'; }
+														echo '<input '.esc_attr($disable).' type="text" id="'.$input_id.'" value="'.$required_value.'" name="'.basename(get_permalink($field)).'" class="form-control custom-cars-fields finder '.esc_attr($required).'" placeholder="'.get_the_title($field).'*">'; }
 													
 												} } $status_vehicle = get_post_meta($update_id,'imic_plugin_ad_payment_status',true);
 											if($status_vehicle=="3"||$status_vehicle=="0") {
@@ -410,7 +478,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 																						}
 																						if($imic_options['ad_listing_fields']==0) { ?>
                                                 <div class="alert alert-warning fade in">
-                                                    <?php echo esc_attr_e('Yacht ad listing can take few days to review. ','framework'); ?>
+                                                	<?php echo esc_attr_e('Yacht ad listing can take few days to review. ','framework'); ?>
                                                     <!-- <a data-toggle="tab" href="#searchvehicle"><?php echo esc_attr_e('Try search again','framework'); ?></a> -->
                                                 </div>
                                           	<?php } ?>
@@ -454,12 +522,13 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 													
 									if(!empty($custom_details)) 
 									{ 
-									$total_fields = count($custom_details); 
+										$new_custom_details = imic_filter_lang_specs($custom_details);
+										$total_fields = count($new_custom_details); 
 													$half = $total_fields/2; 
 													$half = (imic_is_decimal($half))?$half+1:$half; 
 													$half = floor($half); 
 													$st = 1;
-										foreach($custom_details as $field) 
+										foreach($new_custom_details as $field) 
 										{ 
 											$label = get_post_meta($field,'imic_plugin_value_label',true);
 											$editable = get_post_meta($field,'imic_plugin_status_after_payment',true);
@@ -494,7 +563,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 											}
 											$required = ($required==1)?'mandatory':'';
 											$int_value = ($integer==1)?'integer-val':'';
-											echo '<label>Select '.get_the_title($field).'</label>';
+											echo '<label>'.__('Select ', 'framework').get_the_title($field).'</label>';
 											if((count($values)>1)&&($integer==0||$integer==2)) 
 											{
                                             	echo '<select '.$disable.' name="'.basename(get_permalink($field)).'" id="'.$input_id.'" class="'.$sortable_class.' form-control selectpicker custom-cars-fields '.$required.'">';
@@ -534,7 +603,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 													echo '<div class="'.$child_field_class.(($field*111)+2648).' sorting-dynamic">';
 													if((!empty($values[$key_select]['imic_plugin_specification_values_child']))) 
 													{
-														echo '<label>Select '.get_post_meta($field,'imic_plugin_sub_field_label',true).'</label>';
+														echo '<label>'.__('Select ', 'framework').get_post_meta($field,'imic_plugin_sub_field_label',true).'</label>';
 														echo '<select '.$disable.' id="'.$child_field_class_select.(($field*111)+2648).'" name="'.($field*111).'" class="form-control selectpicker custom-cars-fields">';
 														echo '<option value="0">'.__('Select ','framework').get_the_title($field).'</option>';
 														if($update_id!='') 
@@ -547,7 +616,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 															else
 															{
 																$child_field_slug = imic_the_slug($field);
-																$required_value = get_post_meta($field, 'char_'.$child_field_slug, true);
+																$required_value = get_post_meta($update_id, 'child_'.$child_field_slug, true);
 															}
 																$child_vals = $values[$key_select]['imic_plugin_specification_values_child'];
 																if(!empty($child_vals)) 
@@ -594,7 +663,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 														echo '<input '.$disable.' type="text" id="'.$input_id.'" value="'.$required_value.'" name="'.basename(get_permalink($field)).'" class="form-control custom-cars-fields '.$required.' '.$int_value.'" placeholder="'.get_the_title($field).'">'; 
 													}	
 												}
-                                               	if(($st==$half)) 
+                                               	if(($st==$half)||(count($custom_details)==$st)) 
 												{ 
 													echo '</div>'; 
 												} 
@@ -611,11 +680,10 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                             
                     			<!-- AD LISTING FORM STEP TWO -->
                       			<div id="listing-add-form-two" class="tab-pane fade <?php echo ($active_tab2!='')?$active_tab2.' in':''; ?>">
-                        			<h3><?php echo esc_attr_e('Select additional features your car have','framework'); ?></h3>
+                        			<h3><?php echo esc_attr_e('Select additional features your yacht have','framework'); ?></h3>
                             		<div class="lighter"><p><?php echo esc_attr_e('Features selected can either factory fitted or after market features.','framework'); ?></p></div>
                                     <div class="panel panel-default">
   										<div class="panel-body">
@@ -680,7 +748,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     <div class="row">
                                     	<div class="col-md-6">
                                        		<?php if(!empty($additional_details)) { 
-													foreach($additional_details as $field) {
+													$new_additional_details = imic_filter_lang_specs($additional_details);
+                        	 foreach($new_additional_details as $field) {
 													$label = get_post_meta($field,'imic_plugin_value_label',true);
 													$editable = get_post_meta($field,'imic_plugin_status_after_payment',true);
 													$disable = (($editable==0)&&($payment_status!=0))?'disabled':'';
@@ -705,7 +774,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 													$sortable_class = ($sub_fields==1)?"sortable-specs":"";
 													$required = ($required==1)?'mandatory':'';
 													$int_value = ($integer==1)?' integer-val':'';
-													echo '<label>Select '.get_the_title($field).'</label>';
+													echo '<label>'.__('Select ', 'framework').get_the_title($field).'</label>';
 														if((count($values)>1)&&($integer==0||$integer==2)) {
                                                         echo '<select '.$disable.' name="'.basename(get_permalink($field)).'" id="'.$input_id.'" class="'.$sortable_class.' form-control selectpicker custom-cars-fields '.$required.'">';
 														echo '<option value="0">'.__('Select','framework').'</option>';
@@ -736,7 +805,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 															echo '<div class="'.$child_field_class.(($field*111)+2648).' sorting-dynamic">';
 															if((!empty($values[$key_select]['imic_plugin_specification_values_child']))) 
 															{
-																echo '<label>Select '.get_post_meta($field,'imic_plugin_sub_field_label',true).'</label>';
+																echo '<label>'.__('Select ', 'framework').get_post_meta($field,'imic_plugin_sub_field_label',true).'</label>';
 																echo '<select '.$disable.' id="'.$child_field_class_select.(($field*111)+2648).'" name="'.($field*111).'" class="form-control selectpicker custom-cars-fields">';
 														echo '<option value="0">'.__('Select ','framework').get_the_title($field).'</option>';
 														if($update_id!='') {
@@ -857,7 +926,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     <input value="<?php echo get_post_meta($update_id,'imic_plugin_video_url',true); ?>" name="vehicle-video" id="vehicle-video" type="text" class="form-control" placeholder="Youtube/Video URL">
                                     <hr class="fw">
                                     <h3><?php echo esc_attr_e('Add some comments about your listing','framework'); ?></h3>
-                                    <div class="lighter"><p><?php echo esc_attr_e('Enter here some impressive wording about your yacht to attract more buyers interested in your Ad listing. This will appear on the search results page as well.','framework'); ?></p></div>
+                                    <div class="lighter"><p><?php echo esc_attr_e('Enter here some impressive wording about your yacht to attract more buyers interest in your Ad listing. This will appear on the search results page as well.','framework'); ?></p></div>
                                     <textarea name="vehicle-detail" id="vehicle-detail" class="form-control" rows="10"><?php echo $content; ?></textarea>
                                     
                                     <?php if(is_user_logged_in()) { ?>
@@ -871,20 +940,20 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     <div class="btn-group selling-choice" data-toggle="buttons">
                                     <?php $listing_view = get_post_meta($update_id,'imic_plugin_listing_view',true); ?>
                                         <label class="btn btn-default <?php echo ($listing_view=="all"||$listing_view=="")?"active":""; ?>">
-                                            <input type="radio" name="Loan-Tenure" id="option1" autocomplete="off" value="all" <?php echo ($listing_view=="all"||$listing_view=="")?"checked":""; ?>> <i class="fa fa-group"></i> <strong><?php echo esc_attr_e('Submit Your listing for Approval','framework'); ?></strong>
+                                            <input type="radio" name="Loan-Tenure" id="option1" autocomplete="off" value="all" <?php echo ($listing_view=="all"||$listing_view=="")?"checked":""; ?>> <i class="fa fa-group"></i> <strong><?php echo esc_attr_e('Sell Your listing publicaly','framework'); ?></strong>
                                         </label>
                                         <!-- <label class="btn btn-default <?php echo ($listing_view=="dealer")?"active":""; ?>">
                                             <input type="radio" name="Loan-Tenure" id="option2" value="dealer" autocomplete="off" <?php echo ($listing_view=="dealer")?"checked=\"checked\"":""; ?>>  <i class="fa fa-user"></i><strong><?php echo esc_attr_e('Sell Your listing to dealers','framework'); ?></strong>
                                         </label> -->
                                     </div>
                                     <hr class="fw">
-                                    <?php if($opt_plans!=0) { ?>
+                                    <?php if($opt_plans!=0&&$eligible_listing!=1) { ?>
                                 	<h3><?php echo esc_attr_e('Enter your billing info','framework'); ?></h3>
                             		<div class="lighter"><p><?php echo esc_attr_e('Payment are accepted using Paypal secure payment gateway and you will be redirected to Paypal payment page.','framework'); ?></p></div>
                                     <?php } ?>
                                     <div class="row">
                                     	<div class="col-md-6">
-                                        <?php if($opt_plans!=0) { ?>
+                                        <?php if($opt_plans!=0&&$eligible_listing!=1) { ?>
                                         	<div class="row">
                                             	<div class="col-md-6">
                                                 <input type="hidden" id="uid" value="<?php echo esc_attr($user_id); ?>">
@@ -939,12 +1008,12 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 											if($status_vehicle=="3"||$status_vehicle=="0"||$status_vehicle=="") { ?>
                                 			
                                             <?php if(is_user_logged_in()) { ?>
-                                                        <input type="submit" id="final-pay" class="btn btn-info btn-block" value="<?php if($opt_plans!=0) { echo __('Pay','framework'); ?> &amp; <?php } echo __('Submit Listing','framework'); ?>"><?php } else { echo '<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#PaymentModal">'.__('Login/Register','framework').'</a>'; } if($opt_plans!=0) { ?>
+                                                        <input type="submit" id="final-pay" class="btn btn-info btn-block" value="<?php if($opt_plans!=0&&$eligible_listing!=1) { echo __('Pay','framework'); ?> &amp; <?php } echo __('Publish','framework'); ?>"><?php } else { echo '<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#PaymentModal">'.__('Login/Register','framework').'</a>'; } if($opt_plans!=0&&$eligible_listing!=1) { ?>
 											<p class="small"><?php echo esc_attr_e('You will be redirected to Paypal secure payment page for the payment which can be done using your Paypal account or via Credit Card','framework'); ?></p><?php } }
-											if($opt_plans!=0) { ?>
+											if($opt_plans!=0&&$eligible_listing!=1) { ?>
                                         </div>
                                         <div class="col-md-5 col-md-offset-1">
-                                        <?php if($payment_status<=0&&$opt_plans==1) { ?>
+                                        <?php if(($payment_status<=0&&$opt_plans==1)&&($eligible_listing!=1)) { ?>
                                         	<div class="panel panel-info selected-price-plan">
                                               	<div class="panel-heading">
                                                	 	<h3 class="panel-title"><?php echo esc_attr_e('Your advert plan','framework'); ?></h3>

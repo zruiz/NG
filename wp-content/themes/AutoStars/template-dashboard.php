@@ -40,7 +40,7 @@ $user_name = get_the_title($user_info_id);
 $saved_cars = get_post_meta($user_info_id,'imic_user_saved_cars',true);
 $saved_search = get_post_meta($user_info_id,'imic_user_saved_search',true);
 $listing_url = imic_get_template_url('template-add-listing.php');
-$args_cars = array('post_type'=>'yachts','author'=>$current_user->ID,'posts_per_page'=>-1,'post_status'=>array('publish','draft'));
+$args_cars = array('post_type'=>'cars','author'=>$current_user->ID,'posts_per_page'=>-1,'post_status'=>array('publish','draft'));
 $cars_listing = new WP_Query( $args_cars );
 if ( $cars_listing->have_posts() ) :
 while ( $cars_listing->have_posts() ) :	
@@ -66,17 +66,120 @@ $listing_status = (isset($imic_options['opt_listing_status']))?$imic_options['op
 $payment_status = ($listing_status=="draft")?"4":"1";
 $opt_plans = $imic_options['opt_plans'];
 $payment_gross = "free";
+$eligible_listing = '';
 $vehicle = esc_attr(get_query_var('edit'));
 $plans = esc_attr(get_query_var('plans'));
 $listing_end_status = get_post_meta($plans, 'imic_days_periodic_listing', true);
 $listing_end_status = ($listing_end_status!='')?$listing_end_status:500;
 $listing_date = date('Y-m-d', strtotime("+".$listing_end_status." days"));
+$plan_type = get_post_meta($plans, 'imic_plan_validity', true);
+$user_plan = get_post_meta($user_info_id, 'imic_user_all_plans', false);
+	if(in_array($plans, $user_plan))
+	{
+		$selected_plan = get_post_meta($user_info_id, 'imic_user_plan_'.$plans, true);
+		$selected_plan_listings = get_post_meta($user_info_id, 'imic_allowed_listings_'.$plans, true);
+		if(!empty($selected_plan))
+		{
+			foreach($selected_plan as $key=>$value)
+			{
+					$listing_ids = $value;
+					$listings_plan = explode(',', $listing_ids);
+			}
+		}
+		if($selected_plan_listings>0||in_array($vehicle, $listings_plan))
+		{
+			if(!empty($selected_plan))
+			{
+				foreach($selected_plan as $key=>$value)
+				{
+					switch($plan_type)
+					{
+						case 'day':
+						$plan_validity_number = get_post_meta($plans, 'imic_plan_validity_days', true);
+						break;
+						case 'week':
+						$plan_validity_number = get_post_meta($plans, 'imic_plan_validity_weeks', true);
+						break;
+						case 'month':
+						$plan_validity_number = get_post_meta($plans, 'imic_plan_validity_months', true);
+						break;
+					}
+					$valid_with_plan = get_post_meta($plans, 'imic_plan_validity_expire_listing', true);
+					if($valid_with_plan==1)
+					{
+						$start_date = date('Y-m-d', $key);
+						$listing_date = strtotime(date("Y-m-d", strtotime($start_date)) . " +".$plan_validity_number." ".$plan_type);
+						$listing_date = date('Y-m-d', $listing_date);
+					}
+					if($listing_date>date('Y-m-d'))
+					{
+						$eligible_listing = 1;
+					}
+				}
+			}
+		}
+	}
 if($opt_plans==1) 
 {
 	$transaction_id=isset($_REQUEST['tx'])?esc_attr($_REQUEST['tx']):'';
 	if($transaction_id!='') 
 	{
 		$paypal_details = imic_validate_payment($transaction_id);
+		//Code to update plan information for user
+		//Added next to v1.6
+		//Start
+		if($plan_type!="0")
+		{
+			$plan_id=isset($_REQUEST['item_number'])?esc_attr($_REQUEST['item_number']):'';
+			$post_type = get_post_type($plan_id);
+			$plan_price = '';
+			if($post_type=='plan')
+			{
+				$plan_price = get_post_meta($plan_id, 'imic_plan_price', true);
+				$plan_price = floor($plan_price);
+				$plan_listings_count = get_post_meta($plan_id, 'imic_plan_validity_listings', true);
+				$plan_listings_count = esc_attr($plan_listings_count);
+			}
+			if(!empty($paypal_details)) 
+			{
+				$st = $paypal_details['payment_status'];
+				$payment_gross = $paypal_details['payment_gross'];
+				$payment = floor($payment_gross);
+			} 
+			$confirm = ($plan_price==$payment)?1:'';
+			$st = ($confirm==1)?$st:__('Not Verified', 'framework');
+			$data = array();
+			if($confirm==1)
+			{
+				$all_plans_user = get_post_meta($user_info_id, 'imic_user_plan_'.$plan_id, true);
+				if(!empty($all_plans_user))
+				{
+					foreach($all_plans_user as $key=>$value)
+					{
+						$data[date('U')] = $value.','.$vehicle;
+					}
+				}
+				else
+				{
+					$data[date('U')] = $vehicle.',';
+				}
+				$last_transaction_id = get_post_meta($user_info_id, 'imic_user_tr_id', false);
+				$allowed_listings = get_post_meta($user_info_id, 'imic_allowed_listings_'.$plan_id, true);
+				$updated_allowed_listings = $allowed_listings+$plan_listings_count;
+				$user_all_plans = get_post_meta($user_info_id, 'imic_user_all_plans', false);
+				if(!in_array($transaction_id, $last_transaction_id))
+				{
+					update_post_meta($user_info_id, 'imic_user_plan_'.$plan_id, $data);
+					update_post_meta($user_info_id, 'imic_allowed_listings_'.$plan_id, $updated_allowed_listings-1);
+					add_post_meta($user_info_id, 'imic_user_tr_id', $transaction_id, false);
+					if(!in_array($plan_id, $user_all_plans))
+					{
+						add_post_meta($user_info_id, 'imic_user_all_plans', $plan_id, false);
+					}
+				}
+			}
+		}
+		//End
 		if(!empty($paypal_details)) 
 		{
 			$st = $paypal_details['payment_status'];
@@ -107,6 +210,10 @@ if($opt_plans==1)
 		update_post_meta($vehicle,'imic_plugin_car_plan',$plans);
 		update_post_meta($vehicle, 'imic_plugin_listing_end_dt', $listing_date);
 	} 
+	if($eligible_listing==1)
+	{
+		update_post_meta($vehicle, 'imic_plugin_listing_end_dt', $listing_date);
+	}
 } 
 else 
 {
@@ -157,6 +264,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                     <li class="list-group-item"> <a href="<?php echo esc_url($listing_url); ?>"><i class="fa fa-plus-square-o"></i> <?php echo esc_attr_e('Create new Ad','framework'); ?></a></li><?php if($total_ads!='') { ?>
                                     <li class="list-group-item <?php if(get_query_var('manage')==1) { echo "active"; } ?>"> <span class="badge"><?php echo esc_attr($total_ads); ?></span> <a href="<?php echo esc_url(add_query_arg('manage',1,get_permalink())); ?>"><i class="fa fa-edit"></i> <?php echo esc_attr_e('Manage Ads','framework'); ?></a></li><?php } ?>
                                     <?php } ?>
+                                    <li class="list-group-item <?php if(get_query_var('plans')==1) { echo "active"; } ?>"> <a href="<?php echo esc_url(add_query_arg('plans',1,get_permalink())); ?>"><i class="fa fa-bars"></i> <?php echo esc_attr_e('Plans Subscribed','framework'); ?></a></li>
                                     <li class="list-group-item <?php if(get_query_var('profile')==1) { echo "active"; } ?>"> <a href="<?php echo esc_url(add_query_arg('profile',1,get_permalink())); ?>"><i class="fa fa-user"></i> <?php echo esc_attr_e('My Profile','framework'); ?></a></li>
                                     <!--<li class="list-group-item <?php if(get_query_var('account')==1) { echo "active"; } ?>"> <a href="<?php echo esc_url(add_query_arg('account',1,get_permalink())); ?>"><i class="fa fa-cog"></i> <?php echo esc_attr_e('Account Settings','framework'); ?></a></li>-->
                                     <li class="list-group-item"> <a href="<?php echo wp_logout_url(home_url()); ?>"><i class="fa fa-sign-out"></i> <?php echo esc_attr_e('Log Out','framework'); ?></a></li>
@@ -191,7 +299,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 						@mail($admin_mail_to, $mail_subject, $admin_msg, $admin_headers);	
 						@mail($current_user->user_email, $mail_subject, $success_msg, $dealer_headers);	
 						}
-						if((esc_attr(get_query_var('search'))!=1)&&(esc_attr(get_query_var('saved'))!=1)&&(esc_attr(get_query_var('profile'))!=1)&&(esc_attr(get_query_var('account'))!=1)) {
+						if((esc_attr(get_query_var('search'))!=1)&&(esc_attr(get_query_var('saved'))!=1)&&(esc_attr(get_query_var('profile'))!=1)&&(esc_attr(get_query_var('account'))!=1)&&(esc_attr(get_query_var('plans'))!=1)) {
 								echo '<h2>'.__('Dashboard','framework').'</h2>';
                             if(have_posts()):while(have_posts()):the_post();
 							the_content();
@@ -199,13 +307,13 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 										$additional_specs = $imic_options['unique_specs'];
 										$detailed_title = $imic_options['highlighted_specs'];
 										$ads_count = (get_query_var('manage')!=1)?1:-1;
-							$args_cars = array('post_type'=>'yachts','author'=>$user_id,'posts_per_page'=>$ads_count,'post_status'=>array('publish','draft'));
+							$args_cars = array('post_type'=>'cars','author'=>$user_id,'posts_per_page'=>$ads_count,'post_status'=>array('publish','draft'));
                         $cars_listing = new WP_Query( $args_cars );
 						if ( $cars_listing->have_posts() ) : ?>
                             <div id="ads-section" class="dashboard-block">
-                            	<div class="dashboard-block-head"><?php if(($total_ads>1)&&(esc_attr(get_query_var('manage'))!=1)) { ?>
+                            	<div class="dashboard-block-head"><?php if(($total_ads>1)&&(esc_attr(get_query_var('manage'))!=1)&&(esc_attr(get_query_var('plans'))!=1)) { ?>
                                 	<a href="<?php echo esc_url(add_query_arg('manage','1',get_permalink())); ?>" class="btn btn-default btn-sm pull-right"><?php echo esc_attr_e('See all Ads ','framework'); echo '('.$total_ads.')'; ?></a><?php } ?>
-                            		<h3><?php echo esc_attr_e('My Listings','framework'); ?></h3>
+                            		<h3><?php echo esc_attr_e('My Ads','framework'); ?></h3>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered dashboard-tables saved-cars-table">
@@ -226,7 +334,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 										$plan_id = get_post_meta(get_the_ID(),'imic_plugin_car_plan',true);
 										$statuses = get_post_meta(get_the_ID(),'imic_plugin_ad_payment_status',true);
 										$status = "";
-										if($statuses==0) { $status = __("Pending","framework"); $label = "warning"; }
+										if($statuses==0) { $status = __("Pending Payment","framework"); $label = "warning"; }
 										elseif($statuses==1) { $status = __("Active","framework"); $label = "success"; }
 										elseif($statuses==2) { $status = __("Sold","framework"); $label = "primary"; }
 										elseif($statuses==3) { $status = __("Inactive","framework"); $label = "info"; }
@@ -241,6 +349,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 										{
 											$detailed_specs = array();
 										}
+										$detailed_specs = imic_filter_lang_specs($detailed_specs);
 										if(is_plugin_active("imi-classifieds/imi-classified.php")) 
 										{
 											$detailed_specs = imic_classified_short_specs(get_the_ID(), $detailed_specs);
@@ -248,6 +357,8 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 										//print_r($detailed_specs);
 										$details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
 										$price = imic_vehicle_price(get_the_ID(),$additional_specs,$specifications);
+										$new_highlighted_specs = imic_filter_lang_specs_admin($detailed_title, get_the_ID());
+										$detailed_title = $new_highlighted_specs;
 										$title = imic_vehicle_title(get_the_ID(),$detailed_title,$specifications);
 										$title = ($title=='')?get_the_title():$title;
 										if($plan_id!=''&&$last_term!='')
@@ -307,23 +418,23 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                 <button id="selected-ads" class="btn btn-default btn-sm delete-ads"><?php echo esc_attr_e('Delete Selected','framework'); ?></button>
                             </div>
                             <?php else: ?>
-                            <!-- <div class="dashboard-block">
+                            <div class="dashboard-block">
                             	<div class="dashboard-block-head">
                             		<h3><?php echo esc_attr_e('My Ads','framework'); ?></h3>
                                 </div>
                                 <div class="table-responsive">
                                 <p><?php echo esc_attr_e('You have not created any Ads yet.','framework'); ?></p>
                                 </div>
-                            </div> -->
+                            </div>
                             <?php endif; wp_reset_postdata(); } ?>
-							<?php if((esc_attr(get_query_var('search'))!=1)&&(esc_attr(get_query_var('manage'))!=1)&&(esc_attr(get_query_var('profile'))!=1)&&(esc_attr(get_query_var('account'))!=1)) {
+							<?php if((esc_attr(get_query_var('search'))!=1)&&(esc_attr(get_query_var('manage'))!=1)&&(esc_attr(get_query_var('profile'))!=1)&&(esc_attr(get_query_var('account'))!=1)&&(esc_attr(get_query_var('plans'))!=1)) {
 							
 							?>
                             <div id="saved-cars-section" class="dashboard-block">
                             	<div class="dashboard-block-head">
                                 <?php if((count($saved_cars)>3)&&(esc_attr(get_query_var('saved'))!=1)) { ?>
-                                	<a href="<?php echo esc_url(add_query_arg('saved',1,get_permalink())); ?>" class="btn btn-default btn-sm pull-right"><?php echo esc_attr_e('See all yachts ','framework'); echo '('.count($saved_cars).')'; ?></a><?php } ?>
-                            		<h3><?php echo esc_attr_e('Saved Yachts','framework'); ?></h3>
+                                	<a href="<?php echo esc_url(add_query_arg('saved',1,get_permalink())); ?>" class="btn btn-default btn-sm pull-right"><?php echo esc_attr_e('See all cars ','framework'); echo '('.count($saved_cars).')'; ?></a><?php } ?>
+                            		<h3><?php echo esc_attr_e('Saved Cars','framework'); ?></h3>
                                 </div>
                                 <div class="table-responsive">
                                 <?php if(!empty($saved_cars)) {  ?>
@@ -357,6 +468,8 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 												$details_value = imic_classified_short_specs($save, $details_value);
 											}
 										$price = imic_vehicle_price($save[0],$additional_specs,$specifications);
+										$new_highlighted_specs = imic_filter_lang_specs_admin($detailed_title, $save[0]);
+										$detailed_title = $new_highlighted_specs;
 										$title = imic_vehicle_title($save[0],$detailed_title,$specifications);
 										?>
                                             <tr>
@@ -388,7 +501,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                 <?php } ?>
                             </div>
 							<?php }
-							if((esc_attr(get_query_var('manage'))!=1)&&(esc_attr(get_query_var('saved'))!=1)&&(esc_attr(get_query_var('profile'))!=1)&&(esc_attr(get_query_var('account'))!=1)) {
+							if((esc_attr(get_query_var('manage'))!=1)&&(esc_attr(get_query_var('saved'))!=1)&&(esc_attr(get_query_var('profile'))!=1)&&(esc_attr(get_query_var('account'))!=1)&&(esc_attr(get_query_var('plans'))!=1)) {
 							 ?>
                             <div id="search-cars-section" class="dashboard-block">
                             	<div class="dashboard-block-head"><?php if((count($saved_search)>3)&&(esc_attr(get_query_var('search')!=1))) { ?>
@@ -429,6 +542,140 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                	
                             </div>
                             <?php }
+														if(get_query_var('plans')==1) {
+															$plans = get_post_meta($user_info_id, 'imic_user_all_plans', false); ?>
+                            <div id="plans-section" class="dashboard-block">
+                            	<div class="dashboard-block-head">
+                            		<h3><?php echo esc_attr_e('Plan Subscribed','framework'); ?></h3>
+                                </div>
+                                <div class="table-responsive"><?php if(!empty($plans)) { ?>
+                                    <table id="search-cars-table" class="table table-bordered dashboard-tables saved-searches-table">
+                                        <thead>
+                                            <tr>
+                                                <td><?php echo esc_attr_e('Plan name','framework'); ?></td>
+                                                <td><?php echo esc_attr_e('Balace Listings','framework'); ?></td>
+                                                <!--<td><?php echo esc_attr_e('Receive alerts','framework'); ?></td>-->
+                                                <td><?php echo esc_attr_e('Timestamp','framework'); ?></td>
+                                                <td><?php echo esc_attr_e('Actions','framework'); ?></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php $count = $search_four = 1;
+																				$plans = get_post_meta($user_info_id, 'imic_user_all_plans', false);
+																				if(!empty($plans))
+																				{
+																					foreach($plans as $plan)
+																					{
+																						$plan_data = get_post_meta($user_info_id, 'imic_user_plan_'.$plan, true);
+																						$allowed_listings = get_post_meta($user_info_id, 'imic_allowed_listings_'.$plan, true);
+																						$label_allow_listings = ($allowed_listings>1)?__(' Listings', 'framework'):__(' Listing', 'framework');
+																						$plan_validity = get_post_meta($plan, 'imic_plan_validity', true);
+																						switch($plan_validity)
+																						{
+																							case 'day':
+																							$plan_validity_number = get_post_meta($plan, 'imic_plan_validity_days', true);
+																							break;
+																							case 'week':
+																							$plan_validity_number = get_post_meta($plan, 'imic_plan_validity_weeks', true);
+																							break;
+																							case 'month':
+																							$plan_validity_number = get_post_meta($plan, 'imic_plan_validity_months', true);
+																							break;
+																						}
+																						$valid_with_plan = get_post_meta($plan, 'imic_plan_validity_expire_listing', true);
+																						if(!empty($plan_data))
+																						{
+																							foreach($plan_data as $key=>$value)
+																							{
+																									$start_date = date('Y-m-d', $key);
+																									$end_date = strtotime(date("Y-m-d", strtotime($start_date)) . " +".$plan_validity_number." ".$plan_validity);
+																								echo '<tr>
+                                                <td><a>'.esc_attr(get_the_title($plan)).'</a></td>
+																								<td>'.esc_attr($allowed_listings).$label_allow_listings.'</td>
+																								<td><span class="text-success">'.__('Expires on ', 'framework').'</span>'.esc_attr(date_i18n(get_option('date_format'), $end_date)).'</td>
+																								<td align="center">
+																								<a href="'.esc_url(add_query_arg('plans', $plan, $listing_url)).'" class="text-success" title="'.__('Add Listing', 'framework').'">
+																								<i class="fa fa-plus"></i>
+																								</a>
+																								&nbsp;
+																								<a data-toggle="modal" data-target="#'.$plan.'-PaypalModal" href="" class="text-success" title="'.__('Renew Plan', 'framework').'">
+																								<i class="fa fa-refresh"></i>
+																								</a>
+																								</td>
+                                            </tr>';
+																						$plan_price = get_post_meta($plan,'imic_plan_price',true);
+							$paypal_currency = $imic_options['paypal_currency'];
+							$paypal_email = $imic_options['paypal_email'];
+							$paypal_site = $imic_options['paypal_site'];
+							global $current_user;
+							get_currentuserinfo();
+							$user_id = get_current_user_id( );
+							$current_user = wp_get_current_user();
+							$user_info_id = get_user_meta($user_id,'imic_user_info_id',true);
+							$thanks_url = imic_get_template_url('template-thanks.php');
+							$paypal_site = ($paypal_site=="1")?"https://www.paypal.com/cgi-bin/webscr":"https://www.sandbox.paypal.com/cgi-bin/webscr";
+																		echo '<div id="'.$plan.'-PaypalModal" class="modal fade" aria-hidden="true" aria-labelledby="mymodalLabel" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" aria-hidden="true" data-dismiss="modal" type="button">'.esc_attr__('×','framework').'</button>
+<h4 id="mymodalLabel" class="modal-title">'.esc_attr__('Payment Information','framework').'</h4>
+</div>
+<div class="modal-body">
+<form method="post" id="planpaypalform" name="planpaypalform" class="clearfix" action="'.esc_url($paypal_site).'">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" value="'.get_the_title($user_info_id).'" id="paypal-title" disabled name="First Name"  class="form-control input-lg" placeholder="'.__('Name', 'framework').'*">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" value="'.$current_user->user_email.'" id="paypal-email" disabled name="email"  class="form-control input-lg" placeholder="'.__('Email', 'framework').'*">
+                </div>
+                
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div id="messages"></div>
+                </div>
+                
+            </div>
+						<input type="hidden" name="rm" value="2">
+                                            <input type="hidden" name="amount" value="'.esc_attr($plan_price).'">
+                                            <input type="hidden" name="cmd" value="_xclick">
+                                            <input type="hidden" name="business" value="'.esc_attr($paypal_email).'">
+                                            <input type="hidden" name="currency_code" value="'.esc_attr($paypal_currency).'">
+                                            <input type="hidden" name="item_name" value="'.get_the_title($plan).'">
+                                            <input type="hidden" name="item_number" value="'.esc_attr($plan).'">
+                                            <input type="hidden" name="return" value="'.esc_url($thanks_url).'" />
+						<div class="col-md-12">
+						<div class="form-group">
+						<input id="paypal-plan" name="submit" type="submit" class="btn btn-default" value="'.__('Proceed to Payment', 'framework').'">
+						</div>
+						</div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+
+</div>
+</div>
+</div>
+</div>'; 
+																							}
+																						}
+																					}
+																				}
+																				?>
+                                        </tbody>
+                                    </table><?php
+									echo '</div>';
+									} else { ?>
+                                    <p><?php echo esc_attr_e('You don\'t have any subscribed plans.','framework'); ?></p></div><?php } ?>
+                               	
+                            </div>
+							<?php }
 							if(get_query_var('profile')==1) {
 								$msg = $msg_update = '';
 							$othertextonomies = $city_type_value = '';

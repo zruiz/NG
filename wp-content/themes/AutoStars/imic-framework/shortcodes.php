@@ -300,6 +300,8 @@
 					$save3 = (isset($_SESSION['saved_vehicle_id3']))?$_SESSION['saved_vehicle_id3']:'';
 					$specifications = get_post_meta(get_the_ID(),'feat_data',true);
 					$unique_value = imic_vehicle_price(get_the_ID(),$unique_specs,$specifications);
+					$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, get_the_ID());	
+					$highlighted_specs = $new_highlighted_specs;
 					$highlight_value = imic_vehicle_title(get_the_ID(),$highlighted_specs,$specifications);
 					$highlight_value = ($highlight_value=='')?get_the_title():$highlight_value;
 					$details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
@@ -405,6 +407,8 @@
 										}
 										$specifications = get_post_meta(get_the_ID(),'feat_data',true);
 										$unique_value = imic_vehicle_price(get_the_ID(),$unique_specs,$specifications);
+										$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, get_the_ID());	
+										$highlighted_specs = $new_highlighted_specs;
 										$highlight_value = imic_vehicle_title(get_the_ID(),$highlighted_specs,$specifications);
 										$highlight_value = ($highlight_value!='')?$highlight_value:get_the_title(get_the_ID());
 										$details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
@@ -443,8 +447,8 @@
 												 <abbr class="user-type" title="'.__('Listed by ','framework').esc_attr($author_role).'">'.esc_attr($author_role).'</abbr></span>';
                                                 if($img_src!='') {
 													$speci_value = $additional_specs_all[$this_key]['imic_plugin_specification_values'];
-													$speci_value = str_replace(' ', '%20', $speci_value); ?>
-                                                <a href="<?php echo esc_url(add_query_arg($additional_spec_slug, $speci_value,$browse_listing)); ?>" title="<?php _e('View all','framework'); echo esc_attr($additional_specs_all[$this_key]['imic_plugin_specification_values']); ?>" class="vehicle-body-type"><img src="<?php echo esc_url($additional_specs_all[$this_key]['imic_plugin_spec_image']); ?>" alt=""></a><?php }
+													$speci_value = str_replace(' ', '%20', $speci_value);
+                                                $output .= '<a href="'.esc_url(add_query_arg($additional_spec_slug, $speci_value,$browse_listing)).'" title="'.__('View all','framework'). esc_attr($additional_specs_all[$this_key]['imic_plugin_specification_values']).'" class="vehicle-body-type"><img src="'.esc_url($additional_specs_all[$this_key]['imic_plugin_spec_image']).'" alt=""></a>'; }
                                                 $output .= '<span class="vehicle-cost">'.esc_attr($unique_value).'</span>';
 												if($category_rail=="1"&&is_plugin_active("imi-classifieds/imi-classified.php"))
 												{
@@ -580,6 +584,8 @@
 				}
 				$specifications = get_post_meta($most,'feat_data',true);
 				$unique_value = imic_vehicle_price($most,$unique_specs,$specifications);
+				$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $most);	
+				$highlighted_specs = $new_highlighted_specs;
 				$highlight_value = imic_vehicle_title($most,$highlighted_specs,$specifications);
 				$highlight_value = ($highlight_value!='')?$highlight_value:get_the_title(get_the_ID());
 				$details_value = imic_vehicle_all_specs($most,$detailed_specs,$specifications);
@@ -825,7 +831,6 @@ $output = '<form class="'.$form_class.'" method="get" action="'.esc_url($listing
 										{
 											$specs = get_post_meta($field,'specifications_value',true);
 											$int = get_post_meta($field,'imic_plugin_spec_char_type',true);
-
 											if($int==0) 
 											{
 												$spec_slug = imic_the_slug($field); 
@@ -835,22 +840,14 @@ $output = '<form class="'.$form_class.'" method="get" action="'.esc_url($listing
 												$spec_slug = "int_".imic_the_slug($field); 
 											}
 											$get_child = (imic_get_child_values_status($specs)==1)?'get-child-field':'';
-											if (get_the_title($field) == 'Shipyard')
-												$output .= '<div class="col-md-'.esc_attr($column).' col-sm-'.esc_attr($column).'">
-	                                            <label>'.get_the_title($field).'/Yacht Name</label>';
-	                                        else $output .= '<div class="col-md-'.esc_attr($column).' col-sm-'.esc_attr($column).'">
-	                                            <label>'.get_the_title($field).'</label>';
+											$output .= '<div class="col-md-'.esc_attr($column).' col-sm-'.esc_attr($column).'">
+                                            <label>'.get_the_title($field).'</label>';
 											if(!imic_array_empty($specs)) 
 											{
                      			$output .= '<select data-empty="true" id="'.$option.'field-'.($field+2648).'" name="'.esc_attr($spec_slug).'" class="form-control selectpicker '.$get_child.'">
                                                 <option disabled value="" selected>'.__('Any','framework').'</option>';
 												foreach($specs as $spec) {
-													if($int!=0)
-														if (get_the_title($field) != 'Price')
-															$output .= '<option value="'.esc_attr($spec['imic_plugin_specification_values']).'">'.__("Under ","framework").esc_attr($spec['imic_plugin_specification_values']).'</option>';
-														else $output .= '<option value="'.esc_attr($spec['imic_plugin_specification_values']).'">'.__("Under $","framework").esc_attr($spec['imic_plugin_specification_values']).'</option>';
-													else $output .= '<option value="'.esc_attr($spec['imic_plugin_specification_values']).'">'.esc_attr($spec['imic_plugin_specification_values']).'</option>';
-
+													$output .= '<option value="'.esc_attr($spec['imic_plugin_specification_values']).'">'.esc_attr($spec['imic_plugin_specification_values']).'</option>';
 												}
                                        	$output .= '</select>';
 										
@@ -863,7 +860,7 @@ $output = '<form class="'.$form_class.'" method="get" action="'.esc_url($listing
 											//echo "saibaba";
 											$child_label = get_post_meta($field,'imic_plugin_sub_field_label',true);
 											$output .= '<div class="col-md-'.esc_attr($column).' col-sm-'.esc_attr($column).'" id="'.$option.'field-'.(($field*111)+2648).'">
-                                            <label>'.$child_label.'</label>'; 
+                                            <label>'.$child_label.'</label>';
                                        	$output .= '<select data-empty="true" name="'.esc_attr($child_label).'" class="form-control selectpicker">
                                                 <option disabled value="" selected>'.__('Select ','framework').get_the_title($field).'</option>';
                                        	$output .= '</select>';
@@ -883,21 +880,14 @@ $output = '<form class="'.$form_class.'" method="get" action="'.esc_url($listing
 												$spec_slug = "int_".imic_the_slug($field); 
 											}
 											$get_child = (imic_get_child_values_status($specs)==1)?'get-child-field':'';
-											if (get_the_title($field) == 'Shipyard')
-												$output .= '<div class="col-md-'.esc_attr($column).' col-sm-'.esc_attr($column).'">
-	                                            <label>'.get_the_title($field).'/Yacht Name</label>';
-	                                        else $output .= '<div class="col-md-'.esc_attr($column).' col-sm-'.esc_attr($column).'">
+											$output .= '<div class="col-md-'.esc_attr($column).' col-sm-'.esc_attr($column).'">
                                             <label>'.get_the_title($field).'</label>';
 											if(!imic_array_empty($specs)) 
 											{
                      			$output .= '<select data-empty="true" id="'.$option.'field-'.($field+2648).'" name="'.esc_attr($spec_slug).'" class="form-control selectpicker '.$get_child.'">
                                                 <option disabled value="" selected>'.__('Any','framework').'</option>';
 												foreach($specs as $spec) {
-													if($int!=0)
-														if (get_the_title($field) != 'Price')
-															$output .= '<option value="'.esc_attr($spec['imic_plugin_specification_values']).'">'.__("Under ","framework").esc_attr($spec['imic_plugin_specification_values']).'</option>';
-														else $output .= '<option value="'.esc_attr($spec['imic_plugin_specification_values']).'">'.__("Under $","framework").esc_attr($spec['imic_plugin_specification_values']).'</option>';
-													else $output .= '<option value="'.esc_attr($spec['imic_plugin_specification_values']).'">'.esc_attr($spec['imic_plugin_specification_values']).'</option>';
+													$output .= '<option value="'.esc_attr($spec['imic_plugin_specification_values']).'">'.esc_attr($spec['imic_plugin_specification_values']).'</option>';
 												}
                                        	$output .= '</select>';
 										
@@ -945,14 +935,21 @@ $output = '<form class="'.$form_class.'" method="get" action="'.esc_url($listing
 			"number" => "",
 			"type" => "",
 		), $atts));
-		
+		global $imic_options;
 		$output = '';
 		if(is_plugin_active("imithemes-listing/listing.php")) {
 		if($type==1) { $class = "carousel-wrapper"; $item = 2; }
 		else { $class= "carousel-wrapper testimonials-wbg accent-bg sm-margint"; $item = 1; }
 			$args_testimonial = array('post_type'=>'testimonial','posts_per_page'=>$number);
+			if(isset($imic_options['enable_rtl']) && $imic_options['enable_rtl']== 1)
+			{ 
+				$DIR = 'data-rtl="rtl"';
+			} 
+			else 
+			{ 
+				$DIR = 'data-rtl="ltr"'; 
+			}
 			if($type==1) {
-			if(isset($imic_options['enable_rtl']) && $imic_options['enable_rtl']== 1){ $DIR = 'data-rtl="rtl"';} else { $DIR = 'data-rtl="ltr"'; }
 			$output .= '<header>
                         	<h3>'.$title.'</h3>
                         </header><div class="spacer-40"></div>'; }
@@ -1034,19 +1031,42 @@ $output = '<form class="'.$form_class.'" method="get" action="'.esc_url($listing
 	function imic_plan($atts, $content = null) {
 		extract(shortcode_atts(array(
 			"title" => "",
-			"number" => "",
+			"number" => 1,
+			"term"=>""
 		), $atts));
-		
+		global $imic_options;
 		$output = '';
 		if(is_plugin_active("imithemes-listing/listing.php")) {
 			$add_listing = imic_get_template_url('template-add-listing.php');
 			$output .= '<div class="spacer-30"></div>
                 <div class="pricing-table three-cols margin-0">';
-			$args_plan = array('post_type'=>'plan','post_status'=>'publish','posts_per_page'=>$number);
+			$args_plan = array('post_type'=>'plan','post_status'=>'publish','posts_per_page'=>$number, 'plan-category'=>$term);
 							$plan_listing = new WP_Query( $args_plan );
 							if ( $plan_listing->have_posts() ) :
-							while ( $plan_listing->have_posts() ) :	
+							while ( $plan_listing->have_posts() ) :
 							$plan_listing->the_post();
+							$plan_period = get_post_meta(get_the_ID(), 'imic_plan_validity', true);	
+							$plan_period_time = get_post_meta(get_the_ID(), 'imic_plan_validity_weeks', true);
+							$plan_period_listing = get_post_meta(get_the_ID(), 'imic_plan_validity_listings', true);	
+							$plan_listing_draft = get_post_meta(get_the_ID(), 'imic_plan_validity_expire_listing', true);
+							if($plan_period!='0'&&is_user_logged_in()&&$plan_period!='')
+							{
+								$plan_btn_val = __('Pay Now', 'framework');
+								$plan_url = '';
+								$modal = 'data-toggle="modal" data-target="#'.get_the_ID().'-PaypalModal"';
+							}
+							elseif($plan_period!='0'&&!is_user_logged_in()&&$plan_period!='')
+							{
+								$plan_btn_val = __('Log In/Register', 'framework');
+								$plan_url = '';
+								$modal = 'data-toggle="modal" data-target="#PaymentModal"';
+							}
+							else
+							{
+								$plan_btn_val = __('Create Ad Now', 'framework');
+								$plan_url = add_query_arg('plans',get_the_ID(),$add_listing);
+								$modal = '';
+							}
 							$highlight = get_post_meta(get_the_ID(),'imic_pricing_highlight',true);
 							$highlight_class = ($highlight==1)?"highlight accent-color":"";
 							$advantage = get_post_meta(get_the_ID(),'imic_plan_advantage',true);
@@ -1068,8 +1088,72 @@ $output = '<form class="'.$form_class.'" method="get" action="'.esc_url($listing
 						$content = $post_id->post_content;
 						$content = apply_filters('the_content', $content);
 						$output .= str_replace(']]>', ']]>', $content);
-                     	$output .= '<a class="btn btn-primary" href="'.esc_url(add_query_arg('plans',get_the_ID(),$add_listing)).'">'.__('Create Ad Now','framework').'</a>';
-                  		$output .= '</div></div>';
+                     	$output .= '<a '.$modal.' class="btn btn-primary" href="'.esc_url($plan_url).'">'.$plan_btn_val.'</a>';
+                  		$output .= '</div>';
+											if($plan_period!='0'&&is_user_logged_in()&&$plan_period!='')
+						{
+							$plan_price = get_post_meta(get_the_ID(),'imic_plan_price',true);
+							$paypal_currency = $imic_options['paypal_currency'];
+							$paypal_email = $imic_options['paypal_email'];
+							$paypal_site = $imic_options['paypal_site'];
+							global $current_user;
+							get_currentuserinfo();
+							$user_id = get_current_user_id( );
+							$current_user = wp_get_current_user();
+							$user_info_id = get_user_meta($user_id,'imic_user_info_id',true);
+							$thanks_url = imic_get_template_url('template-thanks.php');
+							$paypal_site = ($paypal_site=="1")?"https://www.paypal.com/cgi-bin/webscr":"https://www.sandbox.paypal.com/cgi-bin/webscr";
+							$output .= '<div id="'.get_the_ID().'-PaypalModal" class="modal fade" aria-hidden="true" aria-labelledby="mymodalLabel" role="dialog" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button class="close" aria-hidden="true" data-dismiss="modal" type="button">'.esc_attr__('×','framework').'</button>
+<h4 id="mymodalLabel" class="modal-title">'.esc_attr__('Payment Information','framework').'</h4>
+</div>
+<div class="modal-body">
+<form method="post" id="planpaypalform" name="planpaypalform" class="clearfix" action="'.esc_url($paypal_site).'">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" value="'.get_the_title($user_info_id).'" id="paypal-title" disabled name="First Name"  class="form-control input-lg" placeholder="'.__('Name', 'framework').'*">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" value="'.$current_user->user_email.'" id="paypal-email" disabled name="email"  class="form-control input-lg" placeholder="'.__('Email', 'framework').'*">
+                </div>
+                
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div id="messages"></div>
+                </div>
+                
+            </div>
+						<input type="hidden" name="rm" value="2">
+                                            <input type="hidden" name="amount" value="'.esc_attr($plan_price).'">
+                                            <input type="hidden" name="cmd" value="_xclick">
+                                            <input type="hidden" name="business" value="'.esc_attr($paypal_email).'">
+                                            <input type="hidden" name="currency_code" value="'.esc_attr($paypal_currency).'">
+                                            <input type="hidden" name="item_name" value="'.get_the_title(get_the_ID()).'">
+                                            <input type="hidden" name="item_number" value="'.esc_attr(get_the_ID()).'">
+                                            <input type="hidden" name="return" value="'.esc_url($thanks_url).'" />
+						<div class="col-md-12">
+						<div class="form-group">
+						<input id="paypal-plan" name="submit" type="submit" class="btn btn-default" value="'.__('Proceed to Payment', 'framework').'">
+						</div>
+						</div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+
+</div>
+</div>
+</div>
+</div>';
+						}
+											$output .= '</div>';
                         endwhile; endif; wp_reset_postdata();
 						$output .= '</div>'; }
 		return $output;
