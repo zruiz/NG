@@ -60,8 +60,8 @@ $numeric_specs_type = (isset($imic_options['integer_specs_type']))?$imic_options
 												$max_val = get_post_meta($field, 'imic_plugin_range_max_value', true);
 												$steps = get_post_meta($field, 'imic_plugin_range_steps', true);
 												$min_val = ($min_val!='')?$min_val:0;
-												$max_val = ($max_val!='')?$max_val:100000;
-												$steps = ($steps!='')?$steps:1000;
+												$max_val = ($max_val!='')?$max_val:1000000;
+												$steps = ($steps!='')?$steps:50000;
 											}
 										}
 										elseif($int==2)

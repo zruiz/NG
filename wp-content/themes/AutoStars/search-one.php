@@ -8,7 +8,7 @@ $numeric_specs_type = (isset($imic_options['integer_specs_type']))?$imic_options
                     <div class="search-form-inner">
                         <form class="<?php echo esc_attr($container); ?> searchoneform" method="get" action="<?php echo esc_url($listing_url); ?>">
                         <input type="hidden" value="<?php echo esc_attr($listing_id); ?>" name="page_id">
-                            <h3><?php echo esc_attr_e('Find a Car with our Quick Search','framework'); ?></h3>
+                            <h3><?php echo esc_attr_e('Find a Yacht with our Quick Search','framework'); ?></h3>
                             <div class="row parent-category-row">
                         	<?php  if($search_type==0) 
 																{		
@@ -117,7 +117,7 @@ $numeric_specs_type = (isset($imic_options['integer_specs_type']))?$imic_options
                                     <div class="col-md-6">
                                     </div>
                                         <div class="col-md-6">
-                                            <input type="submit" class="btn btn-block btn-info btn-lg" value="<?php echo esc_attr_e('Find my vehicle now','framework'); ?>">
+                                            <input type="submit" class="btn btn-block btn-info btn-lg" value="<?php echo esc_attr_e('Find my yacht now','framework'); ?>">
                                         </div>
                                     </div>
                         </form>

@@ -245,14 +245,25 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                         <div class="col-md-3 col-sm-4 users-sidebar-wrapper">
                             <!-- SIDEBAR -->
                             <div class="users-sidebar tbssticky">
-                            	<a href="<?php echo esc_url($listing_url); ?>" class="btn btn-block btn-primary add-listing-btn"><?php echo esc_attr_e('New Ad listing','framework'); ?></a>
+                            	<?php  
+                            	$user_role = array();
+                            	$user_role = wp_get_post_terms($user_info_id, 'user-role'); 
+								$role = $user_role[0];
+                            	//var_dump(wp_get_post_terms($user_info_id, 'user-role')); 
+                            	//var_dump($role->slug);
+                            	//die();
+                            	if($role->slug == 'broker' || $role->slug == 'shipyard') { ?>
+                            	  <a href="<?php echo esc_url($listing_url); ?>" class='btn btn-block btn-primary add-listing-btn'><?php echo esc_attr_e('New Ad listing','framework'); ?></a>
+	                            <?php } ?>
                                 <ul class="list-group">
                                     <li class="list-group-item <?php if($_SERVER['QUERY_STRING']=='') { echo "active"; } ?>"> <a href="<?php echo get_permalink(); ?>"><i class="fa fa-home"></i> <?php echo esc_attr_e('Dashboard','framework'); ?></a></li>
                                     <?php if(!empty($saved_search)) { ?>
                                     <li class="list-group-item <?php if(get_query_var('search')==1) { echo "active"; } ?>"> <span class="badge"><?php echo count($saved_search); ?></span> <a href="<?php echo esc_url(add_query_arg('search',1,get_permalink())); ?>"><i class="fa fa-folder-o"></i> <?php echo esc_attr_e('Saved Searches','framework'); ?></a></li><?php } if(!empty($saved_cars)) { ?>
-                                    <li class="list-group-item <?php if(get_query_var('saved')==1) { echo "active"; } ?>"> <span class="badge"><?php echo count($saved_cars); ?></span> <a href="<?php echo esc_url(add_query_arg('saved',1,get_permalink())); ?>"><i class="fa fa-star-o"></i> <?php echo esc_attr_e('Saved Cars','framework'); ?></a></li><?php } ?>
+                                    <li class="list-group-item <?php if(get_query_var('saved')==1) { echo "active"; } ?>"> <span class="badge"><?php echo count($saved_cars); ?></span> <a href="<?php echo esc_url(add_query_arg('saved',1,get_permalink())); ?>"><i class="fa fa-star-o"></i> <?php echo esc_attr_e('Saved Yachts','framework'); ?></a></li><?php } ?>
+                                    <?php if($role->slug == 'broker' || $role->slug == 'shipyard') { ?>
                                     <li class="list-group-item"> <a href="<?php echo esc_url($listing_url); ?>"><i class="fa fa-plus-square-o"></i> <?php echo esc_attr_e('Create new Ad','framework'); ?></a></li><?php if($total_ads!='') { ?>
                                     <li class="list-group-item <?php if(get_query_var('manage')==1) { echo "active"; } ?>"> <span class="badge"><?php echo esc_attr($total_ads); ?></span> <a href="<?php echo esc_url(add_query_arg('manage',1,get_permalink())); ?>"><i class="fa fa-edit"></i> <?php echo esc_attr_e('Manage Ads','framework'); ?></a></li><?php } ?>
+                                    <?php } ?>
                                     <li class="list-group-item <?php if(get_query_var('plans')==1) { echo "active"; } ?>"> <a href="<?php echo esc_url(add_query_arg('plans',1,get_permalink())); ?>"><i class="fa fa-bars"></i> <?php echo esc_attr_e('Plans Subscribed','framework'); ?></a></li>
                                     <li class="list-group-item <?php if(get_query_var('profile')==1) { echo "active"; } ?>"> <a href="<?php echo esc_url(add_query_arg('profile',1,get_permalink())); ?>"><i class="fa fa-user"></i> <?php echo esc_attr_e('My Profile','framework'); ?></a></li>
                                     <!--<li class="list-group-item <?php if(get_query_var('account')==1) { echo "active"; } ?>"> <a href="<?php echo esc_url(add_query_arg('account',1,get_permalink())); ?>"><i class="fa fa-cog"></i> <?php echo esc_attr_e('Account Settings','framework'); ?></a></li>-->

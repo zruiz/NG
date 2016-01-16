@@ -322,9 +322,10 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                 <li class="tabs-listing <?php echo esc_attr($tab_class5.' '.$active_tab5); ?>" data-target="#listing-add-form-five" data-rel="listing-add-form-five" data-toggle="tab">
                                     <a href="javascript:void(0);">
                                         <span class="step-state"></span>
-                                        <span class="step-icon"><i class="fa fa-shopping-cart"></i></span>
+                                        <span class="step-icon"><i class="fa fa-envelope-o"></i></span>
                                         <strong class="step-title"><?php echo esc_attr_e('Publish Listing','framework'); ?></strong>
-                                        <span class="step-desc"><?php echo esc_attr_e('Pay ','framework'); ?>&amp;<?php echo esc_attr_e(' publish your listing','framework'); ?></span>
+                                        <span class="step-desc"><?php echo esc_attr_e(' Submit your listing for approval','framework'); ?></span>
+                                        <!-- <span class="step-desc"><?php echo esc_attr_e('Pay ','framework'); ?>&amp;<?php echo esc_attr_e(' publish your listing','framework'); ?></span> -->
                                     </a>
                                 </li>
                                 <img id="loading-listing-save" src="<?php echo IMIC_THEME_PATH; ?>/images/loader.gif" style="display:none;">
@@ -352,15 +353,15 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                     			<!-- AD LISTING FORM STEP ONE -->
                       			<div id="listing-add-form-one" class="tab-pane fade <?php echo ($active_tab1!='')?$active_tab1.' in':''; ?>">
                         			<h3><?php echo esc_attr_e('Enter your vehicle details','framework'); ?></h3>
-                            		<div class="lighter"><p><?php echo esc_attr_e('Listing can be added with a starting point of choosing your vehicle wither by searching listing using Make, Model, Year or can add a completely unique listing.','framework'); ?></p></div>
+                            		<div class="lighter"><p><?php echo esc_attr_e('Listing can be added with a starting point of choosing your yacht wither by searching listing using Shipyard, Model, Year or can add a completely unique listing.','framework'); ?></p></div>
                                     <?php if($imic_options['ad_listing_fields']==0) { ?>
                                     <div class="spacer-10"></div>
                                     <?php } ?>
                                     <div class="tabs listing-step-tabs">
                                     <?php if($imic_options['ad_listing_fields']==0) { ?>
                                         <ul class="nav nav-tabs" style="display:none;">
-                                            <li class="<?php echo $active_form_search; ?>"> <a data-toggle="tab" href="#searchvehicle" aria-controls="searchvehicle" role="tab"><?php echo esc_attr_e('Search vehicle by Make, Model, Year','framework'); ?></a></li>
-                                            <li class="custom-vehicle-details <?php echo $active_custom_form; ?>" style="display:none;"> <a data-toggle="tab" href="#addcustom" aria-controls="addcustom" role="tab"><?php echo esc_attr_e('Add custom vehicle details','framework'); ?></a></li>
+                                            <li class="<?php echo $active_form_search; ?>"> <a data-toggle="tab" href="#searchvehicle" aria-controls="searchvehicle" role="tab"><?php echo esc_attr_e('Search yacht by Shipyard, Model, Year','framework'); ?></a></li>
+                                            <li class="custom-vehicle-details <?php echo $active_custom_form; ?>" style="display:none;"> <a data-toggle="tab" href="#addcustom" aria-controls="addcustom" role="tab"><?php echo esc_attr_e('Add custom yacht details','framework'); ?></a></li>
                                         </ul>
                                         <?php } ?>
                                         <div class="tab-content">
@@ -370,7 +371,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 											{ ?>
                                             <div id="searchvehicle" class="tab-pane fade <?php echo $active_tab_search; ?>">
                                                 <div class="alert alert-warning fade in">
-                                                    <strong><?php echo esc_attr_e('Find','framework'); ?></strong><?php echo esc_attr_e(' your listing using the dropdowns below. First select its Make, then Model and later select its year. ','framework'); ?><a data-toggle="tab" href="#addcustom"><?php echo esc_attr_e('Add custom vehicle details','framework'); ?></a>
+                                                    <strong><?php echo esc_attr_e('Find','framework'); ?></strong><?php echo esc_attr_e(' your listing using the dropdowns below. First select its Shipyard, then Model and later select its year. ','framework'); ?><a data-toggle="tab" href="#addcustom"><?php echo esc_attr_e('Add custom yacht details','framework'); ?></a>
                                                 </div>
                                                 <div class="row">
                                                 <?php if(!empty($search_fields)) { echo '<div class="col-md-6">';
@@ -477,7 +478,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 																						}
 																						if($imic_options['ad_listing_fields']==0) { ?>
                                                 <div class="alert alert-warning fade in">
-                                                    <?php echo esc_attr_e('Custom vehicle ad listing can take more days to review as compared to searched vehicle listing. ','framework'); ?><a data-toggle="tab" href="#searchvehicle"><?php echo esc_attr_e('Try search again','framework'); ?></a>
+                                                	<?php echo esc_attr_e('Yacht ad listing can take few days to review. ','framework'); ?>
+                                                    <!-- <a data-toggle="tab" href="#searchvehicle"><?php echo esc_attr_e('Try search again','framework'); ?></a> -->
                                                 </div>
                                           	<?php } ?>
                                                 <div class="row">
@@ -681,7 +683,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             
                     			<!-- AD LISTING FORM STEP TWO -->
                       			<div id="listing-add-form-two" class="tab-pane fade <?php echo ($active_tab2!='')?$active_tab2.' in':''; ?>">
-                        			<h3><?php echo esc_attr_e('Select additional features your car have','framework'); ?></h3>
+                        			<h3><?php echo esc_attr_e('Select additional features your yacht have','framework'); ?></h3>
                             		<div class="lighter"><p><?php echo esc_attr_e('Features selected can either factory fitted or after market features.','framework'); ?></p></div>
                                     <div class="panel panel-default">
   										<div class="panel-body">
@@ -692,8 +694,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 												$term_id = get_term_by('slug', $category_slug, 'listing-category');
 												$parents = get_ancestors( $term_id->term_id, 'listing-category' );
 												array_push($parents, $term_id->term_id);
-												$list_tags = get_terms('cars-tag',array('hide_empty'=>false));
-												$term_list = wp_get_post_terms($update_id, 'cars-tag', array("fields" => "ids"));
+												$list_tags = get_terms('yachts-tag',array('hide_empty'=>false));
+												$term_list = wp_get_post_terms($update_id, 'yachts-tag', array("fields" => "ids"));
 												foreach($list_tags as $tag)
 												{ 
 													$cat_slugs = get_option('taxonomy_'.$tag->term_id.'_metas');
@@ -722,9 +724,9 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 											}
 											else
 											{
-											$features = get_terms('cars-tag',array('hide_empty'=>false));
+											$features = get_terms('yachts-tag',array('hide_empty'=>false));
 											//print_r($features);
-											$term_list = wp_get_post_terms($update_id, 'cars-tag', array("fields" => "ids"));
+											$term_list = wp_get_post_terms($update_id, 'yachts-tag', array("fields" => "ids"));
 											foreach($features as $feature) {
 												$selected = (in_array($feature->term_id,$term_list))?'checked':'';
 												echo '<li class="checkbox"><label><input '.$selected.' value="1" id="'.$feature->term_id.'" type="checkbox" class="vehicle-tags"> '.$feature->name.'</input></label></li>';
@@ -886,7 +888,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                     			<!-- AD LISTING FORM STEP FOUR -->
                       			<div id="listing-add-form-four" class="tab-pane fade <?php echo ($active_tab4!='')?$active_tab4.' in':''; ?>">
                                     <h3><?php echo esc_attr_e('Upload your listing photos','framework'); ?></h3>
-                                    <div class="lighter"><p><?php echo esc_attr_e('Registered listing owners should include a picture which shows a clear registeration plate.','framework'); ?></p></div>
+                                    <div class="lighter"><p><?php echo esc_attr_e('Registered listing owners should include at least one picture.','framework'); ?></p></div>
                                     <?php $content = '';
 										if($update_id!='')
 										{
@@ -924,7 +926,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     <input value="<?php echo get_post_meta($update_id,'imic_plugin_video_url',true); ?>" name="vehicle-video" id="vehicle-video" type="text" class="form-control" placeholder="Youtube/Video URL">
                                     <hr class="fw">
                                     <h3><?php echo esc_attr_e('Add some comments about your listing','framework'); ?></h3>
-                                    <div class="lighter"><p><?php echo esc_attr_e('Enter here some impressive wording about your car to attract more buyers ineterest in your Ad listing. this will appear on the search results page as well.','framework'); ?></p></div>
+                                    <div class="lighter"><p><?php echo esc_attr_e('Enter here some impressive wording about your yacht to attract more buyers interest in your Ad listing. This will appear on the search results page as well.','framework'); ?></p></div>
                                     <textarea name="vehicle-detail" id="vehicle-detail" class="form-control" rows="10"><?php echo $content; ?></textarea>
                                     
                                     <?php if(is_user_logged_in()) { ?>
@@ -933,16 +935,16 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             
                     			<!-- AD LISTING FORM STEP FIVE -->
                       			<div id="listing-add-form-five" class="tab-pane fade <?php echo ($active_tab5!='')?$active_tab5.' in':''; ?>">
-                                	<h3><?php echo esc_attr_e('Choose how you would like to sell your listing','framework'); ?></h3>
-                            		<div class="lighter"><p><?php echo esc_attr_e('We offer two ways to sell you listing, one is to to public where any user of our website can contact you to buy and another way is to sell directly to out dealers network which will get you offers from our verified dealers directly.','framework'); ?></p></div>
+                                	<h3><?php echo esc_attr_e('About the listing approval process','framework'); ?></h3>
+                            		<div class="lighter"><p><?php echo esc_attr_e('To make sure listings are safe and appropriate for everyone, all listings go through an approval process using the Invictvs ads policies. Most listings are reviewed within 1 business day. However, some reviews take longer because the listing requires a more complex review. Once the listing is approved and published any user of our website will be able to contact you about the listing.','framework'); ?></p></div>
                                     <div class="btn-group selling-choice" data-toggle="buttons">
                                     <?php $listing_view = get_post_meta($update_id,'imic_plugin_listing_view',true); ?>
                                         <label class="btn btn-default <?php echo ($listing_view=="all"||$listing_view=="")?"active":""; ?>">
                                             <input type="radio" name="Loan-Tenure" id="option1" autocomplete="off" value="all" <?php echo ($listing_view=="all"||$listing_view=="")?"checked":""; ?>> <i class="fa fa-group"></i> <strong><?php echo esc_attr_e('Sell Your listing publicaly','framework'); ?></strong>
                                         </label>
-                                        <label class="btn btn-default <?php echo ($listing_view=="dealer")?"active":""; ?>">
+                                        <!-- <label class="btn btn-default <?php echo ($listing_view=="dealer")?"active":""; ?>">
                                             <input type="radio" name="Loan-Tenure" id="option2" value="dealer" autocomplete="off" <?php echo ($listing_view=="dealer")?"checked=\"checked\"":""; ?>>  <i class="fa fa-user"></i><strong><?php echo esc_attr_e('Sell Your listing to dealers','framework'); ?></strong>
-                                        </label>
+                                        </label> -->
                                     </div>
                                     <hr class="fw">
                                     <?php if($opt_plans!=0&&$eligible_listing!=1) { ?>

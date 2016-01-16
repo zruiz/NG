@@ -32,6 +32,17 @@ $menu_locations = get_nav_menu_locations(); ?>
 	   wp_localize_script('imic_agent_register','agent_register',array('ajaxurl'=>admin_url('admin-ajax.php'))); ?>
                     <div class="user-login-panel">
                         <a href="#" class="user-login-btn" data-toggle="modal" data-target="#PaymentModal"><i class="icon-profile"></i></a>
+                        <!-- <a href="#" class="user-login-btn"><i class="icon-profile"></i></a> -->
+                        <div class="topnav dd-menu">
+                          <ul id="menu-top-menu" class="top-navigation sf-menu">
+                            <li id="menu-item-818" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-818">
+                                <a href="#PaymentModal" data-toggle="modal" data-target=".register-modal">Register</a>
+                            </li>
+                            <li id="menu-item-817" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-817">
+                                <a href="#PaymentModal" data-toggle="modal" data-target=".register-modal">Sign In</a>
+                            </li>
+                         </ul>
+                        </div>
                     </div><?php } else {
 						$default_image = (isset($imic_options['default_dealer_image']))?$imic_options['default_dealer_image']:array('url'=>'');
 						global $current_user;

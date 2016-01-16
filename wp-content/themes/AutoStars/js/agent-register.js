@@ -4,6 +4,7 @@
 (function($) {
   "use strict";
 jQuery(document).ready(function() {
+
 	jQuery(".register-form").submit(function(event) {
 		jQuery("#message").slideUp(750,function() {
 		jQuery('#message').hide();
@@ -51,8 +52,9 @@ jQuery(document).ready(function() {
 			data: {
 				action: 'imic_agent_register',
 				//role: jQuery('#role-popup').val(),
-				username: jQuery('#username-popup').val(),
+				firstname: jQuery('#firstname-popup').val(),
 				email: jQuery('#email-popup').val(),
+				guestemail: jQuery('#guest-email-popup').val(),
 				pwd1: jQuery('#pwd1-popup').val(),
 				pwd2: jQuery('#pwd2-popup').val(),
 				task: jQuery('#task-popup').val(),
@@ -65,7 +67,7 @@ jQuery(document).ready(function() {
 				jQuery('.register-form-popup img.loader').fadeOut('slow',function(){jQuery(this).remove()});
 				jQuery('#submit-popup').removeAttr('disabled');
 				if(data.match('successfully') != null) { document.getElementById('registerformpopup').reset();
-                                document.location.href = jQuery('.redirect_register').val();
+                                //document.location.href = jQuery('.redirect_register').val();
 				}
 			},
 			error: function(errorThrown) {

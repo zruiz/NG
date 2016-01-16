@@ -1,13 +1,54 @@
 jQuery(function($){
 	"use strict";
-	$("form.searchoneform").submit(function()
-    { 
-        $(this).find(':input[value=""]').attr("disabled", "disabled");
+
+	jQuery('#guest-submit-popup').on("click", function(){
+		setCookie('guest_access', 'on', 1);
+		jQuery("#PaymentModal").modal('hide');
+	});
+
+	if (getCookie() == "" )
+		jQuery("#PaymentModal").modal('show');
+
+	jQuery('#menu-top-menu li').on('click', function() {
+		$(".guest-row").slideUp();
+		$(".member-row").slideUp();
+	    var tab = jQuery(this).index();
+	    jQuery('#PaymentModal .modal-body .nav-tabs a:eq(' + tab + ')').tab('show');
+	});
+
+	function setCookie(cookieName,cookieValue,nDays)
+	{
+	    var today = new Date();
+	    var expire = new Date();
+
+	    if(nDays==null || nDays==0)
+	        nDays = 1;
+
+	    expire.setTime(today.getTime() + 3600000*24*nDays);
+	    document.cookie = cookieName+"="+escape(cookieValue) + ";expires="+expire.toGMTString()+ "; path=/";
+	}
+
+	function getCookie()
+	{
+		var ca = document.cookie.split(';');
+	    for(var i=0; i<ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1);
+	        if (c.indexOf('wordpress_logged_in') == 0 || c.indexOf('guest_access') == 0) {
+	        	return "logged";
+	        }
+	    }
+	    return "";
+	}
+
+	$("form.searchoneform").submit(function(){ 
+		if ($('.search-range').val() == '') $('.search-range').attr("disabled", "disabled");
+		if ($("input[name='postcode']").val() == '') $("input[name='postcode']").attr("disabled", "disabled");
+        //$(this).find(':input[value=""]').attr("disabled", "disabled");
         return true; // ensure form still submits
     });
-	$("form.search1, form.search2").submit(function()
-    { 
-        $(this).find(':input[value=""]').attr("disabled", "disabled");
+	$("form.search1, form.search2").submit(function(){ 
+        //$(this).find(':input[value=""]').attr("disabled", "disabled");
         return true; // ensure form still submits
     });
 var AUTOSTARS = window.AUTOSTARS || {};
@@ -710,6 +751,40 @@ $(document).ready(function(){
 	if($("#results-holder").hasClass("results-grid-view")){
 		AUTOSTARS.RESULTS();
 	}
+
+	//* Join Now Trigger
+	$('.guest-trigger').on("click", function() {	
+		if ($(this).hasClass('closed')) {
+			$(this).removeClass('closed');
+			$(".guest-row").slideDown();
+			$(".member-row").slideUp();
+			$(this).html('CONTINUE AS GUEST <i class="fa fa-arrow-up"></i>');
+			$('.member-trigger').html('BECOME A MEMBER <i class="fa fa-arrow-down"></i>');
+		} else {
+			
+			$(this).addClass('closed');
+			$(".guest-row").slideUp();
+			$(this).html('CONTINUE AS GUEST  <i class="fa fa-arrow-down"></i>');
+		}	
+		return false;
+	});
+
+	$('.member-trigger').on("click", function() {	
+		if ($(this).hasClass('closed')) {
+			$(this).removeClass('closed');
+			$(".member-row").slideDown();
+			$(".guest-row").slideUp();
+			$(this).html('BECOME A MEMBER <i class="fa fa-arrow-up"></i>');
+			$('.guest-trigger').html('CONTINUE AS GUEST <i class="fa fa-arrow-down"></i>');
+		} else {
+			
+			$(this).addClass('closed');
+			$(".member-row").slideUp();
+			$(this).html('BECOME A MEMBER <i class="fa fa-arrow-down"></i>');
+		}	
+		return false;
+	});
+
 	//* Advanced Search Trigger
 	$('.search-advanced-trigger').on("click", function() {	
 		if ($(this).hasClass('advanced')) {

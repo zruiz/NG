@@ -134,7 +134,7 @@
                                         <div class="dealer-block-add">';
 										if(!empty($user_info)) {
                                             $output .= '<span>'.__('Member since','framework').' <strong>'.date("M, Y", strtotime($user_info->user_registered)).'</strong></span>'; }
-                                            $output .= '<span>'.__('Total listings','framework').' <strong>'.imic_count_user_posts_by_type($user_id,'cars').'</strong></span>
+                                            $output .= '<span>'.__('Total listings','framework').' <strong>'.imic_count_user_posts_by_type($user_id,'yachts').'</strong></span>
                                         </div>
                                     </div>
                                     <div class="text-align-center"><a href="'.get_author_posts_url($user_id).'" class="btn btn-default">'.__('View profile','framework').'</a></div>
@@ -202,7 +202,7 @@
 		{
 			$tags = explode(',', $tags);
 			$term_array[1] = array(
-				'taxonomy' => 'cars-tag',
+				'taxonomy' => 'yachts-tag',
 				'field' => 'slug',
 				'terms' => $tags,
 				'operator' => 'IN');
@@ -239,7 +239,7 @@
 		$additional_specs_all = get_post_meta($additional_specs,'specifications_value',true);
 		$highlighted_specs = (isset($imic_options['highlighted_specs']))?$imic_options['highlighted_specs']:array();
 		$unique_specs = (isset($imic_options['unique_specs']))?$imic_options['unique_specs']:'';	
-		$args_cars = array ('post_type'=>'cars','tax_query'=>$term_array,'meta_query' => $arrays,'posts_per_page'=>$number,'post_status'=>'publish');
+		$args_cars = array ('post_type'=>'yachts','tax_query'=>$term_array,'meta_query' => $arrays,'posts_per_page'=>$number,'post_status'=>'publish');
 		$cars_listing = new WP_Query( $args_cars );
 		if ( $cars_listing->have_posts() ) :
 		if($view=='0'||$view=='1')
@@ -536,7 +536,7 @@
 		}
 		elseif($view==3)
 		{
-			$args_cars = array('post_type'=>'cars','orderby' => 'meta_value','meta_query'=>array('relation' => 'AND',array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'='),array('key' => 'imic_plugin_listing_end_dt','value' => date('Y-m-d'),'compare' => '>=')), 
+			$args_cars = array('post_type'=>'yachts','orderby' => 'meta_value','meta_query'=>array('relation' => 'AND',array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'='),array('key' => 'imic_plugin_listing_end_dt','value' => date('Y-m-d'),'compare' => '>=')), 
                               'meta_key' => 'imic_most_visited',
                               'order'=>'DESC','posts_per_page'=>$number);
 			$cars_listing = new WP_Query( $args_cars );
