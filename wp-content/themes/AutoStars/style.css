@@ -1885,14 +1885,14 @@ body.admin-bar .site-header-wrapper{
 	margin-left:10px;
 }
 .floated .search-form{
-	width:600px;
+	width:750px;
 	margin:130px auto;
 	padding-top:80px;
 	position: absolute;
 	z-index:3;
 	top:0;
 	left:50%;
-	margin-left:-300px;
+	margin-left:-350px;
 }
 .floated .search-form h2, .floated .search-form p{
 	font-weight:400;
