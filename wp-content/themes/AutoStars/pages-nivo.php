@@ -24,7 +24,7 @@ $numeric_specs_type = (isset($imic_options['integer_specs_type']))?$imic_options
                     <form method="get" action="<?php echo esc_url($listing_url); ?>" class="searchoneform">
                     <input type="hidden" value="<?php echo esc_attr($listing_id); ?>" name="page_id">
                     	<div class="input-group input-group-lg">
-      						<input type="text" value="" class="form-control" name="specification-search" placeholder="<?php echo esc_attr_e('Enter zip, shipyard, yacht name..','framework'); ?>">
+      						<input type="text" value="" class="form-control" name="specification-search" placeholder="<?php echo esc_attr_e('Enter zip, brand, model..','framework'); ?>">
                         	<span class="input-group-btn">
         						<button class="btn btn-primary" type="submit"><?php echo esc_attr_e('Search','framework'); ?></button>
       						</span>
@@ -65,7 +65,7 @@ $numeric_specs_type = (isset($imic_options['integer_specs_type']))?$imic_options
 											$spec_slug = "char_".imic_the_slug($field); 
 										}
 										$get_child = (imic_get_child_values_status($specs)==1)?'get-child-field':'';
-										echo '<div class="col-md-3 col-sm-3">';
+										echo '<div class="col-md-4 col-sm-4">';
 										if($int==1)
 										{ ?>
 											<b><?php echo esc_attr(get_the_title($field)); echo ' '.$value_label; ?> <input class="search-range" type="hidden" name="<?php echo esc_attr($spec_slug); ?>" value=""><span class="left"><?php echo esc_attr($min_val); ?></span> - 
@@ -88,7 +88,7 @@ $numeric_specs_type = (isset($imic_options['integer_specs_type']))?$imic_options
 										}
 										}
                                         echo '</div>';
-										if($count++>3) { break; }
+										if($count++>2) { break; }
 									endforeach; }
 									else {
 										echo '<div class="col-md-12">';
