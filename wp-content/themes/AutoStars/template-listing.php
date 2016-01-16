@@ -205,7 +205,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                         <li><a href="#"><i class="fa fa-clock-o"></i></a>
                             <div class="tool-box">
                                 <div class="tool-box-head">
-                                    <h5><?php _e('Recently viewed yachtss','framework'); ?></h5>
+                                    <h5><?php _e('Recently viewed yachts','framework'); ?></h5>
                                 </div>
                                 <div class="tool-box-in">
                                     <ul id="viewed-cars-listbox" class="listing tool-car-listing">
@@ -310,6 +310,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                     <button class="btn btn-default visible-xs" id="Show-Filters"><?php _e('Search Filters','framework'); ?></button> 
                 </div>
             </div>
+            
         </div>
     </div>
 <!-- Start Body Content -->
@@ -394,7 +395,31 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                     echo '<div class="col-md-3 col-sm-3 loading-fields" id="loading-field" style="display:none;"><label>'.__('Select Category','framework').'</label><input class="form-control" type="text" value="'.__('Loading...','framework').'"></div></div>';
                 }
             }?>
-                                        <div class="row">
+            <div class="row">
+                <div class="icon-actions" style="padding-bottom: 20px;">
+                    <div class="col-lg-4 col-md-4 col-sm-4 cust-counter">
+                        <div class="fact-ico"> <i class="fa fa-map-marker fa-4x"></i> </div>
+                        <div class="clearfix"></div>
+                        <h4>YACHT ALERTS</h4>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 cust-counter">
+                        <div class="fact-ico"> <i class="fa fa-file-o fa-4x"></i> </div>
+                        <div class="clearfix"></div>
+                        <h4>TRADE A YACHT</h4>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 cust-counter">
+                        <div class="fact-ico"> <i class="fa fa-dollar fa-4x"></i> </div>
+                        <div class="clearfix"></div>
+                        <h4>SALE YOUR YACHT</h4>
+                    </div>
+                    <!-- <a <?php echo esc_attr($save_icon_disable); ?> href="#" rel="popup-save" class="btn btn-default save-car" title="<?php echo esc_attr_e('Save this listing','framework'); ?>"><i class="fa <?php echo esc_attr($save_icon); ?>"></i> <span><?php echo esc_attr_e('Save this listing','framework'); ?></span><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div></a><?php if($enquiry_form1!=2) { ?> -->
+                    <!-- <a href="#" data-toggle="modal" data-target="#infoModal" class="btn btn-default" title="<?php echo esc_attr_e('Yacht Alerts','framework'); ?>"><i class="fa fa-info"></i> <span><?php echo esc_attr_e('Yacht Alerts','framework'); ?></span></a><?php } if($enquiry_form2!=2) { ?>
+                    <a href="#" data-toggle="modal" data-target="#testdriveModal" class="btn btn-default" title="<?php echo esc_attr_e('Trade a Yacht','framework'); ?>"><i class="fa fa-calendar"></i> <span><?php echo esc_attr_e('Trade a Yacht','framework'); ?></span></a><?php } if($enquiry_form3!=2) { ?>
+                    <a href="#" data-toggle="modal" data-target="#offerModal" class="btn btn-default" title="<?php echo esc_attr_e('Sale your Yacht','framework'); ?>"><i class="fa fa-dollar"></i> <span><?php echo esc_attr_e('Sale your Yacht','framework'); ?></span></a>
+                    <?php } ?> -->
+                </div>
+            </div>
+            <div class="row">
             <div class="col-md-12">
             <ul class="search-tabs nav nav-pills" id="search-tab">
             <?php if(!empty($qrs)) { foreach($qrs as $key=>$value) {
@@ -605,6 +630,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                         echo ' </div>
                         </div>';
                     ?>
+
                     <!-- Listing Results -->
                     <div class="col-md-<?php echo esc_attr($class_list); ?> results-container">
                         <div class="results-container-in">

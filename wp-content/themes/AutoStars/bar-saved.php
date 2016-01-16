@@ -42,7 +42,7 @@ $pageSidebar2 = get_post_meta(get_the_ID(),'imic_select_sidebar_from_list', true
                                         </li>';
 										if($total++==2) { break; } }
 										}
-										else { echo '<li class="blank">'.__('No Saved Cars yet','framework').'</li>'; }
+										else { echo '<li class="blank">'.__('No Saved Yachts yet','framework').'</li>'; }
 									} }
 									if(!empty($_SESSION['saved_vehicle_id1'])) {
 									$highlighted_specs = $imic_options['highlighted_specs'];
@@ -95,7 +95,7 @@ $pageSidebar2 = get_post_meta(get_the_ID(),'imic_select_sidebar_from_list', true
                                         </li><?php } if(!empty($_SESSION['saved_vehicle_id1'])&&!empty($_SESSION['saved_vehicle_id2'])&&!empty($_SESSION['saved_vehicle_id3'])) {
 											echo '<li>'.__('Please login/register to add more','framework').'</li>';
 										} if(empty($_SESSION['saved_vehicle_id1'])&&empty($_SESSION['saved_vehicle_id2'])&&empty($_SESSION['saved_vehicle_id3'])&&empty($saved_cars)&&(!is_user_logged_in())) {
-										echo '<li class="blank">'.__('No Saved Cars yet','framework').'</li>'; } ?>
+										echo '<li class="blank">'.__('No Saved Yachts yet','framework').'</li>'; } ?>
                                         
                                     </ul>
                                 </div>

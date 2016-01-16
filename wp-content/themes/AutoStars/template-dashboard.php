@@ -40,7 +40,7 @@ $user_name = get_the_title($user_info_id);
 $saved_cars = get_post_meta($user_info_id,'imic_user_saved_cars',true);
 $saved_search = get_post_meta($user_info_id,'imic_user_saved_search',true);
 $listing_url = imic_get_template_url('template-add-listing.php');
-$args_cars = array('post_type'=>'cars','author'=>$current_user->ID,'posts_per_page'=>-1,'post_status'=>array('publish','draft'));
+$args_cars = array('post_type'=>'yachts','author'=>$current_user->ID,'posts_per_page'=>-1,'post_status'=>array('publish','draft'));
 $cars_listing = new WP_Query( $args_cars );
 if ( $cars_listing->have_posts() ) :
 while ( $cars_listing->have_posts() ) :	
@@ -434,7 +434,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                             	<div class="dashboard-block-head">
                                 <?php if((count($saved_cars)>3)&&(esc_attr(get_query_var('saved'))!=1)) { ?>
                                 	<a href="<?php echo esc_url(add_query_arg('saved',1,get_permalink())); ?>" class="btn btn-default btn-sm pull-right"><?php echo esc_attr_e('See all cars ','framework'); echo '('.count($saved_cars).')'; ?></a><?php } ?>
-                            		<h3><?php echo esc_attr_e('Saved Cars','framework'); ?></h3>
+                            		<h3><?php echo esc_attr_e('Saved Yachts','framework'); ?></h3>
                                 </div>
                                 <div class="table-responsive">
                                 <?php if(!empty($saved_cars)) {  ?>
