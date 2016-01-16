@@ -35,9 +35,9 @@ global $imic_options;
 <a id="back-to-top"><i class="fa fa-angle-double-up"></i></a>  
 <div class="modal fade" id="PaymentModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="PaymentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" style="top:150px;">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
             <h4 class="modal-title" id="myModalLabel"><?php echo esc_attr_e('Login or Register for website','framework'); ?></h4>
         </div>
         <div class="modal-body">
