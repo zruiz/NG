@@ -41,13 +41,13 @@ jQuery(function($){
 	    return "";
 	}
 
-	$("form.searchoneform").submit(function()
-    { 
+	$("form.searchoneform").submit(function(){ 
+		if ($('.search-range').val() == '') $('.search-range').attr("disabled", "disabled");
+		if ($("input[name='postcode']").val() == '') $("input[name='postcode']").attr("disabled", "disabled");
         //$(this).find(':input[value=""]').attr("disabled", "disabled");
         return true; // ensure form still submits
     });
-	$("form.search1, form.search2").submit(function()
-    { 
+	$("form.search1, form.search2").submit(function(){ 
         //$(this).find(':input[value=""]').attr("disabled", "disabled");
         return true; // ensure form still submits
     });
@@ -593,8 +593,9 @@ $(document).ready(function(){
       .on('slide', function(ev){
 				//$(this).attr("data-imic-start", ev.value[0]);
 				//$(this).attr("data-imic-end", ev.value[1]);
-          $(this).parents().find('.left').text(ev.value[0]);
-					$(this).parents().find('.right').text(ev.value[1]);
+					$(this).parent().parent().find('input.search-range').val(ev.value[0]+"-"+ev.value[1]);
+          $(this).parent().parent().find('.left').text(ev.value[0]);
+					$(this).parent().parent().find('.right').text(ev.value[1]);
 					$(this).parent().parent().find('.range-val').attr("data-range", ev.value[0]+"-"+ev.value[1]);
           //$('#right').text(ev.value[1]);
       });
@@ -750,6 +751,7 @@ $(document).ready(function(){
 	if($("#results-holder").hasClass("results-grid-view")){
 		AUTOSTARS.RESULTS();
 	}
+
 	//* Join Now Trigger
 	$('.guest-trigger').on("click", function() {	
 		if ($(this).hasClass('closed')) {
@@ -783,7 +785,7 @@ $(document).ready(function(){
 		return false;
 	});
 
-	// Advanced Search Trigger
+	//* Advanced Search Trigger
 	$('.search-advanced-trigger').on("click", function() {	
 		if ($(this).hasClass('advanced')) {
 			$(this).removeClass('advanced');
@@ -797,7 +799,7 @@ $(document).ready(function(){
 		}	
 		return false;
 	});
-
+	
 	$("#Show-Filters").on("click", function(){
 		$("#Search-Filters").slideToggle();
 	});

@@ -94,7 +94,7 @@ if($browse_specification_switch==4)
     	<div id="content" class="content full">
         	<div class="container">
 			<?php if(!empty($compare)) { ?>
-            	<!-- Yacht Comparision -->
+            	<!-- Vehicle Comparision -->
                 <div class="comparision-table-resp">
                 <div class="col3 comparision-table">
                 	<div class="tsticky thead-sticky comp-table-row">
@@ -102,6 +102,8 @@ if($browse_specification_switch==4)
                         <?php foreach($compare as $comp) {
 							$completed = get_post_meta($comp,'imic_plugin_ad_payment_status',true);
 							$specifications = get_post_meta($comp,'feat_data',true);
+							$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, $comp);
+							$highlighted_specs = $new_highlighted_specs;
 							$highlighted_specs_val = imic_vehicle_title($comp,$highlighted_specs,$specifications);
 							$unique_value = imic_vehicle_price($comp,$unique_specs,$specifications);
 							if($completed==1) { ?>
@@ -111,7 +113,7 @@ if($browse_specification_switch==4)
                         </div><?php } else { ?>
 						<div class="comp-table-col">
                         	<strong><?php echo esc_attr($highlighted_specs_val); ?></strong>
-                            <span class="price"><?php echo __('This yacht might be sold or not active','framework'); ?></span>
+                            <span class="price"><?php echo __('This vehicle might be sold or not active','framework'); ?></span>
                         </div>
 						<?php } } ?>
                     </div>
@@ -126,7 +128,7 @@ if($browse_specification_switch==4)
 						<?php } } ?>
                     </div>
                 	<div class="comp-feature-head comp-table-row">
-                        <div class="comp-table-col"><?php echo esc_attr_e('Yacht details','framework'); ?></div>
+                        <div class="comp-table-col"><?php echo esc_attr_e('Vehicle details','framework'); ?></div>
                     </div>
                 	<?php foreach($newarray as $ss) {
 						echo ''.$ss;
@@ -143,7 +145,7 @@ if($browse_specification_switch==4)
 							if($completed==1) {  ?>
                         <div class="comp-table-col">
                             <ul class="add-features-list">
-                            <?php $fterm = wp_get_post_terms( $comp, "yachts-tag", array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'names') );
+                            <?php $fterm = wp_get_post_terms( $comp, "cars-tag", array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'names') );
 							foreach($fterm as $term) {
 								echo '<li>'.$term.'</li>';
 							} ?> 

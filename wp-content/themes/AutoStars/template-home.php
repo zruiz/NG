@@ -106,7 +106,7 @@ else { }?>
 										$additional_specs_all = get_post_meta($additional_specs,'specifications_value',true);
 										$highlighted_specs = (isset($imic_options['highlighted_specs']))?$imic_options['highlighted_specs']:array();
 										$unique_specs = (isset($imic_options['unique_specs']))?$imic_options['unique_specs']:'';	
-										$args_cars = array('post_type'=>'yachts','posts_per_page'=>$vehicle_count,'post_status'=>'publish','meta_query'=>array('relation' => 'AND',array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'='),array('key' => 'imic_plugin_listing_end_dt','value' => date('Y-m-d'),'compare' => '>=')));
+										$args_cars = array('post_type'=>'cars','posts_per_page'=>$vehicle_count,'post_status'=>'publish','meta_query'=>array('relation' => 'AND',array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'='),array('key' => 'imic_plugin_listing_end_dt','value' => date('Y-m-d'),'compare' => '>=')));
 										$cars_listing = new WP_Query( $args_cars );
 										if ( $cars_listing->have_posts() ) :
 										while ( $cars_listing->have_posts() ) :	
@@ -116,7 +116,7 @@ else { }?>
 											$badge_ids = imic_classified_badge_specs(get_the_ID(), $badge_ids);
 											$detailed_specs = imic_classified_short_specs(get_the_ID(), $detailed_specs);
 										}
-										
+										$badge_ids = imic_filter_lang_specs($badge_ids);
 										$post_author_id = get_post_field( 'post_author', get_the_ID() );
 										$user_info_id = get_user_meta($post_author_id,'imic_user_info_id',true);
 										$author_role = get_option('blogname');
@@ -128,6 +128,8 @@ else { }?>
 										}
 										$specifications = get_post_meta(get_the_ID(),'feat_data',true);
 										$unique_value = imic_vehicle_price(get_the_ID(),$unique_specs,$specifications);
+										$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, get_the_ID());
+										$highlighted_specs = $new_highlighted_specs;
 										$highlight_value = imic_vehicle_title(get_the_ID(),$highlighted_specs,$specifications);
 										$highlight_value = ($highlight_value!='')?$highlight_value:get_the_title();
 										$details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
@@ -161,7 +163,15 @@ else { }?>
 													endforeach;
 													if(!empty($highlight_value)) { ?>
                                                 <h5 class="vehicle-title"><a href="<?php echo esc_url(get_permalink()); ?>"><?php echo esc_attr($highlight_value); ?></a></h5><?php } ?>
-                                                <span class="vehicle-meta"><?php $total = 1; if(!empty($details_value)) { foreach($details_value as $value) { echo esc_attr($value).', '; if($total++==4) { break; } } } ?> <?php _e('by','framework'); ?> <abbr class="user-type" title="Listed by <?php echo esc_attr($author_role); ?>"><?php echo esc_attr($author_role); ?></abbr></span>
+                                                <span class="vehicle-meta"><?php $total = 1; 
+																								if(!empty($details_value)) 
+																								{ 
+																								foreach($details_value as $value) 
+																								{ 
+																								echo esc_attr($value).', '; 
+																								if($total++==4) { break; } 
+																								} 
+																								} ?> <?php _e('by','framework'); ?> <abbr class="user-type" title="Listed by <?php echo esc_attr($author_role); ?>"><?php echo esc_attr($author_role); ?></abbr></span>
                                                 <?php if($img_src!='') {
 																									$speci_value = $additional_specs_all[$this_key]['imic_plugin_specification_values'];
 																									$speci_value = str_replace(' ', '%20', $speci_value); ?>

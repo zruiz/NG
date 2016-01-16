@@ -35,6 +35,8 @@ $post_author_id = get_post_field( 'post_author', get_the_ID() );
 $this_user = get_user_meta($post_author_id,'imic_user_info_id',true);
 $add = get_post_meta($this_user,'imic_user_zip_code',true);
 $highlighted_specs = (isset($imic_options['highlighted_specs']))?$imic_options['highlighted_specs']:'';
+$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, get_the_ID());
+$highlighted_specs = $new_highlighted_specs;
 $unique_specs = $imic_options['unique_specs'];
 $specifications = get_post_meta(get_the_ID(),'feat_data',true);	
 $unique_value = imic_vehicle_price(get_the_ID(),$unique_specs,$specifications);
@@ -71,7 +73,7 @@ $vehicle_status = get_post_meta(get_the_ID(),'imic_plugin_ad_payment_status',tru
 if($vehicle_status!=1) {
 	echo '<div class="main" role="main">
     	<div id="content" class="content full">
-        	<div class="container"><div class="row"><p>'.__('Yacht might be sold or not active','framework').'</p></div></div></div></div>';
+        	<div class="container"><div class="row"><p>'.__('Vehicle might be sold or not active','framework').'</p></div></div></div></div>';
 } else {
 $save1 = (isset($_SESSION['saved_vehicle_id1']))?$_SESSION['saved_vehicle_id1']:'';
 $save2 = (isset($_SESSION['saved_vehicle_id2']))?$_SESSION['saved_vehicle_id2']:'';
@@ -111,7 +113,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <a href="#" data-toggle="modal" data-target="#testdriveModal" class="btn btn-default" title="<?php echo esc_attr_e('Book a test drive','framework'); ?>"><i class="fa fa-calendar"></i> <span><?php echo esc_attr_e('Book a test drive','framework'); ?></span></a><?php } if($enquiry_form3!=2) { ?>
                             <a href="#" data-toggle="modal" data-target="#offerModal" class="btn btn-default" title="<?php echo esc_attr_e('Make an offer','framework'); ?>"><i class="fa fa-dollar"></i> <span><?php echo esc_attr_e('Make an offer','framework'); ?></span></a>
                             <?php } if($download_pdf!='') { ?>
-                            <a href="<?php echo IMIC_THEME_PATH; ?>/download/download.php?file=<?php echo esc_url($download_pdf); ?>" class="btn btn-default" title="<?php echo esc_attr_e('Deck Plan','framework'); ?>"><i class="fa fa-book"></i> <span><?php echo esc_attr_e('Deck Plan','framework'); ?></span></a><?php } ?>
+                            <a href="<?php echo IMIC_THEME_PATH; ?>/download/download.php?file=<?php echo esc_url($download_pdf); ?>" class="btn btn-default" title="<?php echo esc_attr_e('Download Manual','framework'); ?>"><i class="fa fa-book"></i> <span><?php echo esc_attr_e('Download Manual','framework'); ?></span></a><?php } ?>
                             <a href="javascript:void(0)" onclick="window.print();" class="btn btn-default" title="<?php echo esc_attr_e('Print','framework'); ?>"><i class="fa fa-print"></i> <span><?php echo esc_attr_e('Print','framework'); ?></span></a>
                         </div>
                         <div class="btn btn-info price"><?php echo esc_attr($unique_value); ?></div>
@@ -524,7 +526,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 										}
 										elseif( $tab['property_description']=="[location]") {
 											
-											echo do_shortcode('[gmap address='.$add.']');
+											echo do_shortcode('[gmap address="'.$add.'"]');
 										}
 										elseif(($tab['property_description']=="[tab-area1]")&&($tab_data1!='')) {
 											echo do_shortcode($tab_data1);
@@ -619,6 +621,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 										{
 											$detailed_specs = array();
 										}
+										$detailed_specs = imic_filter_lang_specs($detailed_specs);
 										$category_rail = (isset($imic_options['category_rail']))?$imic_options['category_rail']:'0';
 										$additional_specs = (isset($imic_options['additional_specs']))?$imic_options['additional_specs']:'';
 										$additional_specs_all = get_post_meta($additional_specs,'specifications_value',true);
@@ -644,6 +647,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 											$badge_ids = imic_classified_badge_specs(get_the_ID(), $badge_ids);
 											$detailed_specs = imic_classified_short_specs(get_the_ID(), $detailed_specs);
 										}
+										$badge_ids = imic_filter_lang_specs($badge_ids);
 										$car_author = get_post_field( 'post_author', get_the_ID() );
 										$user_info_id = get_user_meta($car_author,'imic_user_info_id',true);
 										$author_role = get_option('blogname');
@@ -654,6 +658,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 										else { $author_role = get_option('blogname'); }
 										}
 										$specifications = get_post_meta(get_the_ID(),'feat_data',true);
+										$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, get_the_ID());
+										$highlighted_specs = $new_highlighted_specs;
 										$unique_value = imic_vehicle_price(get_the_ID(),$unique_specs,$specifications);
 										$highlight_value = imic_vehicle_title(get_the_ID(),$highlighted_specs,$specifications);
 										$details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);

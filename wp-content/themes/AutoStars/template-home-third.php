@@ -59,7 +59,7 @@ if($browse_specification_switch==4)
 					$vehicle_count = get_post_meta($id,'imic_home_vehicle_count',true);
 					$vehicle_title = get_post_meta($id,'imic_home_vehicle_title',true);
 					$vehicle_column = get_post_meta($id,'imic_home_vehicle_column',true);
-					$args_cars = array('post_type'=>'yachts','posts_per_page'=>$vehicle_count,'post_status'=>'publish','meta_query'=>array('relation' => 'AND',array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'='),array('key' => 'imic_plugin_listing_end_dt','value' => date('Y-m-d'),'compare' => '>=')));
+					$args_cars = array('post_type'=>'cars','posts_per_page'=>$vehicle_count,'post_status'=>'publish','meta_query'=>array('relation' => 'AND',array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'='),array('key' => 'imic_plugin_listing_end_dt','value' => date('Y-m-d'),'compare' => '>=')));
 					$cars_listing = new WP_Query( $args_cars );
 					if ( $cars_listing->have_posts() ) :
 					 ?>
@@ -114,6 +114,7 @@ if($browse_specification_switch==4)
 										{
 											$detailed_specs = array();
 										}
+										$detailed_specs = imic_filter_lang_specs($detailed_specs);
 										$category_rail = (isset($imic_options['category_rail']))?$imic_options['category_rail']:'0';
 										$additional_specs_all = get_post_meta($additional_specs,'specifications_value',true);
 										$highlighted_specs = (isset($imic_options['highlighted_specs']))?$imic_options['highlighted_specs']:array();
@@ -125,6 +126,7 @@ if($browse_specification_switch==4)
 											$badge_ids = imic_classified_badge_specs(get_the_ID(), $badge_ids);
 											$detailed_specs = imic_classified_short_specs(get_the_ID(), $detailed_specs);
 										}
+										$badge_ids = imic_filter_lang_specs($badge_ids);
 										$post_author_id = get_post_field( 'post_author', get_the_ID() );
 										$user_info_id = get_user_meta($post_author_id,'imic_user_info_id',true);
 										$car_pin = get_post_meta($user_info_id,'imic_user_lat_long',true);
@@ -142,6 +144,8 @@ if($browse_specification_switch==4)
 										$save3 = (isset($_SESSION['saved_vehicle_id3']))?$_SESSION['saved_vehicle_id3']:'';
 										$specifications = get_post_meta(get_the_ID(),'feat_data',true);
 										$unique_value = imic_vehicle_price(get_the_ID(),$unique_specs,$specifications);
+										$new_highlighted_specs = imic_filter_lang_specs_admin($highlighted_specs, get_the_ID());
+										$highlighted_specs = $new_highlighted_specs;
 										$highlight_value = imic_vehicle_title(get_the_ID(),$highlighted_specs,$specifications);
 										$details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
 										$badges = imic_vehicle_all_specs(get_the_ID(),$badge_ids,$specifications);
