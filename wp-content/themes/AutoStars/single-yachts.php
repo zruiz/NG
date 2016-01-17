@@ -119,66 +119,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                         <div class="btn btn-info price"><?php echo esc_attr($unique_value); ?></div>
                     </div>
                     <div class="row">
-                        <div class="col-md-8">
-                            <div class="single-listing-images">
-                            
-                            	<div class="listing-slider">
-                                    <div id="listing-images" class="flexslider format-gallery">
-                                    <?php $cars_images = get_post_meta(get_the_ID(),'imic_plugin_vehicle_images',false);
-									  if(empty($cars_images)) 
-									  { 
-										  $attachments = get_attached_media( 'image', get_the_ID() );
-										  if(!empty($attachments))
-										  {
-											  $cars_images = array();
-											  foreach($attachments as $attachment)
-											  {
-												  $cars_images[] = $attachment->ID;
-											  }
-										  }
-									  }?>
-                                      <ul class="slides">
-                                      	<?php foreach($cars_images as $car_image) { 
-											$image = wp_get_attachment_image_src($car_image,'1000x800','');
-											$image_full = wp_get_attachment_image_src($car_image,'full','');
-										?>
-                                        <?php if(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 0){
-											$Lightbox_init = '<li class="media-box"><a href="' .esc_url($image_full[0]). '" data-rel="prettyPhoto[grouped]">';
-										}elseif(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 1){
-											$Lightbox_init = '<li class="media-box"><a href="' .esc_url($image_full[0]). '" class="magnific-gallery-image">';
-										}
-										echo $Lightbox_init; ?><img src="<?php echo esc_url($image[0]); ?>" alt=""></a> </li>
-								  <?php } ?>
-                                      </ul>
-                                    </div>
-                                    <?php 
-									if(count($cars_images)>1) { ?>
-                                    <div class="additional-images">
-                                    <div id="listing-thumbs" class="flexslider">
-                                      <ul class="slides">
-                                      <?php $start = 1; foreach($cars_images as $car_image) { 
-											$image = wp_get_attachment_image_src($car_image,'400x400','');
-											$image_full = wp_get_attachment_image_src($car_image,'full','');
-											if($video!=''&&$start==1) {
-												if(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 0){
-											$Lightbox_init = '<li class="format-video"><a href="' .esc_url($video). '" data-rel="prettyPhoto[grouped]" class="media-box">';
-										}elseif(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 1){
-											$Lightbox_init = '<li class="format-video"><a href="' .esc_url($video). '" class="magnific-video media-box">';
-										}
-										echo $Lightbox_init;
-											echo '<img src="'.esc_url($image[0]).'" alt=""></a></li>'; } else { ?>
-									<li> <a href="<?php echo esc_url($image_full[0]); ?>" class="media-box"><img src="<?php echo esc_url($image[0]); ?>" alt=""></a> </li>
-								  <?php } $start++; } ?>
-                                      </ul>
-                                    </div></div><?php } ?>
-                                  </div>
-                            
-                            
-                            
-                            </div>
-                      	</div>
-                        
-                        <div class="col-md-4">
+                    	<div class="col-md-4">
                         <?php if((!empty($featured_specifications))&&($listing_details==0)) { ?>
                             <div class="sidebar-widget widget">
                                 <ul class="list-group">
@@ -320,9 +261,75 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             </div><?php } }
 							dynamic_sidebar($pageSidebar2); ?>
                         </div>
+                        <div class="col-md-8">
+                            <div class="single-listing-images">
+                            
+                            	<div class="listing-slider">
+                                    <div id="listing-images" class="flexslider format-gallery">
+                                    <?php $cars_images = get_post_meta(get_the_ID(),'imic_plugin_vehicle_images',false);
+									  if(empty($cars_images)) 
+									  { 
+										  $attachments = get_attached_media( 'image', get_the_ID() );
+										  if(!empty($attachments))
+										  {
+											  $cars_images = array();
+											  foreach($attachments as $attachment)
+											  {
+												  $cars_images[] = $attachment->ID;
+											  }
+										  }
+									  }?>
+                                      <ul class="slides">
+                                      	<?php foreach($cars_images as $car_image) { 
+											$image = wp_get_attachment_image_src($car_image,'1000x800','');
+											$image_full = wp_get_attachment_image_src($car_image,'full','');
+										?>
+                                        <?php if(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 0){
+											$Lightbox_init = '<li class="media-box"><a href="' .esc_url($image_full[0]). '" data-rel="prettyPhoto[grouped]">';
+										}elseif(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 1){
+											$Lightbox_init = '<li class="media-box"><a href="' .esc_url($image_full[0]). '" class="magnific-gallery-image">';
+										}
+										echo $Lightbox_init; ?><img src="<?php echo esc_url($image[0]); ?>" alt=""></a> </li>
+								  <?php } ?>
+                                      </ul>
+                                    </div>
+                                    <?php 
+									if(count($cars_images)>1) { ?>
+                                    <div class="additional-images">
+                                    <div id="listing-thumbs" class="flexslider">
+                                      <ul class="slides">
+                                      <?php $start = 1; foreach($cars_images as $car_image) { 
+											$image = wp_get_attachment_image_src($car_image,'400x400','');
+											$image_full = wp_get_attachment_image_src($car_image,'full','');
+											if($video!=''&&$start==1) {
+												if(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 0){
+											$Lightbox_init = '<li class="format-video"><a href="' .esc_url($video). '" data-rel="prettyPhoto[grouped]" class="media-box">';
+										}elseif(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 1){
+											$Lightbox_init = '<li class="format-video"><a href="' .esc_url($video). '" class="magnific-video media-box">';
+										}
+										echo $Lightbox_init;
+											echo '<img src="'.esc_url($image[0]).'" alt=""></a></li>'; } else { ?>
+									<li> <a href="<?php echo esc_url($image_full[0]); ?>" class="media-box"><img src="<?php echo esc_url($image[0]); ?>" alt=""></a> </li>
+								  <?php } $start++; } ?>
+                                      </ul>
+                                    </div></div><?php } ?>
+                                  </div>
+                            
+                            
+                            
+                            </div>
+                      	</div>
                    	</div>
                  	<div class="spacer-50"></div>
                     <div class="row">
+                    	<!-- Vehicle Details Sidebar -->
+                        <div class="col-md-4 vehicle-details-sidebar sidebar">
+                        	<div class="vehicle-enquiry-foot">
+                                    <span class="vehicle-enquiry-foot-ico"><i class="fa fa-phone"></i></span>
+                                    <strong><?php echo get_post_meta(get_the_ID(),'imic_plugin_contact_phone',true); ?></strong><?php echo esc_attr_e('Seller:','framework'); ?> <a href="<?php echo esc_url(get_author_posts_url($post_author_id)); ?>"><?php echo esc_attr($userName); ?></a>
+                                </div>
+                            <?php dynamic_sidebar($pageSidebar); ?>
+                        </div>
                     	<div class="col-md-8">
                             <div class="tabs vehicle-details-tabs">
                                 <ul class="nav nav-tabs">
@@ -714,14 +721,6 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     <?php endif; wp_reset_postdata(); ?>
                                                     
                        	</div>
-                        <!-- Vehicle Details Sidebar -->
-                        <div class="col-md-4 vehicle-details-sidebar sidebar">
-                        	<div class="vehicle-enquiry-foot">
-                                    <span class="vehicle-enquiry-foot-ico"><i class="fa fa-phone"></i></span>
-                                    <strong><?php echo get_post_meta(get_the_ID(),'imic_plugin_contact_phone',true); ?></strong><?php echo esc_attr_e('Seller:','framework'); ?> <a href="<?php echo esc_url(get_author_posts_url($post_author_id)); ?>"><?php echo esc_attr($userName); ?></a>
-                                </div>
-                            <?php dynamic_sidebar($pageSidebar); ?>
-                        </div>
                     </div>
                 </article>
                 <div class="clearfix"></div>
