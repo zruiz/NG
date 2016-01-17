@@ -58,6 +58,7 @@ $userName = $user_data->display_name;
 if(!empty($userFirstName) || !empty($userLastName)) {
 	$userName = $userFirstName .' '. $userLastName; 
 }
+$userEmail = $user_data->user_email;
 if($browse_specification_switch==1) {
 get_template_part('bar','one'); 
 } elseif($browse_specification_switch==2) {
@@ -326,11 +327,15 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                     <div class="row">
                     	<!-- Vehicle Details Sidebar -->
                         <div class="col-md-4 vehicle-details-sidebar sidebar">
+                        	<p><h3 class="widgettitle">Meet Your Broker</h3></p>
                         	<div class="vehicle-enquiry-foot">
                                     <span class="vehicle-enquiry-foot-ico"><i class="fa fa-phone"></i></span>
-                                    <strong><?php echo get_post_meta(get_the_ID(),'imic_plugin_contact_phone',true); ?></strong><?php echo esc_attr_e('Seller:','framework'); ?> <a href="<?php echo esc_url(get_author_posts_url($post_author_id)); ?>"><?php echo esc_attr($userName); ?></a>
-                                </div>
-                            <?php dynamic_sidebar($pageSidebar); ?>
+                                    <strong><?php echo get_post_meta(get_the_ID(),'imic_plugin_contact_phone',true); ?></strong></br>
+									<?php echo esc_attr_e('Broker Name:','framework'); ?> <a href="<?php echo esc_url(get_author_posts_url($post_author_id)); ?>"><?php echo esc_attr($userName); ?></a></br>
+                                    <?php echo esc_attr_e('Broker Email:','framework'); ?> <a href="<?php echo esc_url(get_author_posts_url($post_author_id)); ?>"><?php echo esc_attr($userEmail); ?></a></br></br>
+                                    <input type="button" data-toggle="modal" data-target="#offerModal" class="btn btn-primary" value="Make An Offer">
+                             </div>
+                             <?php dynamic_sidebar($pageSidebar); ?>
                         </div>
                     	<div class="col-md-8">
                             <div class="tabs vehicle-details-tabs">
