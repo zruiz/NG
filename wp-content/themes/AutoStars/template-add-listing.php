@@ -353,7 +353,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                     			<!-- AD LISTING FORM STEP ONE -->
                       			<div id="listing-add-form-one" class="tab-pane fade <?php echo ($active_tab1!='')?$active_tab1.' in':''; ?>">
                         			<h3><?php echo esc_attr_e('Enter your yacht details','framework'); ?></h3>
-                            		<div class="lighter"><p><?php echo esc_attr_e('Listing can be added with a starting point of choosing your yacht wither by searching listing using Shipyard, Model, Year or can add a completely unique listing.','framework'); ?></p></div>
+                            		<!-- <div class="lighter"><p><?php echo esc_attr_e('Listing can be added with a starting point of choosing your yacht wither by searching listing using Shipyard, Model, Year or can add a completely unique listing.','framework'); ?></p></div> -->
                                     <?php if($imic_options['ad_listing_fields']==0) { ?>
                                     <div class="spacer-10"></div>
                                     <?php } ?>
