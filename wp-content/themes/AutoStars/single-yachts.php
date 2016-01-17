@@ -123,6 +123,31 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                     </div>
                     <div class="row">
                     	<div class="col-md-4">
+                    		<div class="row">
+				                <div class="icon-actions">
+				                    <div class="col-lg-12 col-md-12 col-sm-12 cust-counter">
+				                         <a href="#" data-toggle="modal" data-target="#alertModal" class="" title="<?php echo esc_attr_e('Yacht Alerts','framework'); ?>">
+				                            <div class="fact-ico"> <i class="fa fa-map-marker fa-4x"></i> </div>
+				                            <div class="clearfix"></div>
+				                            <h4><?php echo esc_attr_e('YACHT ALERTS','framework'); ?></h4>
+				                        </a>
+				                    </div>
+				                    <div class="col-lg-12 col-md-12 col-sm-12 cust-counter">
+				                        <a href="#" data-toggle="modal" data-target="#tradeModal" class="" title="<?php echo esc_attr_e('Trade a Yacht','framework'); ?>">
+				                            <div class="fact-ico"> <i class="fa fa-file-o fa-4x"></i> </div>
+				                            <div class="clearfix"></div>
+				                            <h4><?php echo esc_attr_e('TRADE A YACHT','framework'); ?></h4>
+				                        </a>
+				                    </div>
+				                    <div class="col-lg-12 col-md-12 col-sm-12 cust-counter">
+				                        <a href="#" data-toggle="modal" data-target="#sellModal" class="" title="<?php echo esc_attr_e('Sell Your Yacht','framework'); ?>">
+				                            <div class="fact-ico"> <i class="fa fa-dollar fa-4x"></i> </div>
+				                            <div class="clearfix"></div>
+				                            <h4><?php echo esc_attr_e('SELL YOUR YACHT','framework'); ?></h4>
+				                        </a>
+				                    </div>
+				                </div>
+				            </div>
                         <?php if((!empty($featured_specifications))&&($listing_details==0)) { ?>
                             <div class="sidebar-widget widget">
                                 <ul class="list-group">
@@ -1118,6 +1143,294 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                     <div class="message"></div>
                 </form><?php } elseif($enquiry_form3==1) { echo do_shortcode($editor_form3); } ?>
            	</div>
+        </div>
+    </div>
+</div>
+<!-- YACHT ALERTS POPUP -->
+<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4><?php echo esc_attr_e('YACHT ALERTS','framework'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <p><?php echo esc_attr_e('We are the first to know when listings hit the market, and you can be too when you subscribe to our Yacht Alert. By filling out the form below, you will receive information on specific yachts matching your criteria that are just hitting the market; that puts you ahead of other buyers. We search industry listings, bank foreclosure inventory, boat shows, web sites, trade publications, and our professional networks for yachts that may not even be listed yet to find your ideal vessel. It is easy to use, always current, and you can input as much search criteria, as you like.','framework'); ?></p>
+                <form class="enquiry-vehicle">
+                <input type="hidden" name="email_content" value="enquiry_form">
+                <input type="hidden" name="Subject" id="subject" value="Yacht Alerts Request">
+                <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
+                <p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <p><?php echo esc_attr_e('YACHT INFORMATION','framework'); ?></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Make" class="form-control" placeholder="<?php echo esc_attr_e('Make','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Model" class="form-control" placeholder="<?php echo esc_attr_e('Model','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Size" class="form-control" placeholder="<?php echo esc_attr_e('Size','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Year" class="form-control" placeholder="<?php echo esc_attr_e('Year','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Engine" class="form-control" placeholder="<?php echo esc_attr_e('Engine','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Budget" class="form-control" placeholder="<?php echo esc_attr_e('Budget','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="email" name="Layout" class="form-control" placeholder="<?php echo esc_attr_e('Layout/Staterooms','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="email" name="Requests" class="form-control" placeholder="<?php echo esc_attr_e('Other requests','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary pull-right" value="<?php echo esc_attr_e('Subscribe','framework'); ?>">
+                    <label class="btn-block"><?php echo esc_attr_e('Preferred Contact','framework'); ?></label>
+                    <label class="checkbox-inline"><input name="Preferred Contact Email" value="yes" type="checkbox"> <?php echo esc_attr_e('Email','framework'); ?></label>
+                    <label class="checkbox-inline"><input name="Preferred Contact Phone" value="yes" type="checkbox"> <?php echo esc_attr_e('Phone','framework'); ?></label>
+                    <div class="message"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- TRADE YACHT POPUP -->
+<div class="modal fade" id="tradeModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4><?php echo esc_attr_e('TRADE A YACHT','framework'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <p><?php echo esc_attr_e('Complete the form below so that we can start helping you trade your Yacht!','framework'); ?></p>
+                <form class="enquiry-vehicle">
+                <input type="hidden" name="email_content" value="enquiry_form">
+                <input type="hidden" name="Subject" id="subject" value="Yacht Trade Request">
+                <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
+                <p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <p><?php echo esc_attr_e('YACHT INFORMATION','framework'); ?></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Make" class="form-control" placeholder="<?php echo esc_attr_e('Make','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Model" class="form-control" placeholder="<?php echo esc_attr_e('Model','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Size" class="form-control" placeholder="<?php echo esc_attr_e('Size','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Year" class="form-control" placeholder="<?php echo esc_attr_e('Year','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Engine" class="form-control" placeholder="<?php echo esc_attr_e('Engine','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="EngineHours" class="form-control" placeholder="<?php echo esc_attr_e('Engine Hours','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="email" name="Location" class="form-control" placeholder="<?php echo esc_attr_e('Slip Location','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary pull-right" value="<?php echo esc_attr_e('Submit','framework'); ?>">
+                    <label class="btn-block"><?php echo esc_attr_e('Preferred Contact','framework'); ?></label>
+                    <label class="checkbox-inline"><input name="Preferred Contact Email" value="yes" type="checkbox"> <?php echo esc_attr_e('Email','framework'); ?></label>
+                    <label class="checkbox-inline"><input name="Preferred Contact Phone" value="yes" type="checkbox"> <?php echo esc_attr_e('Phone','framework'); ?></label>
+                    <div class="message"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SELL YACHT POPUP -->
+<div class="modal fade" id="sellModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4><?php echo esc_attr_e('SELL YOUR YACHT','framework'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <p><?php echo esc_attr_e('Complete the form below so that we can start helping you sell your Yacht!','framework'); ?></p>
+                <form class="enquiry-vehicle">
+                <input type="hidden" name="email_content" value="enquiry_form">
+                <input type="hidden" name="Subject" id="subject" value="Yacht Sell Request">
+                <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
+                <p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <p><?php echo esc_attr_e('YACHT INFORMATION','framework'); ?></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Make" class="form-control" placeholder="<?php echo esc_attr_e('Make','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Model" class="form-control" placeholder="<?php echo esc_attr_e('Model','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Size" class="form-control" placeholder="<?php echo esc_attr_e('Size','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Year" class="form-control" placeholder="<?php echo esc_attr_e('Year','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Engine" class="form-control" placeholder="<?php echo esc_attr_e('Engine','framework'); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="EngineHours" class="form-control" placeholder="<?php echo esc_attr_e('Engine Hours','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="email" name="Location" class="form-control" placeholder="<?php echo esc_attr_e('Slip Location','framework'); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary pull-right" value="<?php echo esc_attr_e('Submit','framework'); ?>">
+                    <label class="btn-block"><?php echo esc_attr_e('Preferred Contact','framework'); ?></label>
+                    <label class="checkbox-inline"><input name="Preferred Contact Email" value="yes" type="checkbox"> <?php echo esc_attr_e('Email','framework'); ?></label>
+                    <label class="checkbox-inline"><input name="Preferred Contact Phone" value="yes" type="checkbox"> <?php echo esc_attr_e('Phone','framework'); ?></label>
+                    <div class="message"></div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

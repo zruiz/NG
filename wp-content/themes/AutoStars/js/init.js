@@ -833,7 +833,7 @@ $(window).load(function(){
 	});
 	AUTOSTARS.StickyHeader();
 });
-$(".cust-counter" ).wrapAll( "<section class=\"counters accent-color text-align-center\"><div class=\"container\"><div class=\"row\">");
+$(".cust-counter" ).wrapAll( "<section class=\"counters accent-color text-align-center\"><div class=\"\"><div class=\"row\">");
 // Icon Append
 $('.basic-link, .categorty-browse-col ul ul li').append(' <i class="fa fa-angle-right"></i>');
 $('.basic-link.backward').prepend(' <i class="fa fa-angle-left"></i> ');
