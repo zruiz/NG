@@ -918,7 +918,7 @@ $cars_listing = new WP_Query( $args_cars );
                 <h4><?php echo esc_attr_e('YACHT ALERTS','framework'); ?></h4>
             </div>
             <div class="modal-body">
-                <p><?php echo esc_attr_e('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis egestas rhoncus. Donec facilisis fermentum sem, ac viverra ante luctus vel. Donec vel mauris quam.','framework'); ?></p>
+                <p><?php echo esc_attr_e('We are the first to know when listings hit the market, and you can be too when you subscribe to our Yacht Alert. By filling out the form below, you will receive information on specific yachts matching your criteria that are just hitting the market; that puts you ahead of other buyers. We search industry listings, bank foreclosure inventory, boat shows, web sites, trade publications, and our professional networks for yachts that may not even be listed yet to find your ideal vessel. It is easy to use, always current, and you can input as much search criteria, as you like.','framework'); ?></p>
                 <form class="enquiry-vehicle">
                 <input type="hidden" name="email_content" value="enquiry_form">
                 <input type="hidden" name="Subject" id="subject" value="Yacht Alerts Request">
@@ -960,7 +960,7 @@ $cars_listing = new WP_Query( $args_cars );
                 <h4><?php echo esc_attr_e('TRADE A YACHT','framework'); ?></h4>
             </div>
             <div class="modal-body">
-                <p><?php echo esc_attr_e('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis egestas rhoncus. Donec facilisis fermentum sem, ac viverra ante luctus vel. Donec vel mauris quam.','framework'); ?></p>
+                <p><?php echo esc_attr_e('Complete the form below so that we can start helping you trade your Yacht!','framework'); ?></p>
                 <form class="enquiry-vehicle">
                 <input type="hidden" name="email_content" value="enquiry_form">
                 <input type="hidden" name="Subject" id="subject" value="Yacht Trade Request">
@@ -1002,7 +1002,7 @@ $cars_listing = new WP_Query( $args_cars );
                 <h4><?php echo esc_attr_e('SALE YOUR YACHT','framework'); ?></h4>
             </div>
             <div class="modal-body">
-                <p><?php echo esc_attr_e('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis egestas rhoncus. Donec facilisis fermentum sem, ac viverra ante luctus vel. Donec vel mauris quam.','framework'); ?></p>
+                <p><?php echo esc_attr_e('Complete the form below so that we can start helping you sell your Yacht!','framework'); ?></p>
                 <form class="enquiry-vehicle">
                 <input type="hidden" name="email_content" value="enquiry_form">
                 <input type="hidden" name="Subject" id="subject" value="Yacht Sale Request">
