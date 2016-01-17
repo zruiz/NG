@@ -3440,7 +3440,11 @@ body.boxed .is-sticky .actions-bar{
   top: 9px;
 }
 .single-vehicle-title{
-	border-bottom:1px solid #ddd;
+	/*border-bottom:1px solid #ddd;*/
+}
+.single-vehicle-details .head-title{
+	border-bottom: 4px solid #F9F9F9;
+	margin-bottom:25px;
 }
 .single-vehicle-details .btn-info.price{
 	padding:0 5px;
@@ -3449,9 +3453,9 @@ body.boxed .is-sticky .actions-bar{
 	font-size:22px;
 }
 .single-listing-actions{
-	border-top:4px solid #F9F9F9;
-	padding-top:20px;
-	margin-bottom:45px;
+	/*border-top:4px solid #F9F9F9;*/
+	padding-top:10px;
+	margin-bottom:65px;
 }
 .single-listing-actions .badge-premium-listing{
 	display:none;

@@ -102,12 +102,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
         	<div class="container">
             	<!-- Vehicle Details -->
                 <article class="single-vehicle-details">
-                    <div class="single-vehicle-title">
-                    <?php if($plan_premium==1) { ?>
-                        <span class="badge-premium-listing"><?php echo esc_attr_e('Premium listing','framework'); ?></span><?php } ?>
-                        <h2 class="post-title"><?php echo esc_attr($highlight_value); ?></h2>
-                    </div>
-                    <div class="single-listing-actions">
+                	<div class="single-listing-actions">
                         <div class="btn-group pull-right" role="group">
                             <a href="#" data-toggle="modal" data-target="#infoModal" class="btn btn-default" title="<?php echo esc_attr_e('The Purchasing Process','framework'); ?>"><i class="fa fa-info"></i> <span><?php echo esc_attr_e('The Purchasing Process','framework'); ?></span></a><?php } if($enquiry_form2!=2) { ?>
                             <a href="#" data-toggle="modal" data-target="#financingModal" class="btn btn-default" title="<?php echo esc_attr_e('Financing','framework'); ?>"><i class="fa fa-dollar"></i> <span><?php echo esc_attr_e('Financing','framework'); ?></span></a><?php } if($enquiry_form3!=2) { ?>
@@ -119,8 +114,15 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <a <?php echo esc_attr($save_icon_disable); ?> href="#" rel="popup-save" class="btn btn-default save-car" title="<?php echo esc_attr_e('Save this listing','framework'); ?>"><i class="fa <?php echo esc_attr($save_icon); ?>"></i> <span><?php echo esc_attr_e('Save this listing','framework'); ?></span><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div></a><?php if($enquiry_form1!=2) { ?>
                             <a href="javascript:void(0)" onclick="window.print();" class="btn btn-default" title="<?php echo esc_attr_e('Print','framework'); ?>"><i class="fa fa-print"></i> <span><?php echo esc_attr_e('Print','framework'); ?></span></a>
                         </div>
-                        <div class="btn btn-info price"><?php echo esc_attr($unique_value); ?></div>
                     </div>
+                	<div class="row head-title">
+	                    <div class="single-vehicle-title col-md-10">
+	                    <?php if($plan_premium==1) { ?>
+	                        <span class="badge-premium-listing"><?php echo esc_attr_e('Premium listing','framework'); ?></span><?php } ?>
+	                        <h2 class="post-title"><?php echo esc_attr($highlight_value); ?></h2>
+	                    </div>
+	                    <div class="btn btn-info price col-md-2"><?php echo esc_attr($unique_value); ?></div>
+	                </div>
                     <div class="row">
                     	<div class="col-md-4">
                     		<div class="row">
