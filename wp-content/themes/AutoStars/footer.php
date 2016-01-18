@@ -33,7 +33,7 @@ global $imic_options;
         </div>
     </footer>
 <a id="back-to-top"><i class="fa fa-angle-double-up"></i></a>  
-<div class="modal fade" id="PaymentModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="PaymentModalLabel" aria-hidden="true">
+<div class="modal fade register-modal" id="PaymentModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="PaymentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
     <div class="modal-content" style="top:150px;">
         <div class="modal-header">
