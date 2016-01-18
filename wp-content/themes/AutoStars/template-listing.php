@@ -284,8 +284,8 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                         <?php $sorting_specs = get_post_meta(get_the_ID(),'imic_sort_by_specification',false); ?>   
                         <ul class="dropdown-menu sorter">
                         <?php foreach($sorting_specs as $sort) { ?>
-                            <li class="sort-para"><div style="display:none;"><span class="price-var"><?php echo esc_attr("int_".imic_the_slug($sort)); ?></span><span class="price-val"><?php echo esc_attr(1000000000); ?></span><span class="price-order"><?php _e('DESC','framework'); ?></span></div><a href="javascript:void(0);"><?php echo get_the_title($sort); _e('(High to Low)','framework'); ?></a></li>
-                            <li class="sort-para"><div style="display:none;"><span class="price-var"><?php echo esc_attr("int_".imic_the_slug($sort)); ?></span><span class="price-val"><?php echo esc_attr(1000000000); ?></span><span class="price-order"><?php _e('ASC','framework'); ?></span></div><a href="javascript:void(0);"><?php echo get_the_title($sort); _e('(Low to Hight)','framework'); ?></a></li>
+                            <li class="sort-para"><div style="display:none;"><span class="price-var"><?php echo esc_attr("int_".imic_the_slug($sort)); ?></span><span class="price-val"><?php echo esc_attr(1000000000); ?></span><span class="price-order"><?php _e('DESC','framework'); ?></span></div><a href="javascript:void(0);"><?php echo get_the_title($sort); _e(' (High to Low)','framework'); ?></a></li>
+                            <li class="sort-para"><div style="display:none;"><span class="price-var"><?php echo esc_attr("int_".imic_the_slug($sort)); ?></span><span class="price-val"><?php echo esc_attr(1000000000); ?></span><span class="price-order"><?php _e('ASC','framework'); ?></span></div><a href="javascript:void(0);"><?php echo get_the_title($sort); _e(' (Low to Hight)','framework'); ?></a></li>
                         <?php } ?>
                         </ul>
                     </div>

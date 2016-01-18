@@ -147,9 +147,9 @@ $meta_box = array(
     'std' => 1,
         ),
         array(
-            'name' => __('Show for vehicle edit', 'framework'),
+            'name' => __('Show for listing edit', 'framework'),
             'id' => $prefix . 'show_for_vehicle',
-            'desc' => __("Select whether to display this as custom field while editing listing from the wp-dashboard > Yachts.", 'framework'),
+            'desc' => __("Select whether to display this as custom field while editing listing from the wp-dashboard > Listings.", 'framework'),
             'type' => 'select',
             'options' => array(
         '1' => __('Yes', 'framework'),
