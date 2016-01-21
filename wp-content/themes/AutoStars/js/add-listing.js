@@ -557,6 +557,7 @@ jQuery(".tabs-listing").live("click", function(){
 				var $vehicle_ids = jQuery("#vehicle-id").attr("class");
 				var $url_thank = imic_update_url("edit",$vehicle_ids,$form_action);
 				jQuery('#uploadfrm').attr('action', $url_thank);
+				console.log($url_thank);
 			}
 			jQuery("#loading-listing-save").show();
 			var $query_vars_val = getUrlParams_ads();
