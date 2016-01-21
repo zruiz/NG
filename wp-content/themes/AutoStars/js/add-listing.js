@@ -580,7 +580,7 @@ jQuery(".tabs-listing").live("click", function(){
 			success: function(data) {
 				jQuery("#loading-listing-save").hide();
 			},
-			erro: function(errorThrown) {
+			error: function(errorThrown) {
 				
 			}
 		}); }
