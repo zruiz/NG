@@ -10,8 +10,8 @@ $numeric_specs_type = (isset($imic_options['integer_specs_type']))?$imic_options
 <!-- Search Form -->
         <div class="floated">
             <div class="search-form">
-          		<h2><?php echo esc_attr_e('Looking for a used or new yacht?','framework'); ?></h2>
-                <p><?php echo esc_attr_e('Our range of listings is capable of finding every possible yacht you like to buy.','framework'); ?></p>
+          		<h2><?php echo esc_attr_e('World’s Leading European Yacht Sales Specialist','framework'); ?></h2>
+                <p><?php echo esc_attr_e('Your membership to private sales, bank owned yachts, trades and more…','framework'); ?></p>
                 <div class="search-form-inner">
                     <form method="get" action="<?php echo esc_url($listing_url); ?>" class="searchoneform">
                     <input type="hidden" value="<?php echo esc_attr($listing_id); ?>" name="page_id">

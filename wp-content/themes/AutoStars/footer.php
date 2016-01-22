@@ -66,7 +66,7 @@ global $imic_options;
                     </div><div class="clearfix"></div><br/>
                     <a href="#" class="member-trigger"><?php echo esc_attr_e('BECOME A MEMBER','framework'); ?> <i class="fa fa-arrow-down"></i></a>
                     <p>
-                       Get full access. Email verification required. 
+                       Become a member and start enjoying access to all yacht listing including bank owned yachts, trades, shipyards inventory and private sales. 
                     </p>
                     <div class="member-row" style="display:none;">
                         <?php 
