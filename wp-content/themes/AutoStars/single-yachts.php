@@ -59,6 +59,7 @@ if(!empty($userFirstName) || !empty($userLastName)) {
 	$userName = $userFirstName .' '. $userLastName; 
 }
 $userEmail = $user_data->user_email;
+$userPhone = $user_data->user_phone;
 if($browse_specification_switch==1) {
 get_template_part('bar','one'); 
 } elseif($browse_specification_switch==2) {
@@ -774,12 +775,12 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
             <?php if($enquiry_form1==0) { ?>
             	<div class="tabs">
 	              <ul class="nav nav-tabs">
-	                <li class="active"> <a data-toggle="tab" href="#tab1"> <?php echo esc_attr_e('The Purchasing Process','framework'); ?> </a> </li>
-	                <li> <a data-toggle="tab" href="#tab2"> <?php echo esc_attr_e('Offer and Survey','framework'); ?> </a> </li>
-	                <li> <a data-toggle="tab" href="#tab3"> <?php echo esc_attr_e('Closing and Importation','framework'); ?> </a> </li>
+	                <li class="active"> <a data-toggle="tab" href="#tab7"> <?php echo esc_attr_e('The Purchasing Process','framework'); ?> </a> </li>
+	                <li> <a data-toggle="tab" href="#tab8"> <?php echo esc_attr_e('Offer and Survey','framework'); ?> </a> </li>
+	                <li> <a data-toggle="tab" href="#tab9"> <?php echo esc_attr_e('Closing and Importation','framework'); ?> </a> </li>
 	              </ul>
 	              <div class="tab-content">
-	                <div class="tab-pane active" id="tab1">
+	                <div class="tab-pane active" id="tab7">
 	                	<p style="margin: 10px 0 18px 0;"><?php echo esc_attr_e('Purchasing a Yacht is a step by step process that if followed carrefully will be swift and efficient and will guaranty you legal protection all the way through closing. We are using Documentation agents, maritime attorneys, custom brokers and marine surveyors to ensure all our deals are easy for our customers and that the only requirement will be to enjoy your new Yacht!','framework'); ?></p>
 	                	<!-- <p><?php echo esc_attr_e('Complete the form below so that we can start helping you sell your Yacht!','framework'); ?></p> -->
 	                	<form class="enquiry-vehicle">
@@ -789,19 +790,31 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 			                <p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
 			                    <div class="input-group">
 			                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-			                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+			                        <?php if(is_user_logged_in()) { ?>
+			                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+			                         <?php } else { ?>
+			                         	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+			                    	<?php } ?>
 			                    </div>
 			                    <div class="row">
 			                    	<div class="col-md-6">
 			                            <div class="input-group">
 			                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-			                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+			                                 <?php if(is_user_logged_in()) { ?>
+					                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+					                         <?php } else { ?>
+			                                 <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+			                            	 <?php } ?>
 			                            </div>
 			                      	</div>
 			                    	<div class="col-md-6">
 			                            <div class="input-group">
 			                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+			                                <?php if(is_user_logged_in()) { ?>
+					                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+					                         <?php } else { ?>
 			                                <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+			                            	<?php } ?>
 			                            </div>
 			                      	</div>
 			                   	</div>
@@ -863,11 +876,11 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 			                    <div class="message"></div>
 			                </form>
 	                </div>
-                	<div class="tab-pane" id="tab2">
+                	<div class="tab-pane" id="tab8">
                 		<p style="margin: 10px 0 18px 0;"><?php echo esc_attr_e('Once you have determined and found the yacht you are looking for we will present a written offer to the yacht owner and negotiate an agreeable purchase price. Our contracts are FYBA or MYBA contracts to ensure a standard and protected legal process. Once your offer is accepted a deposit must be held into an escrow account ( this can be either our escrow account or a third party legally recognized escrow account) and survey can be organized at this moment.','framework'); ?></p>
                 		<p><?php echo esc_attr_e('Surveying the yacht you are purchasing is the most important process, we are helping you organize this step by offering our help in finding suitable surveyors as well as shipyard for haul out in the area where the yacht is based. A typical survey will include, a hull survey including out of the water and running gear survey. It will also include a interior and systems check survey completed with a mechanical survey and sea trial to determine the engine worthiness and eventual issues that need to be adressed before closing the deal.','framework'); ?></p>
                 	</div>
-                	<div class="tab-pane" id="tab3">
+                	<div class="tab-pane" id="tab9">
                 		<p style="margin: 10px 0 18px 0;"><?php echo esc_attr_e('Once the yacht passed survey and all details have been negotiated, meaning if during the survey we found items that need to be fixed and paid for we will have the opportunity to condition our acceptance upon these contengencies…Then we will start the closing process. Closing will be orchestrated either by a Maritime Attorney you will hire or directly with us. Some distinctions will need to be discussed for ownership and sales taxes. We have many different scenario we can suggest and will alsways look for the best suitable solution. Typically closing will take 2 to 3 weeks on standard oversea closings and sometime more in some circumstances with banks involved. Once the ownership transfer is legal all funds disbursed and yacht under your care we will be able to ship and import the yacht wherever you wish to call her Home.','framework'); ?></p>
                 		<p><?php echo esc_attr_e('Our Shipping Brokers will be able to find the right logistical solutions and working hand in hand with our custom brokers we will organize all the legal requirements for your yacht importation. Typically in USA if you are importaing a yacht from a foreign country, you will have a choice between using a foreign flag and running your yacht in US waters under a Cruising License or pay the importation Duties ( 1,5% of yacht value and shipping cost). Having a “Duty Paid” vessel in USA will allow you to sell and Charter your yacht in USA to any residents or non-resident customer. Having a yacht under a cruising License will only allow you to sell or your yacht “while in US waters” to a NON-US resident customer. This last point is under debate between several Yacht Broker Association and US congress to be able to pay the duty at closing and still allow a US resident to purchase a “Duty Not Paid” Yacht while in US waters…We will be the first to let you know if course!','framework'); ?></p>
                 	</div>
@@ -950,21 +963,33 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                 <input type="hidden" name="email_content" value="enquiry_form">
 				<input type="hidden" name="Subject" id="subject" value="<?php echo esc_attr_e('Financing','framework'); ?>">
                 <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
-                    <div class="input-group">
+                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                        <?php if(is_user_logged_in()) { ?>
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                         <?php } else { ?>
+                         	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                    	<?php } ?>
                     </div>
                     <div class="row">
                     	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                                 <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                         <?php } else { ?>
+                                 <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                            	 <?php } ?>
                             </div>
                       	</div>
                     	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                            	<?php } ?>
                             </div>
                       	</div>
                    	</div>
@@ -1006,24 +1031,36 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                 <input type="hidden" name="email_content" value="enquiry_form">
 				<input type="hidden" name="Subject" id="subject" value="<?php echo esc_attr_e('Financing','framework'); ?>">
                 <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
-                    </div>
-                    <div class="row">
-                    	<div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
-                            </div>
-                      	</div>
-                    	<div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
-                            </div>
-                      	</div>
-                   	</div>
+                     <div class="input-group">
+	                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+	                    <?php if(is_user_logged_in()) { ?>
+	                    	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+	                     <?php } else { ?>
+	                     	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+	                	<?php } ?>
+	                </div>
+	                <div class="row">
+	                	<div class="col-md-6">
+	                        <div class="input-group">
+	                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+	                             <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                         <?php } else { ?>
+	                             <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+	                        	 <?php } ?>
+	                        </div>
+	                  	</div>
+	                	<div class="col-md-6">
+	                        <div class="input-group">
+	                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+	                            <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                         <?php } else { ?>
+	                            <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+	                        	<?php } ?>
+	                        </div>
+	                  	</div>
+	               	</div>
                    	<div class="row">
                     	<div class="col-md-6">
                             <div class="input-group">
@@ -1071,21 +1108,33 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 				<input type="hidden" name="Subject" id="subject" value="<?php echo esc_attr_e('Electrical Conversion','framework'); ?>">
                 <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
                 	<p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
-                    <div class="input-group">
+                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                        <?php if(is_user_logged_in()) { ?>
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                         <?php } else { ?>
+                         	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                    	<?php } ?>
                     </div>
                     <div class="row">
                     	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                                 <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                         <?php } else { ?>
+                                 <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                            	 <?php } ?>
                             </div>
                       	</div>
                     	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                            	<?php } ?>
                             </div>
                       	</div>
                    	</div>
@@ -1157,21 +1206,33 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 				<input type="hidden" name="Subject" id="subject" value="<?php echo esc_attr_e('Shipping','framework'); ?>">
                 <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
                 <p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
-                    <div class="input-group">
+                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                        <?php if(is_user_logged_in()) { ?>
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                         <?php } else { ?>
+                         	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                    	<?php } ?>
                     </div>
                     <div class="row">
                     	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                                 <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                         <?php } else { ?>
+                                 <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                            	 <?php } ?>
                             </div>
                       	</div>
                     	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                            	<?php } ?>
                             </div>
                       	</div>
                    	</div>
@@ -1229,24 +1290,36 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 				<input type="hidden" name="Subject" id="subject" value="<?php echo esc_attr_e('Make an offer','framework'); ?>">
                 <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
                 	<p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
-                    </div>
-                    <div class="row">
-                    	<div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
-                            </div>
-                      	</div>
-                    	<div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
-                            </div>
-                      	</div>
-                   	</div>
+                     <div class="input-group">
+	                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+	                    <?php if(is_user_logged_in()) { ?>
+	                    	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+	                     <?php } else { ?>
+	                     	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+	                	<?php } ?>
+	                </div>
+	                <div class="row">
+	                	<div class="col-md-6">
+	                        <div class="input-group">
+	                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+	                             <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                         <?php } else { ?>
+	                             <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+	                        	 <?php } ?>
+	                        </div>
+	                  	</div>
+	                	<div class="col-md-6">
+	                        <div class="input-group">
+	                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+	                            <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                         <?php } else { ?>
+	                            <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+	                        	<?php } ?>
+	                        </div>
+	                  	</div>
+	               	</div>
                     <div class="row">
                     	<div class="col-md-6">
                             <div class="input-group">
@@ -1333,21 +1406,33 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 				<input type="hidden" name="Subject" id="subject" value="<?php echo esc_attr_e('Request a Brochure','framework'); ?>">
                 <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
                 	<p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
-                    <div class="input-group">
+                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                        <?php if(is_user_logged_in()) { ?>
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                         <?php } else { ?>
+                         	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                    	<?php } ?>
                     </div>
                     <div class="row">
                     	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                                 <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                         <?php } else { ?>
+                                 <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                            	 <?php } ?>
                             </div>
                       	</div>
                     	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                            	<?php } ?>
                             </div>
                       	</div>
                    	</div>
@@ -1418,24 +1503,36 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                 <input type="hidden" name="Subject" id="subject" value="Yacht Alerts Request">
                 <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
                 <p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
-                    <div class="input-group">
+                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                        <?php if(is_user_logged_in()) { ?>
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                         <?php } else { ?>
+                         	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                    	<?php } ?>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                    	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                                 <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                         <?php } else { ?>
+                                 <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                            	 <?php } ?>
                             </div>
-                        </div>
-                        <div class="col-md-6">
+                      	</div>
+                    	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                            	<?php } ?>
                             </div>
-                        </div>
-                    </div>
+                      	</div>
+                   	</div>
                     <p><?php echo esc_attr_e('YACHT INFORMATION','framework'); ?></p>
                     <div class="row">
                         <div class="col-md-6">
@@ -1519,24 +1616,36 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                 <input type="hidden" name="Subject" id="subject" value="Yacht Trade Request">
                 <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
                 <p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
-                    <div class="input-group">
+                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                        <?php if(is_user_logged_in()) { ?>
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                         <?php } else { ?>
+                         	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                    	<?php } ?>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                    	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                                 <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                         <?php } else { ?>
+                                 <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                            	 <?php } ?>
                             </div>
-                        </div>
-                        <div class="col-md-6">
+                      	</div>
+                    	<div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                            	<?php } ?>
                             </div>
-                        </div>
-                    </div>
+                      	</div>
+                   	</div>
                     <p><?php echo esc_attr_e('YACHT INFORMATION','framework'); ?></p>
                     <div class="row">
                         <div class="col-md-6">
@@ -1622,24 +1731,36 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 		                <input type="hidden" name="Subject" id="subject" value="Yacht Sell Request">
 		                <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
 		                <p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
-		                    <div class="input-group">
+		                     <div class="input-group">
 		                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
-		                        <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+		                        <?php if(is_user_logged_in()) { ?>
+		                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+		                         <?php } else { ?>
+		                         	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+		                    	<?php } ?>
 		                    </div>
 		                    <div class="row">
-		                        <div class="col-md-6">
+		                    	<div class="col-md-6">
 		                            <div class="input-group">
 		                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-		                                <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+		                                 <?php if(is_user_logged_in()) { ?>
+				                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+				                         <?php } else { ?>
+		                                 <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+		                            	 <?php } ?>
 		                            </div>
-		                        </div>
-		                        <div class="col-md-6">
+		                      	</div>
+		                    	<div class="col-md-6">
 		                            <div class="input-group">
 		                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+		                                <?php if(is_user_logged_in()) { ?>
+				                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+				                         <?php } else { ?>
 		                                <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+		                            	<?php } ?>
 		                            </div>
-		                        </div>
-		                    </div>
+		                      	</div>
+		                   	</div>
 		                    <p><?php echo esc_attr_e('YACHT INFORMATION','framework'); ?></p>
 		                    <div class="row">
 		                        <div class="col-md-6">
