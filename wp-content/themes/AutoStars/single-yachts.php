@@ -851,8 +851,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 			                    <div class="row">
 			                        <div class="col-md-6">
 			                            <div class="input-group">
-			                                <span class="input-group-addon"><i class="fa fa-map-maker"></i></span>
-			                                <input type="text" name="Location" class="form-control" placeholder="<?php echo esc_attr_e('Slip Location','framework'); ?>">
+			                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+			                                <input type="text" name="Location" class="form-control" placeholder="<?php echo esc_attr_e('Yacht Location','framework'); ?>">
 			                            </div>
 			                        </div>
 			                    </div>
