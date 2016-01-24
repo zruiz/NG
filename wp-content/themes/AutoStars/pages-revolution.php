@@ -16,7 +16,7 @@ $numeric_specs_type = (isset($imic_options['integer_specs_type']))?$imic_options
                     <form method="get" action="<?php echo esc_url($listing_url); ?>" class="searchoneform">
                     <input type="hidden" value="<?php echo esc_attr($listing_id); ?>" name="page_id">
                     	<div class="input-group input-group-lg">
-      						<input type="text" value="" class="form-control" name="specification-search" placeholder="<?php echo esc_attr_e('Enter zip, brand, model..','framework'); ?>">
+      						<input type="text" value="" class="form-control" name="specification-search" placeholder="<?php echo esc_attr_e('Enter brand, model, name of yacht..','framework'); ?>">
                         	<span class="input-group-btn">
         						<button class="btn btn-primary" type="submit"><?php echo esc_attr_e('Search','framework'); ?></button>
       						</span>
