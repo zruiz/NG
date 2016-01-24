@@ -107,7 +107,7 @@ if (!function_exists('imic_enqueue_scripts')) {
 				$mortgage_message = __('Please fill all fields', 'framework');
 				$enquiry_email_msg = __('Please enter Email', 'framework');
 				$enquiry_form_sending = __('Sending Information...', 'framework');
-				$enquiry_form_success = __('Details forwarded to dealer', 'framework');
+				$enquiry_form_success = __('Details forwarded to specialist', 'framework');
 				$exceed_msg = __('You can not select more than 3 listings to compare', 'framework');
 				$compares = __('Compare ', 'framework');
 				$already_saved = __('You have already saved this search', 'framework');
