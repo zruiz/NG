@@ -2334,7 +2334,7 @@ function imic_reset_password(){
                     $body = esc_attr__('Please use this verification code to reset password', 'framework');
                     $body .= esc_attr__('Verification Code', 'framework').' '.$user_verification_get;
                     wp_mail( $to, $subject, $body );
-                    echo json_encode(array('valid'=>true, 'message'=>__('Please insert verification code, which you recieved in above email.','framework')));
+                    echo json_encode(array('valid'=>true, 'message'=>__('Please insert verification code, which you received in above email.','framework')));
                 }
                 else
                 {
