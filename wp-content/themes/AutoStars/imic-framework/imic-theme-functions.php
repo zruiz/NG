@@ -1379,7 +1379,7 @@ foreach($data as $key=>$value)
                     ?>
                     <div class="text-align-center error-404">
                         <hr class="sm">
-                        <p><strong><?php echo esc_attr_e('Sorry - No listing found for this criteria1.','framework'); ?></strong></p>
+                        <p><strong><?php echo esc_attr_e('Sorry - No listing found for this criteria.','framework'); ?></strong></p>
                         <p><?php echo esc_attr_e('Please search again with different filters.','framework'); ?></p>
                         <script> jQuery('#noresultsModal').modal('show');</script>
                     </div>
