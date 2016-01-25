@@ -251,6 +251,8 @@ function getUrlVars()
 				jQuery(".format-standard").each(function(){
 					jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
 				});
+
+				jQuery('input[name=' + $query_var + ']').val($query_val);
             },
             error: function(errorThrown) {
             }

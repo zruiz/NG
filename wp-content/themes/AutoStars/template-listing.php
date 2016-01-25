@@ -405,11 +405,6 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                     $userName = $userFirstName .' '. $userLastName; 
                 }
                 $userEmail = $user_data->user_email;
-                $brand = (isset($_GET['brand']))?$_GET['brand']:'';
-                $model = (isset($_GET['model']))?$_GET['model']:'';
-                $size = (isset($_GET['range_size']))?$_GET['range_size']:'';
-                $enginebrand = (isset($_GET['engine-brand']))?$_GET['engine-brand']:'';
-                $year = (isset($_GET['builder-year']))?$_GET['builder-year']:'';
             ?>
             <div class="row">
                 <div class="icon-actions" style="padding-bottom: 20px;">
@@ -1073,27 +1068,13 @@ $cars_listing = new WP_Query( $args_cars );
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                        <input type="text" name="Make" class="form-control" placeholder="<?php echo esc_attr_e('Make','framework'); ?>" value="<?php echo esc_attr($brand); ?>">
+                                        <input type="text" name="brand" class="form-control" placeholder="<?php echo esc_attr_e('Make','framework'); ?>" value="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                        <input type="text" name="Model" class="form-control" placeholder="<?php echo esc_attr_e('Model','framework'); ?>" value="<?php echo esc_attr($model); ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                        <input type="text" name="Size" class="form-control" placeholder="<?php echo esc_attr_e('Size','framework'); ?>" value="<?php echo esc_attr($size); ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                        <input type="text" name="Year" class="form-control" placeholder="<?php echo esc_attr_e('Year','framework'); ?>" value="<?php echo esc_attr($year); ?>">
+                                        <input type="text" name="model" class="form-control" placeholder="<?php echo esc_attr_e('Model','framework'); ?>" value="">
                                     </div>
                                 </div>
                             </div>
@@ -1101,7 +1082,21 @@ $cars_listing = new WP_Query( $args_cars );
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                        <input type="text" name="Engine" class="form-control" placeholder="<?php echo esc_attr_e('Engine','framework'); ?>" value="<?php echo esc_attr($enginebrand); ?>">
+                                        <input type="text" name="range_size" class="form-control" placeholder="<?php echo esc_attr_e('Size','framework'); ?>" value="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                        <input type="text" name="builder-year" class="form-control" placeholder="<?php echo esc_attr_e('Year','framework'); ?>" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                        <input type="text" name="engine-brand" class="form-control" placeholder="<?php echo esc_attr_e('Engine','framework'); ?>" value="">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

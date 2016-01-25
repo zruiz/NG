@@ -1356,27 +1356,7 @@ foreach($data as $key=>$value)
                                             </div>
                                         </div>
                                         <?php endwhile; else: ?>
-                    <?php 
-                        $user_id = get_current_user_id( );
-                        $user_info_id = get_user_meta($user_id,'imic_user_info_id',true);
-                        $post_author_id = get_post_field( 'post_author', $user_id);
-                        $userFirstName = get_the_author_meta('first_name', $post_author_id);
-                        $userLastName = get_the_author_meta('last_name', $post_author_id);
-                        $user_data = get_userdata(intval($post_author_id));
-                        $userName = $user_data->display_name;
-                        if(!empty($userFirstName) || !empty($userLastName)) {
-                            $userName = $userFirstName .' '. $userLastName; 
-                        }
-                        $userEmail = $user_data->user_email;
-                        foreach($data as $key=>$value)
-                        {
-                            $brand = ($key == "brand")?$value:'';
-                            $model = ($key == "model")?$value:'';
-                            $size = ($key == "range-size")?$value:'';
-                            $enginebrand = ($key == "engine-brand")?$value:'';
-                            $year = ($key == "year")?$value:'';
-                        }
-                    ?>
+                
                     <div class="text-align-center error-404">
                         <hr class="sm">
                         <p><strong><?php echo esc_attr_e('Sorry - No listing found for this criteria.','framework'); ?></strong></p>
