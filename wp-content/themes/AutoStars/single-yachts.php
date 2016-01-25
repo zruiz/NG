@@ -59,7 +59,6 @@ if(!empty($userFirstName) || !empty($userLastName)) {
 	$userName = $userFirstName .' '. $userLastName; 
 }
 $userEmail = $user_data->user_email;
-$userPhone = $user_data->user_phone;
 if($browse_specification_switch==1) {
 get_template_part('bar','one'); 
 } elseif($browse_specification_switch==2) {

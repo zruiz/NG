@@ -62,6 +62,9 @@ table {
 iframe{
 	border:0;
 }
+.error-404 .yacht-alerts .input-group{
+	margin-bottom:20px;
+}
 .error_err {
     border: 1px solid red !important;
 }

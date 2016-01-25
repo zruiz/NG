@@ -1020,7 +1020,7 @@ foreach($data as $key=>$value)
     if(!empty($tags))
     {
         $term_array[1] = array(
-                'taxonomy' => 'cars-tag',
+                'taxonomy' => 'yachts-tag',
                 'field' => 'slug',
                 'terms' => $tags,
                 'operator' => 'IN');
@@ -1356,11 +1356,130 @@ foreach($data as $key=>$value)
                                             </div>
                                         </div>
                                         <?php endwhile; else: ?>
-                                        <div class="text-align-center error-404">
-                    <hr class="sm">
-                    <p><strong><?php echo esc_attr_e('Sorry - No listing found for this criteria','framework'); ?></strong></p>
-                    <p><?php echo esc_attr_e('Please search again with different filters.','framework'); ?></p>
-                </div>
+                    <?php 
+                        $user_id = get_current_user_id( );
+                        $user_info_id = get_user_meta($user_id,'imic_user_info_id',true);
+                        $post_author_id = get_post_field( 'post_author', $user_id);
+                        $userFirstName = get_the_author_meta('first_name', $post_author_id);
+                        $userLastName = get_the_author_meta('last_name', $post_author_id);
+                        $user_data = get_userdata(intval($post_author_id));
+                        $userName = $user_data->display_name;
+                        if(!empty($userFirstName) || !empty($userLastName)) {
+                            $userName = $userFirstName .' '. $userLastName; 
+                        }
+                        $userEmail = $user_data->user_email;
+                        foreach($data as $key=>$value)
+                        {
+                            $brand = ($key == "brand")?$value:'';
+                            $model = ($key == "model")?$value:'';
+                            $size = ($key == "range-size")?$value:'';
+                            $enginebrand = ($key == "engine-brand")?$value:'';
+                            $year = ($key == "year")?$value:'';
+                        }
+                    ?>
+                    <div class="text-align-center error-404">
+                        <hr class="sm">
+                        <p><strong><?php echo esc_attr_e('Sorry - No listing found for this criteria1.','framework'); ?></strong></p>
+                        <p><?php echo esc_attr_e('Please search again with different filters.','framework'); ?></p>
+                        <script> jQuery('#noresultsModal').modal('show');</script>
+                    </div>
+                    <div class="modal fade" id="noresultsAjaxModal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4><?php echo esc_attr_e('YACHT ALERTS','framework'); ?></h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><?php echo esc_attr_e('Sorry we couldnt find the yacht you are looking for within this inventory. However, we are the first to know when listings hit the market, and you can be too when you subscribe to our Yacht Alert. By filling out the form below, you will receive information on specific yachts matching your criteria that are just hitting the market; that puts you ahead of other buyers. We search industry listings, bank foreclosure inventory, boat shows, web sites, trade publications, and our professional networks for yachts that may not even be listed yet to find your ideal vessel. It is easy to use, always current, and you can input as much search criteria as you like.','framework'); ?></p>
+                                        <form class="enquiry-vehicle">
+                                        <input type="hidden" name="email_content" value="enquiry_form">
+                                        <input type="hidden" name="Subject" id="subject" value="Yacht Alerts Request">
+                                        <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
+                                        <p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                <?php if(is_user_logged_in()) { ?>
+                                                    <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                                                 <?php } else { ?>
+                                                    <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
+                                                <?php } ?>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                                         <?php if(is_user_logged_in()) { ?>
+                                                            <input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+                                                         <?php } else { ?>
+                                                         <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                                                         <?php } ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                                        <?php if(is_user_logged_in()) { ?>
+                                                            <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+                                                         <?php } else { ?>
+                                                        <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                                                        <?php } ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p><?php echo esc_attr_e('YACHT INFORMATION','framework'); ?></p>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                                                <input type="text" name="Make" class="form-control" placeholder="<?php echo esc_attr_e('Make','framework'); ?>" value="<?php echo esc_attr($brand); ?>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                                                <input type="text" name="Model" class="form-control" placeholder="<?php echo esc_attr_e('Model','framework'); ?>" value="<?php echo esc_attr($model); ?>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                                                <input type="text" name="Size" class="form-control" placeholder="<?php echo esc_attr_e('Size','framework'); ?>" value="<?php echo esc_attr($size); ?>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                                                <input type="text" name="Year" class="form-control" placeholder="<?php echo esc_attr_e('Year','framework'); ?>" value="<?php echo esc_attr($year); ?>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                                                <input type="text" name="Engine" class="form-control" placeholder="<?php echo esc_attr_e('Engine','framework'); ?>" value="<?php echo esc_attr($enginebrand); ?>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                                                <input type="text" name="Budget" class="form-control" placeholder="<?php echo esc_attr_e('Budget','framework'); ?>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            <input type="submit" class="btn btn-primary pull-right" value="<?php echo esc_attr_e('Subscribe','framework'); ?>">
+                                            <label class="btn-block"><?php echo esc_attr_e('Preferred Contact','framework'); ?></label>
+                                            <label class="checkbox-inline"><input name="Preferred Contact Email" value="yes" type="checkbox"> <?php echo esc_attr_e('Email','framework'); ?></label>
+                                            <label class="checkbox-inline"><input name="Preferred Contact Phone" value="yes" type="checkbox"> <?php echo esc_attr_e('Phone','framework'); ?></label>
+                                            <div class="message"></div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 
                                         <?php endif; echo '<div class="clearfix"></div>'; 
                                         $paginate = ($paged=='')?1:$paged; 
