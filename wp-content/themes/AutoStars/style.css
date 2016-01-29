@@ -4722,14 +4722,17 @@ a img.aligncenter {display: block; margin-left: auto; margin-right: auto}
 ================================================== */
 .fact-ico{
 	display:inline-block;
-	width:100px;
-	height:100px;
+	width:120px;
+	height:120px;
 	color:#999999;
 	line-height:125px;
 	margin:10px 0;
 	margin-bottom:20px;
 	border-radius:4px;
 	color:#fff;
+}
+.fact-ico span{
+	font-size: 16px; display: block; padding: 10px 0;
 }
 .fact{
 	display:inline-block;

@@ -410,23 +410,20 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                 <div class="icon-actions" style="padding-bottom: 20px;">
                     <div class="col-lg-4 col-md-4 col-sm-4 cust-counter">
                          <a href="#" data-toggle="modal" data-target="#alertModal" class="" title="<?php echo esc_attr_e('Yacht Alerts','framework'); ?>">
-                            <div class="fact-ico"> <i class="fa fa-map-marker fa-4x"></i> </div>
+                            <div class="fact-ico"> <i class="fa fa-map-marker fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Yacht Alerts','framework'); ?></span></i> </div>
                             <div class="clearfix"></div>
-                            <h4><?php echo esc_attr_e('YACHT ALERTS','framework'); ?></h4>
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 cust-counter">
                         <a href="#" data-toggle="modal" data-target="#tradeModal" class="" title="<?php echo esc_attr_e('Trade a Yacht','framework'); ?>">
-                            <div class="fact-ico"> <i class="fa fa-file-o fa-4x"></i> </div>
+                            <div class="fact-ico"> <i class="fa fa-file-o fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Trade A Yacht','framework'); ?></spam></i> </div>
                             <div class="clearfix"></div>
-                            <h4><?php echo esc_attr_e('TRADE A YACHT','framework'); ?></h4>
                         </a>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 cust-counter">
                         <a href="#" data-toggle="modal" data-target="#sellModal" class="" title="<?php echo esc_attr_e('Sell Your Yacht','framework'); ?>">
-                            <div class="fact-ico"> <i class="fa fa-dollar fa-4x"></i> </div>
+                            <div class="fact-ico"> <i class="fa fa-dollar fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Sell Your Yacht','framework'); ?><span></i> </div>
                             <div class="clearfix"></div>
-                            <h4><?php echo esc_attr_e('SELL YOUR YACHT','framework'); ?></h4>
                         </a>
                     </div>
                     <!-- <a <?php echo esc_attr($save_icon_disable); ?> href="#" rel="popup-save" class="btn btn-default save-car" title="<?php echo esc_attr_e('Save this listing','framework'); ?>"><i class="fa <?php echo esc_attr($save_icon); ?>"></i> <span><?php echo esc_attr_e('Save this listing','framework'); ?></span><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div></a><?php if($enquiry_form1!=2) { ?> -->

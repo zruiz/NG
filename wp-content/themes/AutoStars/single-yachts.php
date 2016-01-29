@@ -107,11 +107,11 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <a href="#" data-toggle="modal" data-target="#infoModal" class="btn btn-default" title="<?php echo esc_attr_e('The Purchasing Process','framework'); ?>"><i class="fa fa-info"></i> <span><?php echo esc_attr_e('The Purchasing Process','framework'); ?></span></a><?php } if($enquiry_form2!=2) { ?>
                             <a href="#" data-toggle="modal" data-target="#financingModal" class="btn btn-default" title="<?php echo esc_attr_e('Financing','framework'); ?>"><i class="fa fa-dollar"></i> <span><?php echo esc_attr_e('Financing','framework'); ?></span></a><?php } if($enquiry_form3!=2) { ?>
                             <a href="#" data-toggle="modal" data-target="#surveyorModal" class="btn btn-default" title="<?php echo esc_attr_e('Find A Surveyor','framework'); ?>"><i class="fa fa-search"></i> <span><?php echo esc_attr_e('Find A Surveyor','framework'); ?></span></a>
-                            <a href="#" data-toggle="modal" data-target="#conversionModal" class="btn btn-default" title="<?php echo esc_attr_e('Electrical Conversion','framework'); ?>"><i class="fa fa-pencil"></i> <span><?php echo esc_attr_e('Electrical Conversion','framework'); ?></span></a><?php } if($enquiry_form3!=2) { ?>
-                            <a href="#" data-toggle="modal" data-target="#shippingModal" class="btn btn-default" title="<?php echo esc_attr_e('Shipping','framework'); ?>"><i class="fa fa-clock-o"></i> <span><?php echo esc_attr_e('Shipping','framework'); ?></span></a>
+                            <a href="#" data-toggle="modal" data-target="#conversionModal" class="btn btn-default" title="<?php echo esc_attr_e('Electrical Conversion','framework'); ?>"><i class="fa fa-power-off"></i> <span><?php echo esc_attr_e('Electrical Conversion','framework'); ?></span></a><?php } if($enquiry_form3!=2) { ?>
+                            <a href="#" data-toggle="modal" data-target="#shippingModal" class="btn btn-default" title="<?php echo esc_attr_e('Shipping','framework'); ?>"><i class="fa fa-anchor"></i> <span><?php echo esc_attr_e('Shipping','framework'); ?></span></a>
                             <?php } if($download_pdf!='') { ?>
                             <a href="<?php echo IMIC_THEME_PATH; ?>/download/download.php?file=<?php echo esc_url($download_pdf); ?>" class="btn btn-default" title="<?php echo esc_attr_e('Download Manual','framework'); ?>"><i class="fa fa-book"></i> <span><?php echo esc_attr_e('Download Manual','framework'); ?></span></a><?php } ?>
-                            <a <?php echo esc_attr($save_icon_disable); ?> href="#" rel="popup-save" class="btn btn-default save-car" title="<?php echo esc_attr_e('Save this listing','framework'); ?>"><i class="fa <?php echo esc_attr($save_icon); ?>"></i> <span><?php echo esc_attr_e('Save this listing','framework'); ?></span><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div></a><?php if($enquiry_form1!=2) { ?>
+                            <!-- <a <?php echo esc_attr($save_icon_disable); ?> href="#" rel="popup-save" class="btn btn-default save-car" title="<?php echo esc_attr_e('Save this listing','framework'); ?>"><i class="fa <?php echo esc_attr($save_icon); ?>"></i> <span><?php echo esc_attr_e('Save this listing','framework'); ?></span><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div></a><?php if($enquiry_form1!=2) { ?> -->
                             <a href="javascript:void(0)" onclick="window.print();" class="btn btn-default" title="<?php echo esc_attr_e('Print','framework'); ?>"><i class="fa fa-print"></i> <span><?php echo esc_attr_e('Print','framework'); ?></span></a>
                         </div>
                     </div>
@@ -129,23 +129,21 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 				                <div class="icon-actions">
 				                    <div class="col-lg-12 col-md-12 col-sm-12 cust-counter">
 				                         <a href="#" data-toggle="modal" data-target="#alertModal" class="" title="<?php echo esc_attr_e('Yacht Alerts','framework'); ?>">
-				                            <div class="fact-ico"> <i class="fa fa-map-marker fa-4x"></i> </div>
-				                            <div class="clearfix"></div>
-				                            <h4><?php echo esc_attr_e('YACHT ALERTS','framework'); ?></h4>
+				                            <div class="fact-ico"><i class="fa fa-map-marker fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Yacht Alerts','framework'); ?></span></i></div>
+				                            <div class="clearfix"></div>                           
 				                        </a>
 				                    </div>
 				                    <div class="col-lg-12 col-md-12 col-sm-12 cust-counter">
 				                        <a href="#" data-toggle="modal" data-target="#tradeModal" class="" title="<?php echo esc_attr_e('Trade a Yacht','framework'); ?>">
-				                            <div class="fact-ico"> <i class="fa fa-file-o fa-4x"></i> </div>
+				                            <div class="fact-ico"> <i class="fa fa-file-o fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Trade A Yacht','framework'); ?></span></i> </div>
 				                            <div class="clearfix"></div>
-				                            <h4><?php echo esc_attr_e('TRADE A YACHT','framework'); ?></h4>
 				                        </a>
 				                    </div>
 				                    <div class="col-lg-12 col-md-12 col-sm-12 cust-counter">
 				                        <a href="#" data-toggle="modal" data-target="#sellModal" class="" title="<?php echo esc_attr_e('Sell Your Yacht','framework'); ?>">
-				                            <div class="fact-ico"> <i class="fa fa-dollar fa-4x"></i> </div>
+				                            <div class="fact-ico"> <i class="fa fa-dollar fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Sell Your Yacht','framework'); ?></span></i></div>
 				                            <div class="clearfix"></div>
-				                            <h4><?php echo esc_attr_e('SELL YOUR YACHT','framework'); ?></h4>
+				                            <h4></h4>
 				                        </a>
 				                    </div>
 				                </div>
@@ -350,7 +348,14 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             </div>
                       	</div>
                    	</div>
-                 	<div class="spacer-50"></div>
+                 	<div class="spacer-50">
+                 		<div class="single-listing-actions">
+                        	<div class="btn-group pull-right" role="group">
+                        		<a href="#" data-toggle="modal" data-target="#brochureModal" class="btn btn-default" title="<?php echo esc_attr_e('Request A Brochure','framework'); ?>"><i class="fa fa-book"></i> <span><?php echo esc_attr_e('Request A Brochure','framework'); ?></span></a>
+                 				<a <?php echo esc_attr($save_icon_disable); ?> href="#" rel="popup-save" class="btn btn-default save-car" title="<?php echo esc_attr_e('Save this listing','framework'); ?>"><i class="fa <?php echo esc_attr($save_icon); ?>"></i> <span><?php echo esc_attr_e('Save this listing','framework'); ?></span><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div></a>
+                 			</div>
+                 		</div>	
+                 	</div>
                     <div class="row">
                     	<!-- Vehicle Details Sidebar -->
                         <div class="col-md-4 vehicle-details-sidebar sidebar">
@@ -850,17 +855,9 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 			                        <div class="col-md-6">
 			                            <div class="input-group">
 			                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
-			                                <input type="text" name="Engine" class="form-control" placeholder="<?php echo esc_attr_e('Engine','framework'); ?>">
+			                                <input type="text" name="Engine" class="form-control" placeholder="<?php echo esc_attr_e('Engine Brand','framework'); ?>">
 			                            </div>
 			                        </div>
-			                        <div class="col-md-6">
-			                            <div class="input-group">
-			                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
-			                                <input type="text" name="EngineHours" class="form-control" placeholder="<?php echo esc_attr_e('Engine Hours','framework'); ?>">
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="row">
 			                        <div class="col-md-6">
 			                            <div class="input-group">
 			                                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
@@ -868,6 +865,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 			                            </div>
 			                        </div>
 			                    </div>
+			        
 			             		<input type="submit" class="btn btn-primary pull-right" value="<?php echo esc_attr_e('Submit Info','framework'); ?>">
 			                    <label class="btn-block"><?php echo esc_attr_e('Preferred Contact','framework'); ?></label>
 			                    <label class="checkbox-inline"><input name="Preferred Contact Email" value="yes" type="checkbox"> <?php echo esc_attr_e('Email','framework'); ?></label>
@@ -957,7 +955,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
             </div>
             <div class="modal-body">
             <?php if($enquiry_form3==0) { ?>
-            	<p><?php echo esc_attr_e('We can help you finance your yacht anywhere in the world with almost no nationality, flag, or cruising area restrictions. (Include a Loan calculator)? The loan calculator is offered as a courtesy to help you simulate your payments. This doesn’t constitute an official offer.','framework'); ?></p>
+            	<p><?php echo esc_attr_e('We can help you finance your yacht anywhere in the world with almost no nationality, flag, or cruising area restrictions. The loan calculator is offered as a courtesy to help you simulate your payments. This doesn’t constitute an official offer.','framework'); ?></p>
                 <form class="enquiry-vehicle">
                 <input type="hidden" name="email_content" value="enquiry_form">
 				<input type="hidden" name="Subject" id="subject" value="<?php echo esc_attr_e('Financing','framework'); ?>">
@@ -1167,12 +1165,6 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                <input type="text" name="Engine" class="form-control" placeholder="<?php echo esc_attr_e('Engine Brand','framework'); ?>">
-                            </div>
-                        </div>
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
