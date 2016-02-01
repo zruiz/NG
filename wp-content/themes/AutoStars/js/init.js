@@ -16,6 +16,24 @@ jQuery(function($){
 	    jQuery('#PaymentModal .modal-body .nav-tabs a:eq(' + tab + ')').tab('show');
 	});
 
+	jQuery('.result-item-in').click(function() {
+		if (getCookie() == 'guest') {
+			jQuery("#PaymentModal").modal('show');
+		}else {
+			var link = $(this).find('#permalink').val();
+			document.location.href = link;
+		}
+	});
+
+	jQuery('.result-item-image').click(function() {
+		if (getCookie() == 'guest') {
+			jQuery("#PaymentModal").modal('show');
+		}else {
+			var link = $(this).next('.result-item-in').find('#permalink').val();
+			document.location.href = link;
+		}
+	});
+
 	function setCookie(cookieName,cookieValue,nDays)
 	{
 	    var today = new Date();
@@ -34,8 +52,10 @@ jQuery(function($){
 	    for(var i=0; i<ca.length; i++) {
 	        var c = ca[i];
 	        while (c.charAt(0)==' ') c = c.substring(1);
-	        if (c.indexOf('wordpress_logged_in') == 0 || c.indexOf('guest_access') == 0) {
+	        if (c.indexOf('wordpress_logged_in') == 0) {
 	        	return "logged";
+	        }else if(c.indexOf('guest_access') == 0) {
+	        	return "guest";
 	        }
 	    }
 	    return "";

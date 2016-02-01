@@ -842,7 +842,7 @@ $cars_listing = new WP_Query( $args_cars );
                                         <!-- Result Item -->
                                         <div class="result-item format-standard">
                                             <div class="result-item-image"><?php if(has_post_thumbnail()) { ?>
-                                                <a href="<?php echo esc_url(get_permalink()); ?>" class="media-box"><?php the_post_thumbnail('600x400'); ?></a><?php } ?>
+                                                <a href="#" class="media-box"><?php the_post_thumbnail('600x400'); ?></a><?php } ?>
                                                 <?php $start = 0; 
                                                     $badge_position = array('vehicle-age','premium-listing','third-listing','fourth-listing');
                                                     if(!empty($badges)) {
@@ -858,7 +858,8 @@ $cars_listing = new WP_Query( $args_cars );
                                                 </div>
                                             </div>
                                             <div class="result-item-in">
-                                                <h4 class="result-item-title"><a href="<?php echo esc_url(get_permalink()); ?>"><?php echo esc_attr($highlight_value); ?></a>
+                                                <input type="hidden" name="permalink" id="permalink" value="<?php echo esc_url(get_permalink()); ?>">
+                                                <h4 class="result-item-title"><a href="#"><?php echo esc_attr($highlight_value); ?></a>
                                                 <?php 
                                                 if($category_rail=="1"&&is_plugin_active("imi-classifieds/imi-classified.php"))
                                                 {
