@@ -683,7 +683,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             
                     			<!-- AD LISTING FORM STEP TWO -->
                       			<div id="listing-add-form-two" class="tab-pane fade <?php echo ($active_tab2!='')?$active_tab2.' in':''; ?>">
-                        			<h3><?php echo esc_attr_e('Select additional features your yacht have','framework'); ?></h3>
+                        			<h3><?php echo esc_attr_e('Additional features','framework'); ?></h3>
                             		<div class="lighter"><p><?php echo esc_attr_e('Features selected can either factory fitted or after market features.','framework'); ?></p></div>
                                     <div class="panel panel-default">
   										<div class="panel-body">

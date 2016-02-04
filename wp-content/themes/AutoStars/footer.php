@@ -38,7 +38,7 @@ global $imic_options;
     <div class="modal-content" style="top:150px;">
         <div class="modal-header">
             <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-            <h4 class="modal-title" id="myModalLabel"><?php echo esc_attr_e('Login or Register for website','framework'); ?></h4>
+            <h4 class="modal-title" id="myModalLabel"><?php echo esc_attr_e('Login or Register for full access','framework'); ?></h4>
         </div>
         <div class="modal-body">
             <div class="tabs">
@@ -122,7 +122,7 @@ global $imic_options;
                     <p>For returning customers.</p>
                     <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input class="form-control input1" id="loginname" type="text" name="loginname" placeholder="<?php _e('Username', 'framework'); ?>">
+                    <input class="form-control input1" id="loginname" type="text" name="loginname" placeholder="<?php _e('Email Address', 'framework'); ?>">
                     </div>
                     <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
