@@ -401,10 +401,6 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                 $userLastName = get_the_author_meta('last_name', $post_author_id);
                 $user_data = get_userdata(intval($post_author_id));
                 $userName = $user_data->display_name;
-                if(!empty($userFirstName) || !empty($userLastName)) {
-                    $userName = $userFirstName .' '. $userLastName; 
-                }
-                $userEmail = $user_data->user_email;
             ?>
             <div class="row">
                 <div class="icon-actions" style="padding-bottom: 20px;">
@@ -758,9 +754,19 @@ if(!empty($qrs))
     }
     elseif($paged>1) { $offs = $paged-1; $offset = $off+($posts_page*$offs);
     }   
-    $logged_user_pin = '';          
+    $logged_user_pin = ''; 
+    global $current_user;         
     $user_id = get_current_user_id( );
                                         $logged_user = get_user_meta($user_id,'imic_user_info_id',true);
+
+                                        $loggedUserFirstName = $current_user->user_firstname;
+                                        $loggedUserLastName = $current_user->user_lastname;
+                                        $loggedUserName = get_the_author_meta( 'display_name', $user_id );
+                                        if(!empty($loggedUserFirstName) || !empty($loggedUserLastName)) {
+                                            $loggedUserName = $loggedUserFirstName .' '. $loggedUserLastName; 
+                                        }
+                                        $loggedUserEmail = $current_user->user_email;
+
                                         $logged_user_pin = get_post_meta($logged_user,'imic_user_zip_code',true);
                                         $badges_type = (isset($imic_options['badges_type']))?$imic_options['badges_type']:'0';
                                         $specification_type = (isset($imic_options['short_specifications']))?$imic_options['short_specifications']:'0';
@@ -867,15 +873,15 @@ $cars_listing = new WP_Query( $args_cars );
                                                 }
                                                 ?></h4>
                                                 
-                                                <div class="result-item-cont">
+                                                 <!--<div class="result-item-cont">
                                                     <div class="result-item-block col1">
                                                         <?php echo imic_excerpt(20); ?>
                                                     </div>
-                                                    <div class="result-item-block col2">
-                                                        <div class="result-item-pricing">
+                                                   <div class="result-item-block col2">
+                                                         <div class="result-item-pricing">
                                                             <div class="price"><?php echo esc_attr($unique_value); ?></div>
-                                                        </div>
-                                                        <div class="result-item-action-buttons">
+                                                        </div> -->
+                                                        <!-- <div class="result-item-action-buttons">
                                                             <a <?php echo esc_attr($save_icon_disable); ?> href="#" class="btn btn-default btn-sm save-car"><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div><i class="fa <?php echo esc_attr($save_icon); ?>"></i> <?php _e('Save','framework'); ?></a>
                                                             <a href="<?php echo esc_url(get_permalink()); ?>" class="btn btn-default btn-sm"><?php _e('Enquire','framework'); ?></a><br>
                                                             <div class="view-distance"><div style="display:none;"><span class="car-lat"><?php echo esc_attr($lat); ?></span><span class="car-long"><?php echo esc_attr($long); ?></span></div><a id="<?php echo esc_attr(get_the_ID()); ?>" href="#" class="distance-calc"><i class="fa fa-map-marker"></i> <?php _e('Distance from me?','framework'); ?></a>
@@ -885,16 +891,106 @@ $cars_listing = new WP_Query( $args_cars );
                                                                     <a href="#" class="btn btn-default btn-sm search-dist" style="display:none;"><?php _e('Get','framework'); ?></a>
                                                                 </span>
                                                             </div></div>
-                                                        </div>
+                                                        </div> 
                                                     </div>
-                                                </div>
+                                                </div>-->
+                                                
                                                 <div class="result-item-features">
                                                     <ul class="inline">
+                                                    <!--  
                                                     <?php if(!empty($details_value)) {
                                                         foreach($details_value as $detail) {
                                                             if(!empty($detail)) {
-                                                        echo '<li>'.$detail.'</li>'; }
-                                                    } } ?>
+                                                        echo '<li>'.get_the_title($detail).'</li>'; }
+                                                    } } ?> -->
+
+                                                  <?php 
+                                                    // $classified_data = get_option('imic_classifieds');
+                                                    // $args_terms = array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'all');
+                                                    // $this_terms = wp_get_post_terms(get_the_ID(),'listing-category',$args_terms);
+                                                    // $get_val_term = '';
+                                                    // foreach($this_terms as $term)
+                                                    // { 
+                                                    //     $list_slugs[] = $term->slug;
+                                                    //     if(array_key_exists($term->term_id, $classified_data))
+                                                    //     { 
+                                                    //         if($classified_data[$term->term_id]['featured']!='')
+                                                    //         {
+                                                    //             $get_val_term = $term->term_id;
+                                                    //             break;
+                                                    //         }
+                                                    //     }
+                                                    // }
+                                                    // if(!empty($get_val_term))
+                                                    // { 
+                                                    // $featured_specifications = $classified_data[$get_val_term]['featured'];
+                                                    // }
+                                                    $search_filters = (isset($imic_options['search_filter_listing']))?$imic_options['search_filter_listing']:array();
+                                                    $new_search_filters = imic_filter_lang_specs($search_filters);
+                                                    $specifications = get_post_meta(get_the_ID(),'feat_data',true);
+                                        
+                                                    $details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
+                                                    $badges = imic_vehicle_all_specs(get_the_ID(),$badge_ids,$specifications);
+                                                    $details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
+                                                    $badges = imic_vehicle_all_specs(get_the_ID(),$badge_ids,$specifications);
+                                                    $specification_data_type = (isset($imic_options['specification_fields_type']))?$imic_options['specification_fields_type']:"0";
+
+                                                    foreach($new_search_filters as $featured) {
+                                                        $field_type = get_post_meta($featured,'imic_plugin_spec_char_type',true);
+                                                        $value_label = get_post_meta($featured,'imic_plugin_value_label',true);
+                                                        $label_position = get_post_meta($featured,'imic_plugin_lable_position',true);
+                                                        $badge_slug = imic_the_slug($featured);
+                                                        $this_specification = get_post_meta(get_the_ID(), 'feat_data', true);
+                                                        if($specification_data_type=="0")
+                                                        {
+                                                            $spec_key = array_search($featured, $this_specification['sch_title']);
+                                                            $second_key = array_search($featured*111, $this_specification['sch_title']);
+                                                        }
+                                                        else
+                                                        {
+                                                            $spec_key = $second_key = '';
+                                                        }
+                                                        $id = get_the_ID();
+                                                        $feat_val = get_post_meta($id,'int_'.$badge_slug,true);
+                                                        if (get_the_title($featured) == 'Size' || get_the_title($featured) == 'Listing Type' || get_the_title($featured) == 'Brand' || get_the_title($featured) == 'Builder Year' || get_the_title($featured) == 'Location' || get_the_title($featured) == 'Price') {
+                                                            if($field_type==1&&$feat_val!='') {
+                                                                if($label_position==0) {
+                                                                echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.$value_label.get_post_meta($id,'int_'.$badge_slug,true).'</li>'; }
+                                                                else {
+                                                                echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.get_post_meta($id,'int_'.$badge_slug,true).$value_label.'</li>'; }
+                                                            } else {
+                                                            if(is_int($spec_key)) { 
+                                                                $child_val = '';
+                                                                if(is_int($second_key)) 
+                                                                { 
+                                                                    $child_val = ' '.$this_specification['start_time'][$second_key]; 
+                                                                }
+                                                                $spec_feat_val = $this_specification['start_time'][$spec_key];
+                                                                if($spec_feat_val!='')
+                                                                {
+                                                                if($label_position==0) {
+                                                                echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.$value_label.$this_specification['start_time'][$spec_key].$child_val.'</li>'; }
+                                                                else {
+                                                                echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.$this_specification['start_time'][$spec_key].$child_val.$value_label.'</li>'; } } 
+                                                            } else {
+                                                                $spec_val_char = get_post_meta(get_the_ID(), 'char_'.$badge_slug, true);
+                                                                $spec_val_char_child = get_post_meta(get_the_ID(), 'child_'.$badge_slug, true);
+                                                                if($spec_val_char!=''&&$spec_val_char!="Select")
+                                                                {
+                                                                    if($label_position==0) 
+                                                                    {
+                                                                        echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.$value_label.$spec_val_char.' '.$spec_val_char_child.'</li>'; 
+                                                                    }
+                                                                    else 
+                                                                    {
+                                                                        echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.$spec_val_char.' '.$spec_val_char_child.$value_label.'</li>'; 
+                                                                    } 
+                                                                }
+                                                            }
+                                                          } 
+                                                        } ?>
+                                                        
+                                                <?php } ?>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -937,7 +1033,7 @@ $cars_listing = new WP_Query( $args_cars );
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php if(is_user_logged_in()) { ?>
-                            <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                            <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
                          <?php } else { ?>
                             <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                         <?php } ?>
@@ -947,7 +1043,7 @@ $cars_listing = new WP_Query( $args_cars );
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                  <?php if(is_user_logged_in()) { ?>
-                                    <input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+                                    <input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
                                  <?php } else { ?>
                                  <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
                                  <?php } ?>
@@ -957,7 +1053,7 @@ $cars_listing = new WP_Query( $args_cars );
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                 <?php if(is_user_logged_in()) { ?>
-                                    <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+                                    <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
                                  <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
                                 <?php } ?>
@@ -1034,7 +1130,7 @@ $cars_listing = new WP_Query( $args_cars );
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php if(is_user_logged_in()) { ?>
-                            <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                            <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
                          <?php } else { ?>
                             <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                         <?php } ?>
@@ -1044,7 +1140,7 @@ $cars_listing = new WP_Query( $args_cars );
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                  <?php if(is_user_logged_in()) { ?>
-                                    <input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+                                    <input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
                                  <?php } else { ?>
                                  <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
                                  <?php } ?>
@@ -1054,7 +1150,7 @@ $cars_listing = new WP_Query( $args_cars );
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                 <?php if(is_user_logged_in()) { ?>
-                                    <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+                                    <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
                                  <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
                                 <?php } ?>
@@ -1132,7 +1228,7 @@ $cars_listing = new WP_Query( $args_cars );
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php if(is_user_logged_in()) { ?>
-                            <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                            <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
                          <?php } else { ?>
                             <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                         <?php } ?>
@@ -1142,7 +1238,7 @@ $cars_listing = new WP_Query( $args_cars );
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                  <?php if(is_user_logged_in()) { ?>
-                                    <input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+                                    <input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
                                  <?php } else { ?>
                                  <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
                                  <?php } ?>
@@ -1152,7 +1248,7 @@ $cars_listing = new WP_Query( $args_cars );
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                 <?php if(is_user_logged_in()) { ?>
-                                    <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+                                    <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
                                  <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
                                 <?php } ?>
@@ -1238,7 +1334,7 @@ $cars_listing = new WP_Query( $args_cars );
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php if(is_user_logged_in()) { ?>
-                            <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                            <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
                          <?php } else { ?>
                             <input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                         <?php } ?>
@@ -1248,7 +1344,7 @@ $cars_listing = new WP_Query( $args_cars );
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                  <?php if(is_user_logged_in()) { ?>
-                                    <input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+                                    <input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
                                  <?php } else { ?>
                                  <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
                                  <?php } ?>
@@ -1258,7 +1354,7 @@ $cars_listing = new WP_Query( $args_cars );
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                 <?php if(is_user_logged_in()) { ?>
-                                    <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+                                    <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
                                  <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
                                 <?php } ?>

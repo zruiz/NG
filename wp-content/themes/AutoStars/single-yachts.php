@@ -59,6 +59,7 @@ if(!empty($userFirstName) || !empty($userLastName)) {
 	$userName = $userFirstName .' '. $userLastName; 
 }
 $userEmail = $user_data->user_email;
+
 if($browse_specification_switch==1) {
 get_template_part('bar','one'); 
 } elseif($browse_specification_switch==2) {
@@ -79,6 +80,7 @@ if($vehicle_status!=1) {
 $save1 = (isset($_SESSION['saved_vehicle_id1']))?$_SESSION['saved_vehicle_id1']:'';
 $save2 = (isset($_SESSION['saved_vehicle_id2']))?$_SESSION['saved_vehicle_id2']:'';
 $save3 = (isset($_SESSION['saved_vehicle_id3']))?$_SESSION['saved_vehicle_id3']:'';
+global $current_user;
 $user_id = get_current_user_id( );
 $current_user_info_id = get_user_meta($user_id,'imic_user_info_id',true);
 if($current_user_info_id!='') {
@@ -95,7 +97,18 @@ $editor_form3 = (isset($imic_options['enquiry_form3_editor']))?$imic_options['en
 $classified_data = get_option('imic_classifieds');
 $classified_data = (!empty($classified_data))?$classified_data:array();
 $listing_details = (isset($imic_options['listing_details']))?$imic_options['listing_details']:0;
-$specification_data_type = (isset($imic_options['specification_fields_type']))?$imic_options['specification_fields_type']:"0"; ?>
+$specification_data_type = (isset($imic_options['specification_fields_type']))?$imic_options['specification_fields_type']:"0";
+
+$loggedUserFirstName = $current_user->user_firstname;
+$loggedUserLastName = $current_user->user_lastname;
+$loggedUserName = get_the_author_meta( 'display_name', $user_id );
+if(!empty($loggedUserFirstName) || !empty($loggedUserLastName)) {
+	$loggedUserName = $loggedUserFirstName .' '. $loggedUserLastName; 
+}
+$loggedUserEmail = $current_user->user_email;
+?>
+
+
 <!-- Start Body Content -->
   	<div class="main" role="main">
     	<div id="content" class="content full">
@@ -795,7 +808,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 			                    <div class="input-group">
 			                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
 			                        <?php if(is_user_logged_in()) { ?>
-			                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+			                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
 			                         <?php } else { ?>
 			                         	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
 			                    	<?php } ?>
@@ -805,7 +818,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 			                            <div class="input-group">
 			                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 			                                 <?php if(is_user_logged_in()) { ?>
-					                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+					                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
 					                         <?php } else { ?>
 			                                 <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
 			                            	 <?php } ?>
@@ -815,7 +828,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 			                            <div class="input-group">
 			                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
 			                                <?php if(is_user_logged_in()) { ?>
-					                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+					                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
 					                         <?php } else { ?>
 			                                <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
 			                            	<?php } ?>
@@ -963,7 +976,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                      <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php if(is_user_logged_in()) { ?>
-                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
                          <?php } else { ?>
                          	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                     	<?php } ?>
@@ -973,7 +986,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                  <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
 		                         <?php } else { ?>
                                  <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
                             	 <?php } ?>
@@ -983,7 +996,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                 <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
 		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
                             	<?php } ?>
@@ -1031,7 +1044,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                      <div class="input-group">
 	                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
 	                    <?php if(is_user_logged_in()) { ?>
-	                    	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+	                    	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
 	                     <?php } else { ?>
 	                     	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
 	                	<?php } ?>
@@ -1041,7 +1054,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 	                        <div class="input-group">
 	                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 	                             <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
 		                         <?php } else { ?>
 	                             <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
 	                        	 <?php } ?>
@@ -1051,7 +1064,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 	                        <div class="input-group">
 	                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
 	                            <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
 		                         <?php } else { ?>
 	                            <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
 	                        	<?php } ?>
@@ -1108,7 +1121,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                      <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php if(is_user_logged_in()) { ?>
-                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
                          <?php } else { ?>
                          	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                     	<?php } ?>
@@ -1118,7 +1131,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                  <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
 		                         <?php } else { ?>
                                  <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
                             	 <?php } ?>
@@ -1128,7 +1141,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                 <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
 		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
                             	<?php } ?>
@@ -1200,7 +1213,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                      <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php if(is_user_logged_in()) { ?>
-                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
                          <?php } else { ?>
                          	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                     	<?php } ?>
@@ -1210,7 +1223,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                  <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
 		                         <?php } else { ?>
                                  <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
                             	 <?php } ?>
@@ -1220,7 +1233,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                 <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
 		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
                             	<?php } ?>
@@ -1284,7 +1297,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                      <div class="input-group">
 	                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
 	                    <?php if(is_user_logged_in()) { ?>
-	                    	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+	                    	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
 	                     <?php } else { ?>
 	                     	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
 	                	<?php } ?>
@@ -1294,7 +1307,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 	                        <div class="input-group">
 	                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 	                             <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
 		                         <?php } else { ?>
 	                             <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
 	                        	 <?php } ?>
@@ -1304,7 +1317,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 	                        <div class="input-group">
 	                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
 	                            <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
 		                         <?php } else { ?>
 	                            <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
 	                        	<?php } ?>
@@ -1400,7 +1413,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                      <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php if(is_user_logged_in()) { ?>
-                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
                          <?php } else { ?>
                          	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                     	<?php } ?>
@@ -1410,7 +1423,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                  <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
 		                         <?php } else { ?>
                                  <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
                             	 <?php } ?>
@@ -1420,7 +1433,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                 <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
 		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
                             	<?php } ?>
@@ -1497,7 +1510,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                      <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php if(is_user_logged_in()) { ?>
-                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
                          <?php } else { ?>
                          	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                     	<?php } ?>
@@ -1507,7 +1520,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                  <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
 		                         <?php } else { ?>
                                  <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
                             	 <?php } ?>
@@ -1517,7 +1530,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                 <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
 		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
                             	<?php } ?>
@@ -1610,7 +1623,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                      <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php if(is_user_logged_in()) { ?>
-                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
                          <?php } else { ?>
                          	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                     	<?php } ?>
@@ -1620,7 +1633,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                                  <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+		                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
 		                         <?php } else { ?>
                                  <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
                             	 <?php } ?>
@@ -1630,7 +1643,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                 <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+		                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
 		                         <?php } else { ?>
                                 <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
                             	<?php } ?>
@@ -1725,7 +1738,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 		                     <div class="input-group">
 		                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
 		                        <?php if(is_user_logged_in()) { ?>
-		                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($userName); ?>">
+		                        	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>" value="<?php echo esc_attr($loggedUserName); ?>">
 		                         <?php } else { ?>
 		                         	<input type="text" name="Name" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
 		                    	<?php } ?>
@@ -1735,7 +1748,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 		                            <div class="input-group">
 		                                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 		                                 <?php if(is_user_logged_in()) { ?>
-				                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($userEmail); ?>">
+				                        	<input type="text" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>" value="<?php echo esc_attr($loggedUserEmail); ?>">
 				                         <?php } else { ?>
 		                                 <input type="email" name="Email" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
 		                            	 <?php } ?>
@@ -1745,7 +1758,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 		                            <div class="input-group">
 		                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
 		                                <?php if(is_user_logged_in()) { ?>
-				                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($user_info_id,'imic_user_telephone',true); ?>">
+				                        	<input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>" value="<?php echo get_post_meta($logged_user,'imic_user_telephone',true); ?>">
 				                         <?php } else { ?>
 		                                <input type="text" name="Phone" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
 		                            	<?php } ?>

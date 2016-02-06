@@ -868,7 +868,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                             <?php if(is_user_logged_in()) { ?>
                                                         <button id="ss" class="btn btn-info pull-right save-searched-value"><?php echo esc_attr_e('Save ','framework'); ?>&amp;<?php echo esc_attr_e(' continue','framework'); ?></button><?php } else { echo '<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#PaymentModal">'.__('Login/Register','framework').'</a>'; } ?>
                                         </div>
-                                        <div class="col-md-5 col-md-offset-1">
+                                        <div class="col-md-5 col-md-offset-1" style="display:none;">
                                         	<div class="panel panel-info price-suggestion">
                                               	<div class="panel-heading">
                                                	 	<h3 id="find-price" class="panel-title"><?php echo esc_attr_e('Price Guide','framework'); ?> <i class="fa fa-search pull-right"></i></h3>

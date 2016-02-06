@@ -361,8 +361,12 @@ ul.inline{
 	margin:10px 0;
 }
 ul.inline > li{
-	display:inline-block;
+	display:block;
 	margin-right:10px;
+}
+ul.inline .new-badge{
+  font-weight: bold;
+  color: #333;
 }
 .posts-archive .sticky.post .post-actions, .posts-archive .sticky.post .post-title{
 	border-bottom-color:#999;
