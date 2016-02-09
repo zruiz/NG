@@ -217,7 +217,8 @@ function imic_vehicle_price($id, $specs, $this_specification = array()) {
 					{
 						if($label_position==0) 
 						{
-							$unique_value = $value_label.$this_specification['start_time'][$unique_key].' ';  
+							$format = number_format($this_specification['start_time'][$unique_key]);
+							$unique_value = $value_label.$format.' ';  
 						}
 						else 
 						{
@@ -229,7 +230,7 @@ function imic_vehicle_price($id, $specs, $this_specification = array()) {
 			else
 			{
 				$price_id_slug = imic_the_slug($specs);
-				$char_price = get_post_meta($id, 'char_'.$price_id_slug, true);
+				$char_price = number_format(get_post_meta($id, 'char_'.$price_id_slug, true));
 				if($label_position==0) 
 				{
 					$unique_value = $value_label.$char_price.' ';  
@@ -243,7 +244,7 @@ function imic_vehicle_price($id, $specs, $this_specification = array()) {
 		else 
 		{ 
 			$slug = imic_the_slug($specs);
-			$int_value = get_post_meta($id,'int_'.$slug,true);
+			$int_value = number_format(get_post_meta($id,'int_'.$slug,true));
 			if($int_value!='') 
 			{
 				if($label_position==0) 

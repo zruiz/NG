@@ -16,23 +16,23 @@ jQuery(function($){
 	    jQuery('#PaymentModal .modal-body .nav-tabs a:eq(' + tab + ')').tab('show');
 	});
 
-	jQuery('.result-item-in').click(function() {
-		if (getCookie() == 'guest') {
-			jQuery("#PaymentModal").modal('show');
-		}else {
-			var link = $(this).find('#permalink').val();
-			document.location.href = link;
-		}
-	});
+	// jQuery('.result-item-in').click(function() {
+	// 	if (getCookie() == 'guest') {
+	// 		jQuery("#PaymentModal").modal('show');
+	// 	}else {
+	// 		var link = $(this).find('#permalink').val();
+	// 		document.location.href = link;
+	// 	}
+	// });
 
-	jQuery('.result-item-image').click(function() {
-		if (getCookie() == 'guest') {
-			jQuery("#PaymentModal").modal('show');
-		}else {
-			var link = $(this).next('.result-item-in').find('#permalink').val();
-			document.location.href = link;
-		}
-	});
+	// jQuery('.result-item-image').click(function() {
+	// 	if (getCookie() == 'guest') {
+	// 		jQuery("#PaymentModal").modal('show');
+	// 	}else {
+	// 		var link = $(this).next('.result-item-in').find('#permalink').val();
+	// 		document.location.href = link;
+	// 	}
+	// });
 
 	function setCookie(cookieName,cookieValue,nDays)
 	{

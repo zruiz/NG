@@ -704,7 +704,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 	if($first_name!='') {
 		$ss = wp_update_user( array( 'ID' => $user_id, 'first_name' => $first_name, 'last_name' => $last_name ) ); }
 	if(empty($first_name)) { $msg .= __('Please fill first name','framework')."\r\n"; }
-	if(empty($user_zip)) { $msg .= __('Please fill zip code','framework')."\r\n"; }
+	// if(empty($user_zip)) { $msg .= __('Please fill zip code','framework')."\r\n"; }
 		if($msg=='') {
 			wp_set_object_terms($user_info_id, $ustate, 'user-city');
 			if(file_exists($_FILES['bannerimage']['tmp_name']) || is_uploaded_file($_FILES['bannerimage']['tmp_name'])) {		

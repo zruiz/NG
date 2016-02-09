@@ -145,7 +145,7 @@ if($browse_specification_switch==4)
 							if($completed==1) {  ?>
                         <div class="comp-table-col">
                             <ul class="add-features-list">
-                            <?php $fterm = wp_get_post_terms( $comp, "cars-tag", array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'names') );
+                            <?php $fterm = wp_get_post_terms( $comp, "yachts-tag", array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'names') );
 							foreach($fterm as $term) {
 								echo '<li>'.$term.'</li>';
 							} ?> 

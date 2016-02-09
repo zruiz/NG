@@ -402,33 +402,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                 $user_data = get_userdata(intval($post_author_id));
                 $userName = $user_data->display_name;
             ?>
-            <div class="row">
-                <div class="icon-actions" style="padding-bottom: 20px;">
-                    <div class="col-lg-4 col-md-4 col-sm-4 cust-counter">
-                         <a href="#" data-toggle="modal" data-target="#alertModal" class="" title="<?php echo esc_attr_e('Yacht Alerts','framework'); ?>">
-                            <div class="fact-ico"> <i class="fa fa-map-marker fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Yacht Alerts','framework'); ?></span></i> </div>
-                            <div class="clearfix"></div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 cust-counter">
-                        <a href="#" data-toggle="modal" data-target="#tradeModal" class="" title="<?php echo esc_attr_e('Trade a Yacht','framework'); ?>">
-                            <div class="fact-ico"> <i class="fa fa-file-o fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Trade A Yacht','framework'); ?></spam></i> </div>
-                            <div class="clearfix"></div>
-                        </a>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 cust-counter">
-                        <a href="#" data-toggle="modal" data-target="#sellModal" class="" title="<?php echo esc_attr_e('Sell Your Yacht','framework'); ?>">
-                            <div class="fact-ico"> <i class="fa fa-dollar fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Sell Your Yacht','framework'); ?><span></i> </div>
-                            <div class="clearfix"></div>
-                        </a>
-                    </div>
-                    <!-- <a <?php echo esc_attr($save_icon_disable); ?> href="#" rel="popup-save" class="btn btn-default save-car" title="<?php echo esc_attr_e('Save this listing','framework'); ?>"><i class="fa <?php echo esc_attr($save_icon); ?>"></i> <span><?php echo esc_attr_e('Save this listing','framework'); ?></span><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div></a><?php if($enquiry_form1!=2) { ?> -->
-                    <!-- <a href="#" data-toggle="modal" data-target="#infoModal" class="btn btn-default" title="<?php echo esc_attr_e('Yacht Alerts','framework'); ?>"><i class="fa fa-info"></i> <span><?php echo esc_attr_e('Yacht Alerts','framework'); ?></span></a><?php } if($enquiry_form2!=2) { ?>
-                    <a href="#" data-toggle="modal" data-target="#testdriveModal" class="btn btn-default" title="<?php echo esc_attr_e('Trade a Yacht','framework'); ?>"><i class="fa fa-calendar"></i> <span><?php echo esc_attr_e('Trade a Yacht','framework'); ?></span></a><?php } if($enquiry_form3!=2) { ?>
-                    <a href="#" data-toggle="modal" data-target="#offerModal" class="btn btn-default" title="<?php echo esc_attr_e('Sell your Yacht','framework'); ?>"><i class="fa fa-dollar"></i> <span><?php echo esc_attr_e('Sell your Yacht','framework'); ?></span></a>
-                    <?php } ?> -->
-                </div>
-            </div>
+            
             <div class="row">
             <div class="col-md-12">
             <ul class="search-tabs nav nav-pills" id="search-tab">
@@ -634,8 +608,9 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                             }?>
                                 
                                 <!-- End Toggle -->
-                            <a href="#" id="reset-filters-search" class="btn-default btn-sm btn"><i class="fa fa-refresh"></i> <?php _e('Reset search','framework'); ?></a>
-                            <a id="saved-search" href="#" class="btn-primary btn-sm btn" data-target="#searchmodal" data-toggle="modal"><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div><i class="fa fa-folder-o"></i> <?php _e('Save search','framework'); ?></a>
+                            <a href="#" id="reset-filters-search" class="btn-default btn-sm btn" style="display: block; margin: 5px;"><i class="fa fa-refresh"></i> <?php _e('Reset search','framework'); ?></a>
+                            <a id="saved-search" href="#" class="btn-primary btn-sm btn" data-target="#searchmodal" data-toggle="modal" style="display: block; margin: 5px;"><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div><i class="fa fa-folder-o"></i> <?php _e('Save search','framework'); ?></a>
+                            <a href="#" data-toggle="modal" class="btn-primary btn-sm btn" data-target="#alertModal" title="<?php echo esc_attr_e('Yacht Alerts','framework'); ?>" style="display: block; margin: 5px;"><i class="fa fa-map-marker"></i> <?php echo esc_attr_e('Yacht Alerts','framework'); ?></a>
                     <?php $class_list = 9;
                         echo ' </div>
                         </div>';
@@ -847,25 +822,110 @@ $cars_listing = new WP_Query( $args_cars );
                                         ?>
                                         <!-- Result Item -->
                                         <div class="result-item format-standard">
-                                            <div class="result-item-image"><?php if(has_post_thumbnail()) { ?>
-                                                <a href="#" class="media-box"><?php the_post_thumbnail('600x400'); ?></a><?php } ?>
-                                                <?php $start = 0; 
-                                                    $badge_position = array('vehicle-age','premium-listing','third-listing','fourth-listing');
-                                                    if(!empty($badges)) {
-                                                    foreach($badges as $badge):
-                                                        $badge_class = ($start==0)?'default':'success';
-                                                        echo '<span class="label label-'.esc_attr($badge_class).' '.esc_attr($badge_position[$start]).'">'.esc_attr($badge).'</span>';
-                                                    $start++; if($start>3) { break; }
-                                                    endforeach; } ?>
-                                                <div class="result-item-view-buttons">
-                                                    <?php if($video!='') { ?>
-                                                    <a href="<?php echo esc_attr($video); ?>" data-rel="prettyPhoto"><i class="fa fa-play"></i> <?php _e('View video','framework'); ?></a><?php } ?>
-                                                    <a href="<?php echo esc_url(get_permalink()); ?>"><i class="fa fa-plus"></i> <?php _e('View details','framework'); ?></a>
-                                                </div>
-                                            </div>
-                                            <div class="result-item-in">
-                                                <input type="hidden" name="permalink" id="permalink" value="<?php echo esc_url(get_permalink()); ?>">
-                                                <h4 class="result-item-title"><a href="#"><?php echo esc_attr($highlight_value); ?></a>
+                                            <?php 
+                                                    $new_search_filters = imic_filter_lang_specs($search_filters);
+                                                    $specifications = get_post_meta(get_the_ID(),'feat_data',true);
+                                                    $details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
+                                                    $badges = imic_vehicle_all_specs(get_the_ID(),$badge_ids,$specifications);
+                                                    $specification_data_type = (isset($imic_options['specification_fields_type']))?$imic_options['specification_fields_type']:"0";
+                                                foreach($search_filters as $featured) {
+                                                    $field_type = get_post_meta($featured,'imic_plugin_spec_char_type',true);
+                                                    $value_label = get_post_meta($featured,'imic_plugin_value_label',true);
+                                                    $label_position = get_post_meta($featured,'imic_plugin_lable_position',true);
+                                                    $badge_slug = imic_the_slug($featured);
+                                                    $this_specification = get_post_meta(get_the_ID(), 'feat_data', true);
+                                                    if($specification_data_type=="0")
+                                                    {
+                                                        $spec_key = array_search($featured, $this_specification['sch_title']);
+                                                        $second_key = array_search($featured*111, $this_specification['sch_title']);
+                                                    }
+                                                    else
+                                                    {
+                                                        $spec_key = $second_key = '';
+                                                    }
+                                                    $id = get_the_ID();
+                                                    $feat_val = get_post_meta($id,'int_'.$badge_slug,true);
+                                                    if (get_the_title($featured) == 'Type') {
+                                                        if(is_int($spec_key)) { 
+                                                            $child_val = '';
+                                                            if(is_int($second_key)) 
+                                                            { 
+                                                                $child_val = ' '.$this_specification['start_time'][$second_key]; 
+                                                            }
+                                                            $spec_feat_val = $this_specification['start_time'][$spec_key];
+                                                            if($spec_feat_val!='')
+                                                            {
+                                                            if($label_position==0) {
+                                                                $status = $value_label.$this_specification['start_time'][$spec_key].$child_val; 
+                                                            }
+                                                            else {
+                                                                $status = $this_specification['start_time'][$spec_key].$child_val.$value_label;
+                                                            } } 
+                                                        }
+                                                    ?>
+
+                                                    <div class="result-item-image"><?php if(has_post_thumbnail()) { ?>
+                                                        <!-- <a href="#" class="media-box"><?php the_post_thumbnail('600x400'); ?></a> -->
+                                                        <?php if(is_user_logged_in()) { 
+                                                        ?>
+                                                        <a href="<?php echo esc_url(get_permalink()); ?>" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() &&  $status == 'Bank Owned') {
+                                                        ?>
+                                                        <a href="#" data-toggle="modal" data-target="#GuestModal" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>                                              
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() && $status == 'Private Sale') {
+                                                        ?>
+                                                        <a href="#" data-toggle="modal" data-target="#GuestModal" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>                                              
+                                                        <?php } else { ?>
+                                                        <a href="<?php echo esc_url(get_permalink()); ?>" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>
+                                                        <?php } } ?>
+                                                        <?php $start = 0; 
+                                                            $badge_position = array('vehicle-age','premium-listing','third-listing','fourth-listing');
+                                                            if(!empty($badges)) {
+                                                            foreach($badges as $badge):
+                                                                $badge_class = ($start==0)?'default':'success';
+                                                                echo '<span class="label label-'.esc_attr($badge_class).' '.esc_attr($badge_position[$start]).'">'.esc_attr($badge).'</span>';
+                                                            $start++; if($start>3) { break; }
+                                                            endforeach; } ?>
+                                                        <div class="result-item-view-buttons">
+                                                            <?php if($video!='') { ?>
+                                                            <a href="<?php echo esc_attr($video); ?>" data-rel="prettyPhoto"><i class="fa fa-play"></i> <?php _e('View video','framework'); ?></a><?php } ?>
+                                                            <!-- <a href="<?php echo esc_url(get_permalink()); ?>"><i class="fa fa-plus"></i> <?php _e('View details','framework'); ?></a> -->
+                                                            <?php if(is_user_logged_in()) { 
+                                                            ?>
+                                                            <a href="<?php echo esc_url(get_permalink()); ?>"><i class="fa fa-plus"></i> <?php _e('View details','framework'); ?></a>
+                                                            <?php 
+                                                             } elseif(!is_user_logged_in() &&  $status == 'Bank Owned') {
+                                                            ?>
+                                                            <a href="#" data-toggle="modal" data-target="#GuestModal"><i class="fa fa-plus"></i> <?php _e('View details','framework'); ?></a>                                              
+                                                            <?php 
+                                                             } elseif(!is_user_logged_in() && $status == 'Private Sale') {
+                                                            ?>
+                                                            <a href="#" data-toggle="modal" data-target="#GuestModal"><i class="fa fa-plus"></i> <?php _e('View details','framework'); ?></a>                                              
+                                                            <?php } else { ?>
+                                                            <a href="<?php echo esc_url(get_permalink()); ?>"><i class="fa fa-plus"></i> <?php _e('View details','framework'); ?></a>
+                                                            <?php } ?>
+                                                        </div>
+                                                    </div>
+                                                <div class="result-item-in">
+                                                    <!-- <input type="hidden" name="permalink" id="permalink" value="<?php echo esc_url(get_permalink()); ?>"> -->
+                                                   <?php if(is_user_logged_in()) { 
+                                                        ?>
+                                                        <h4 class="result-item-title"><a href="<?php echo esc_url(get_permalink()); ?>"><?php echo esc_attr($highlight_value); ?></a>
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() &&  $status == 'Bank Owned') {
+                                                        ?>
+                                                        <h4 class="result-item-title"><a href="#" data-toggle="modal" data-target="#GuestModal"><?php echo esc_attr($highlight_value); ?></a>                                              
+
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() && $status == 'Private Sale') {
+                                                        ?>
+                                                        <h4 class="result-item-title"><a href="#" data-toggle="modal" data-target="#GuestModal"><?php echo esc_attr($highlight_value); ?></a>                                              
+                                                        <?php } else { ?>
+                                                            <h4 class="result-item-title"><a href="<?php echo esc_url(get_permalink()); ?>"><?php echo esc_attr($highlight_value); ?></a>
+                                                        <?php
+                                                        }?> 
                                                 <?php 
                                                 if($category_rail=="1"&&is_plugin_active("imi-classifieds/imi-classified.php"))
                                                 {
@@ -905,34 +965,13 @@ $cars_listing = new WP_Query( $args_cars );
                                                     } } ?> -->
 
                                                   <?php 
-                                                    // $classified_data = get_option('imic_classifieds');
-                                                    // $args_terms = array('orderby' => 'name', 'order' => 'ASC', 'fields' => 'all');
-                                                    // $this_terms = wp_get_post_terms(get_the_ID(),'listing-category',$args_terms);
-                                                    // $get_val_term = '';
-                                                    // foreach($this_terms as $term)
-                                                    // { 
-                                                    //     $list_slugs[] = $term->slug;
-                                                    //     if(array_key_exists($term->term_id, $classified_data))
-                                                    //     { 
-                                                    //         if($classified_data[$term->term_id]['featured']!='')
-                                                    //         {
-                                                    //             $get_val_term = $term->term_id;
-                                                    //             break;
-                                                    //         }
-                                                    //     }
-                                                    // }
-                                                    // if(!empty($get_val_term))
-                                                    // { 
-                                                    // $featured_specifications = $classified_data[$get_val_term]['featured'];
-                                                    // }
-                                                    $search_filters = (isset($imic_options['search_filter_listing']))?$imic_options['search_filter_listing']:array();
                                                     $new_search_filters = imic_filter_lang_specs($search_filters);
                                                     $specifications = get_post_meta(get_the_ID(),'feat_data',true);
                                         
                                                     $details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
                                                     $badges = imic_vehicle_all_specs(get_the_ID(),$badge_ids,$specifications);
-                                                    $details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
-                                                    $badges = imic_vehicle_all_specs(get_the_ID(),$badge_ids,$specifications);
+                                                    //$details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
+                                                    //$badges = imic_vehicle_all_specs(get_the_ID(),$badge_ids,$specifications);
                                                     $specification_data_type = (isset($imic_options['specification_fields_type']))?$imic_options['specification_fields_type']:"0";
 
                                                     foreach($new_search_filters as $featured) {
@@ -952,12 +991,12 @@ $cars_listing = new WP_Query( $args_cars );
                                                         }
                                                         $id = get_the_ID();
                                                         $feat_val = get_post_meta($id,'int_'.$badge_slug,true);
-                                                        if (get_the_title($featured) == 'Size' || get_the_title($featured) == 'Listing Type' || get_the_title($featured) == 'Brand' || get_the_title($featured) == 'Builder Year' || get_the_title($featured) == 'Location' || get_the_title($featured) == 'Price') {
+                                                        if (get_the_title($featured) == 'Size' || get_the_title($featured) == 'Type' || get_the_title($featured) == 'Brand' || get_the_title($featured) == 'Builder Year' || get_the_title($featured) == 'Location' || get_the_title($featured) == 'Price') {
                                                             if($field_type==1&&$feat_val!='') {
                                                                 if($label_position==0) {
-                                                                echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.$value_label.get_post_meta($id,'int_'.$badge_slug,true).'</li>'; }
+                                                                echo '<li id="'.get_the_title($featured).'"> <span class="new-badge">'.get_the_title($featured).'</span> '.$value_label.get_post_meta($id,'int_'.$badge_slug,true).'</li>'; }
                                                                 else {
-                                                                echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.get_post_meta($id,'int_'.$badge_slug,true).$value_label.'</li>'; }
+                                                                echo '<li id="'.get_the_title($featured).'"> <span class="new-badge">'.get_the_title($featured).'</span> '.get_post_meta($id,'int_'.$badge_slug,true).$value_label.'</li>'; }
                                                             } else {
                                                             if(is_int($spec_key)) { 
                                                                 $child_val = '';
@@ -969,9 +1008,11 @@ $cars_listing = new WP_Query( $args_cars );
                                                                 if($spec_feat_val!='')
                                                                 {
                                                                 if($label_position==0) {
-                                                                echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.$value_label.$this_specification['start_time'][$spec_key].$child_val.'</li>'; }
+                                                                echo '<li id="'.get_the_title($featured).'"> <span class="new-badge">'.get_the_title($featured).'</span> '.$value_label.$this_specification['start_time'][$spec_key].$child_val.'</li>'; 
+                                                                }
                                                                 else {
-                                                                echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.$this_specification['start_time'][$spec_key].$child_val.$value_label.'</li>'; } } 
+                                                                echo '<li id="'.get_the_title($featured).'"> <span class="new-badge">'.get_the_title($featured).'</span> '.$this_specification['start_time'][$spec_key].$child_val.$value_label.'</li>';
+                                                                 } } 
                                                             } else {
                                                                 $spec_val_char = get_post_meta(get_the_ID(), 'char_'.$badge_slug, true);
                                                                 $spec_val_char_child = get_post_meta(get_the_ID(), 'child_'.$badge_slug, true);
@@ -979,11 +1020,11 @@ $cars_listing = new WP_Query( $args_cars );
                                                                 {
                                                                     if($label_position==0) 
                                                                     {
-                                                                        echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.$value_label.$spec_val_char.' '.$spec_val_char_child.'</li>'; 
+                                                                        echo '<li id="'.get_the_title($featured).'"> <span class="new-badge">'.get_the_title($featured).'</span> '.$value_label.$spec_val_char.' '.$spec_val_char_child.'</li>'; 
                                                                     }
                                                                     else 
                                                                     {
-                                                                        echo '<li class=""> <span class="new-badge">'.get_the_title($featured).'</span> '.$spec_val_char.' '.$spec_val_char_child.$value_label.'</li>'; 
+                                                                        echo '<li id="'.get_the_title($featured).'"> <span class="new-badge">'.get_the_title($featured).'</span> '.$spec_val_char.' '.$spec_val_char_child.$value_label.'</li>'; 
                                                                     } 
                                                                 }
                                                             }
@@ -994,6 +1035,8 @@ $cars_listing = new WP_Query( $args_cars );
                                                     </ul>
                                                 </div>
                                             </div>
+                                             <?php } 
+                                            } ?>
                                         </div>
                                         <?php endwhile; else: ?>
                                         <div class="text-align-center error-404">

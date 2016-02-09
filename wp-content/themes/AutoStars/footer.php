@@ -180,6 +180,154 @@ global $imic_options;
     </div>
     </div>
 </div>
+<div class="modal fade guest-modal" id="GuestModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="PaymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content" style="top:150px;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel"><?php echo esc_attr_e('Login or Register for full access','framework'); ?></h4>
+        </div>
+        <div id="messages"><div class="alert alert-error">You must be a register member to have access to this listing type. Register to start enjoying full access</div></div>
+        <div class="modal-body">
+            <div class="tabs">
+              <ul class="nav nav-tabs">
+                <li class="active"> <a data-toggle="tab" href="#tab10"> <?php echo esc_attr_e('Join Now','framework'); ?> </a> </li>
+                <li> <a data-toggle="tab" href="#tab12"> <?php echo esc_attr_e('Already a Member?','framework'); ?> </a> </li>
+                <li> <a data-toggle="tab" href="#tab13"> <?php echo esc_attr_e('Forgot your Password?','framework'); ?> </a> </li>
+              </ul>
+              <div class="tab-content">
+                <!-- <div id="register-user-form" class="tab-pane active"> -->
+                <div class="tab-pane active" id="tab10">
+                  <form method="post" id="guestformpopup" name="guestformpopup" class="guest-form-popup">
+                  <br/>
+                    <input type ="hidden" class ="redirect_register" name ="redirect_register" value =""/>
+                    <a href="#" class="guest-trigger"><?php echo esc_attr_e('CONTINUE AS GUEST','framework'); ?> <i class="fa fa-arrow-down"></i></a>
+                    <p>
+                       Get instant access. No verification required. Some restrictions apply.
+                    </p>
+                    <div class="guest-row" style="display:none;">
+                        <!-- <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                        <input type="email" name="guest-email" id="guest-email-popup" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                        </div> -->
+                        <button type="button" id="guest-submit-popup" class="btn btn-primary"><?php echo esc_attr_e('Continue','framework'); ?></button>
+                    </div><div class="clearfix"></div><br/>
+                    <a href="#" class="member-trigger"><?php echo esc_attr_e('BECOME A MEMBER','framework'); ?> <i class="fa fa-arrow-down"></i></a>
+                    <p>
+                       Become a member and start enjoying access to all yacht listing including bank owned yachts, trades, shipyards inventory and private sales. 
+                    </p>
+                    <div class="member-row" style="display:none;">
+                        <?php 
+                        if(is_plugin_active("imithemes-listing/listing.php")) {
+                        $user_role = get_terms('user-role',array('hide_empty'=>false));
+                        if(!empty($user_role)) { ?>
+                        <div class="input-group">
+                        <span class="input-group-addon"><?php echo esc_attr_e('Role','framework'); ?></span>
+                        <select name="user-role" id="user-role-popup" class="form-control selectpicker">
+                        <?php foreach($user_role as $role) {
+                        echo '<option value="'.esc_attr($role->name).'">'.esc_attr($role->name).'</option>';
+                        } ?>
+                        </select>
+                        </div>
+                        <?php } } ?>
+                        <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" name="firstname" id="guest-firstname-popup" class="form-control" placeholder="<?php echo esc_attr_e('First Name','framework'); ?>">
+                        </div>
+                        <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                        <input type="email" name="email" id="guest-email-popup" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">
+                        </div>
+                        <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input type="password" name="pwd1" id="guest-pwd1-popup" class="form-control password-input-popup" placeholder="<?php echo esc_attr_e('Password','framework'); ?>">
+                        </div><div class="signup-form">
+                        <a href="javascript:void(0);" rel="0" title="<?php echo esc_attr_e('Show/Hide Password','framework') ?>" class="password-show-popup pass-actions"><i class="fa-eye-slash"></i></a>
+                        <a href="javascript:void(0);" title="<?php echo esc_attr_e('Generate Password','framework') ?>" class="password-generate-popup pass-actions"><i class="fa fa-refresh"></i></a>
+                        <div class="progress"><div class="progress-bar password-output-popup" style="width: 0%"></div></div></div>
+                        <div class="clearfix spacer-20"></div>
+                        <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-refresh"></i></span>
+                        <input type="password" name="pwd2" id="guest-pwd2-popup" class="form-control password-input2-popup margin-5" placeholder="<?php echo esc_attr_e('Repeat Password','framework') ?>">
+                        </div>
+                        <input type="hidden" name="image_path" id="image_path" value="<?php echo get_template_directory_uri(); ?>">                             
+                        <input type="hidden" name="task" id="guest-task-popup" value="register" />
+                        <button type="submit" id="guest-submit-popup" class="btn btn-primary"><?php echo esc_attr_e('Register Now','framework'); ?></button>
+                    </div>
+                    </form><div class="clearfix"></div><br/>
+                    <div id="guest-message-popup"></div>
+                </div>
+                <!-- <div id="login-user-form" class="tab-pane" -->
+                <div class="tab-pane" id="tab12">
+                  <form id="guest-login-popup" action="login" method="post">
+                  <br/>
+                    <?php 
+                    $redirect_login= get_post_meta(get_the_ID(),'imic_login_redirect_options',true);
+                    $redirect_login=!empty($redirect_login)?$redirect_login:  home_url();
+                    ?>
+                    <input type ="hidden" class ="redirect_login" name ="redirect_login" value =""/>
+                    <a href="#"><?php echo esc_attr_e('SIGN IN','framework'); ?></a>
+                    <p>For returning customers.</p>
+                    <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input class="form-control input1" id="guest-loginname" type="text" name="loginname" placeholder="<?php _e('Email Address', 'framework'); ?>">
+                    </div>
+                    <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    <input class="form-control input1" id="guest-password" type="password" name="password" placeholder="<?php _e('Password', 'framework'); ?>">
+                    </div>
+                    <div class="input-group">
+                    <input type="checkbox" checked="checked" value="true" name="rememberme" id="guest-rememberme" class="checkbox"> <?php echo esc_attr_e('Remember Me!','framework'); ?>
+                    </div>
+                    <input id="guest-login" class="submit_button btn btn-primary button2" type="submit" value="<?php echo esc_attr_e('Login Now','framework'); ?>" name="submit">
+                    <?php wp_nonce_field( 'ajax-login-nonce', 'guest-security' ); ?><br/><p class="guest-status"></p>
+                    </form>
+                </div>
+                <!-- <div id="reset-user-form" class="tab-pane"> -->
+                <div class="tab-pane" id="tab13">
+                  <form id="guest-reset-pass" method="post">
+                  <br/>
+                    <?php 
+                    $redirect_login= get_post_meta(get_the_ID(),'imic_login_redirect_options',true);
+                    $redirect_login=!empty($redirect_login)?$redirect_login:  home_url();
+                    ?>
+                    <input type ="hidden" class ="redirect_login" name ="redirect_login" value =""/>
+                    <a href="#"><?php echo esc_attr_e('CHANGE YOUR PASSWORD','framework'); ?></a>
+                    <p>
+                        Fill in your email below to request a new password. An email will be sent to the address below containing a link to change your password.
+                    </p>
+                    <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input class="form-control input1" id="guest-reset-email" type="text" name="reset-email" placeholder="<?php esc_attr_e('Email Address', 'framework'); ?>">
+                    </div>
+                    <div class="input-group" id="guest-reset-key" style="display:none;">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    <input class="form-control input1" id="guest-reset-verification" type="text" name="reset-verification" placeholder="<?php esc_attr_e('Please insert verification code', 'framework'); ?>">
+                    </div>
+                    <div id="guest-show-pass-fields" style="display:none;">
+                    <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    <input class="form-control input1" id="guest-reset-pass1" type="password" name="reset-pass1" placeholder="<?php esc_attr_e('Enter Password', 'framework'); ?>">
+                    </div>
+                    <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    <input class="form-control input1" id="guest-reset-pass2" type="password" name="reset-pass2" placeholder="<?php esc_attr_e('Enter Password Again', 'framework'); ?>">
+                    </div>
+                    </div>
+                    <input id="guest-reset-code" class="submit_button btn btn-primary button2" type="submit" value="<?php echo esc_attr_e('Reset Password','framework'); ?>" name="submit">
+                    <input style="display:none;" id="guest-reset-new-pass" class="submit_button btn btn-primary button2" type="submit" value="<?php echo esc_attr_e('Change Password','framework'); ?>" name="submit_pass">
+                    
+                    <br/><p class="guest-status"></p>
+                    </form>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+    </div>
+</div>
 <!-- End Boxed Body -->
 <!-- LIGHTBOX INIT -->
 <?php           

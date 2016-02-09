@@ -76,5 +76,44 @@ jQuery(document).ready(function() {
 		});
 		return false;
 	});
+	jQuery(".guest-form-popup").submit(function(event) {
+		jQuery("#guest-message-popup").slideUp(750,function() {
+		jQuery('#guest-message-popup').hide();
+		
+		jQuery('#guest-submit-popup')
+		   .after('<img src="' + jQuery('#image_path').val() + '/images/assets/ajax-loader.gif" class="loader" />')
+		   .attr('disabled','disabled');
+		jQuery.ajax({
+			type: 'POST',
+			url: agent_register.ajaxurl,
+			data: {
+				action: 'imic_agent_register',
+				//role: jQuery('#role-popup').val(),
+				firstname: jQuery('#guest-firstname-popup').val(),
+				email: jQuery('#guest-email-popup').val(),
+				guestemail: jQuery('#guest-guest-email-popup').val(),
+				pwd1: jQuery('#guest-pwd1-popup').val(),
+				pwd2: jQuery('#guest-pwd2-popup').val(),
+				task: jQuery('#guest-task-popup').val(),
+				roles: jQuery('#guest-user-role-popup').val()
+				},
+			success: function(data) {
+				document.getElementById('guest-message-popup').innerHTML = data;
+				jQuery('#guest-message-popup').slideDown('slow');
+				jQuery('.guest-form-popup img.loader').fadeOut('slow',function(){jQuery(this).remove()});
+				jQuery('#guest-submit-popup').removeAttr('disabled');
+				if(data.match('successfully') != null) { 
+					document.getElementById('guestformpopup').reset();
+                    //document.location.href = jQuery('.redirect_register').val();
+                    jQuery('#messages').hide();
+				}
+			},
+			error: function(errorThrown) {
+
+			}
+		});
+		});
+		return false;
+	});
 });
 })(jQuery);

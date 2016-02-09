@@ -1440,7 +1440,7 @@ $loggedUserEmail = $current_user->user_email;
                             </div>
                       	</div>
                    	</div>
-                   	<p><?php echo esc_attr_e('YACHT INFORMATION','framework'); ?></p>
+                   	<!-- <p><?php echo esc_attr_e('YACHT INFORMATION','framework'); ?></p>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="input-group">
@@ -1482,7 +1482,7 @@ $loggedUserEmail = $current_user->user_email;
                                 <input type="text" name="Location" class="form-control" placeholder="<?php echo esc_attr_e('Location','framework'); ?>">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <textarea class="form-control" name="Additional Comments" placeholder="<?php echo esc_attr_e('Message','framework'); ?>"></textarea>
              		<input type="submit" class="btn btn-primary pull-right" value="<?php echo esc_attr_e('Submit','framework'); ?>">
                     <div class="clearfix"></div>
