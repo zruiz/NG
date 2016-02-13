@@ -187,7 +187,7 @@ global $imic_options;
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="myModalLabel"><?php echo esc_attr_e('Login or Register for full access','framework'); ?></h4>
         </div>
-        <div id="messages"><div class="alert alert-error">You must be a register member to have access to this listing type. Register to start enjoying full access</div></div>
+        <div id="messages"><div class="alert alert-error">You must be a registered member to get full access to this listing.</div></div>
         <div class="modal-body">
             <div class="tabs">
               <ul class="nav nav-tabs">

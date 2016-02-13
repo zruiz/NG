@@ -1331,7 +1331,7 @@ foreach($data as $key=>$value)
                                                         <div class="result-item-pricing">
                                                             <div class="price"><?php echo esc_attr($unique_value); ?></div>
                                                         </div>
-                                                        <div class="result-item-action-buttons">
+                                                        <!-- <div class="result-item-action-buttons">
                                                             <a <?php echo esc_attr($save_icon_disable); ?> id="" href="#" class="btn btn-default btn-sm save-car"><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div><i class="fa <?php echo esc_attr($save_icon); ?>"></i> <?php _e('Save','framework'); ?></a>
                                                             <a href="<?php echo esc_url(get_permalink()); ?>" class="btn btn-default btn-sm"><?php _e('Enquire','framework'); ?></a><br>
                                                             <div class="view-distance"><div style="display:none;"><span class="car-lat"><?php echo esc_attr($car_pin[0]); ?></span><span class="car-long"><?php echo esc_attr($car_pin[1]); ?></span></div><a id="<?php echo get_the_ID(); ?>" href="#" class="distance-calc"><i class="fa fa-map-marker"></i> <?php _e('Distance from me?','framework'); ?></a>
@@ -1341,7 +1341,7 @@ foreach($data as $key=>$value)
                                                                     <a href="#" class="btn btn-default btn-sm search-dist" style="display:none;"><?php _e('Get','framework'); ?></a>
                                                                 </span>
                                                             </div></div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="result-item-features">

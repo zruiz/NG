@@ -2116,6 +2116,7 @@ body.admin-bar .site-header-wrapper{
 	height:auto;
 	position:relative;
 	z-index:555;
+	margin-top: 15px;
 }
 .share-text{
 	line-height:40px;

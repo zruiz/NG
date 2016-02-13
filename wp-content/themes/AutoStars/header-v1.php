@@ -54,7 +54,9 @@ $menu_locations = get_nav_menu_locations(); ?>
 						if(!empty($userFirstName) || !empty($userLastName)) {
 							$userName = $userFirstName .' '. $userLastName; 
 						}
-						$dashboard = imic_get_template_url('template-dashboard.php'); ?>
+						$dashboard = imic_get_template_url('template-dashboard.php');
+                     ?>
+                        
             <?php if(!empty($dashboard)) { ?>
                     <div class="user-login-panel logged-in-user">
                         <a href="#" class="user-login-btn" id="userdropdown" data-toggle="dropdown">
@@ -74,7 +76,8 @@ $menu_locations = get_nav_menu_locations(); ?>
                             <li><a href="<?php echo esc_url(add_query_arg('manage',1,$dashboard)); ?>"><?php echo esc_attr_e('Manage Ads','framework'); ?></a></li>
                             <li><a href="<?php echo esc_url(add_query_arg('profile',1,$dashboard)); ?>"><?php echo esc_attr_e('My Profile','framework'); ?></a></li>
                             <li><a href="<?php echo wp_logout_url(home_url()); ?>"><?php echo esc_attr_e('Log Out','framework'); ?></a></li>
-                        </ul><?php } ?>
+                        </ul>
+            <?php } ?>
                     </div>
                     <?php } if (!empty($menu_locations['top-menu'])) { ?>
                     <div class="topnav dd-menu">
