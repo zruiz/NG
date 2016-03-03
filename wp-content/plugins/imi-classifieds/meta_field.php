@@ -190,9 +190,9 @@ $meta_box = array(
             'std' => 0,
         ),
         array(
-            'name' => __('Payment Status', 'framework'),
+            'name' => __('Ad Status', 'framework'),
             'id' => $prefix . 'ad_payment_status',
-            'desc' => __("Select Ad payment status.", 'framework'),
+            'desc' => __("Select Ad status.", 'framework'),
             'type' => 'select',
             'options' => array(
             '0' => __('Pending', 'framework'),

@@ -30,7 +30,7 @@ $numeric_specs_type = (isset($imic_options['integer_specs_type']))?$imic_options
       						</span>
                         </div>
                         <?php if(!empty($search_fields)) { ?>
-                        <a href="#" class="search-advanced-trigger"><?php echo esc_attr_e('Advanced Search','framework'); ?> <i class="fa fa-arrow-down"></i></a><?php } ?>
+                        <a href="#" class="search-advanced-trigger advanced"><?php echo esc_attr_e('Advanced Search','framework'); ?> <i class="fa fa-arrow-down"></i></a><?php } ?>
                         <div class="row advanced-search-row">
                             <?php $count = 1;
 									if(!empty($search_fields)) {

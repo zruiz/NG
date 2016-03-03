@@ -16,6 +16,13 @@ jQuery(function($){
 	    jQuery('#PaymentModal .modal-body .nav-tabs a:eq(' + tab + ')').tab('show');
 	});
 
+	jQuery('.broker').hide();
+	jQuery('#user-role-popup').on('change', function() {
+		if (jQuery('#user-role-popup').val() == 'Broker') {
+			jQuery('.broker').slideDown('slow');
+		}else jQuery('.broker').slideUp('slow');
+	});
+
 	// jQuery('.result-item-in').click(function() {
 	// 	if (getCookie() == 'guest') {
 	// 		jQuery("#PaymentModal").modal('show');
@@ -575,7 +582,7 @@ AUTOSTARS.megaMenu = function() {
 ================================================== */
 		AUTOSTARS.RESULTS = function() {	
 			$('#results-holder').each(function() {
-				$(this).find('.result-item').matchHeight();
+				$(this).find('.result-item').css('height','265');
 			});
 		}
 /* ==================================================
@@ -840,7 +847,7 @@ $(window).load(function(){
 		$(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-expand'></i></span></span>");
 	});
 	$(".format-standard").each(function(){
-		$(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
+		// $(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
 	});
 	$(".format-video").each(function(){
 		$(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-music-play'></i></span></span>");

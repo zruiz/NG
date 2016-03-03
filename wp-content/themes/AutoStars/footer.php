@@ -40,6 +40,7 @@ global $imic_options;
             <!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
             <h4 class="modal-title" id="myModalLabel"><?php echo esc_attr_e('Login or Register for full access','framework'); ?></h4>
         </div>
+        <div id="messages"><div class="broker alert alert-error">Broker role and listings are subject to approval.</div></div>
         <div class="modal-body">
             <div class="tabs">
               <ul class="nav nav-tabs">
@@ -53,7 +54,7 @@ global $imic_options;
                   <form method="post" id="registerformpopup" name="registerformpopup" class="register-form-popup">
                   <br/>
                     <input type ="hidden" class ="redirect_register" name ="redirect_register" value =""/>
-                    <a href="#" class="guest-trigger"><?php echo esc_attr_e('CONTINUE AS GUEST','framework'); ?> <i class="fa fa-arrow-down"></i></a>
+                    <a href="#" class="guest-trigger closed"><?php echo esc_attr_e('CONTINUE AS GUEST','framework'); ?> <i class="fa fa-arrow-down"></i></a>
                     <p>
                        Get instant access. No verification required. Some restrictions apply.
                     </p>
@@ -64,7 +65,7 @@ global $imic_options;
                         </div> -->
                         <button type="button" id="guest-submit-popup" class="btn btn-primary"><?php echo esc_attr_e('Continue','framework'); ?></button>
                     </div><div class="clearfix"></div><br/>
-                    <a href="#" class="member-trigger"><?php echo esc_attr_e('BECOME A MEMBER','framework'); ?> <i class="fa fa-arrow-down"></i></a>
+                    <a href="#" class="member-trigger closed"><?php echo esc_attr_e('BECOME A MEMBER','framework'); ?> <i class="fa fa-arrow-down"></i></a>
                     <p>
                        Become a member and start enjoying access to all yacht listing including bank owned yachts, trades, shipyards inventory and private sales. 
                     </p>
@@ -76,15 +77,18 @@ global $imic_options;
                         <div class="input-group">
                         <span class="input-group-addon"><?php echo esc_attr_e('Role','framework'); ?></span>
                         <select name="user-role" id="user-role-popup" class="form-control selectpicker">
-                        <?php foreach($user_role as $role) {
-                        echo '<option value="'.esc_attr($role->name).'">'.esc_attr($role->name).'</option>';
+                        <?php
+                            $selected = '';
+                            foreach($user_role as $role) {
+                                if (esc_attr($role->name) == 'Individual') $selected = 'selected="selected"'; 
+                                echo '<option value="'.esc_attr($role->name).'" '.$selected .'>'.esc_attr($role->name).'</option>';
                         } ?>
                         </select>
                         </div>
                         <?php } } ?>
                         <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" name="firstname" id="firstname-popup" class="form-control" placeholder="<?php echo esc_attr_e('First Name','framework'); ?>">
+                        <input type="text" name="firstname" id="firstname-popup" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                         </div>
                         <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
@@ -201,7 +205,7 @@ global $imic_options;
                   <form method="post" id="guestformpopup" name="guestformpopup" class="guest-form-popup">
                   <br/>
                     <input type ="hidden" class ="redirect_register" name ="redirect_register" value =""/>
-                    <a href="#" class="guest-trigger"><?php echo esc_attr_e('CONTINUE AS GUEST','framework'); ?> <i class="fa fa-arrow-down"></i></a>
+                    <a href="#" class="guest-trigger closed"><?php echo esc_attr_e('CONTINUE AS GUEST','framework'); ?> <i class="fa fa-arrow-down"></i></a>
                     <p>
                        Get instant access. No verification required. Some restrictions apply.
                     </p>
@@ -212,7 +216,7 @@ global $imic_options;
                         </div> -->
                         <button type="button" id="guest-submit-popup" class="btn btn-primary"><?php echo esc_attr_e('Continue','framework'); ?></button>
                     </div><div class="clearfix"></div><br/>
-                    <a href="#" class="member-trigger"><?php echo esc_attr_e('BECOME A MEMBER','framework'); ?> <i class="fa fa-arrow-down"></i></a>
+                    <a href="#" class="member-trigger closed"><?php echo esc_attr_e('BECOME A MEMBER','framework'); ?> <i class="fa fa-arrow-down"></i></a>
                     <p>
                        Become a member and start enjoying access to all yacht listing including bank owned yachts, trades, shipyards inventory and private sales. 
                     </p>
@@ -224,15 +228,17 @@ global $imic_options;
                         <div class="input-group">
                         <span class="input-group-addon"><?php echo esc_attr_e('Role','framework'); ?></span>
                         <select name="user-role" id="user-role-popup" class="form-control selectpicker">
-                        <?php foreach($user_role as $role) {
-                        echo '<option value="'.esc_attr($role->name).'">'.esc_attr($role->name).'</option>';
+                        <?php $selected = '';
+                            foreach($user_role as $role) {
+                                if (esc_attr($role->name) == 'Individual') $selected = 'selected="selected"'; 
+                                echo '<option value="'.esc_attr($role->name).'" '.$selected .'>'.esc_attr($role->name).'</option>';
                         } ?>
                         </select>
                         </div>
                         <?php } } ?>
                         <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                        <input type="text" name="firstname" id="guest-firstname-popup" class="form-control" placeholder="<?php echo esc_attr_e('First Name','framework'); ?>">
+                        <input type="text" name="firstname" id="guest-firstname-popup" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                         </div>
                         <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
@@ -424,7 +430,7 @@ global $imic_options;
 <h4 id="mymodalLabel" class="modal-title"><?php echo esc_attr_e('Delete Selected Items','framework'); ?></h4>
 </div>
 <div class="modal-body">
-<?php echo esc_attr_e('Are you really wants to delete','framework'); ?>
+<?php echo esc_attr_e('Do you really want to delete?','framework'); ?>
 </div>
 <div class="modal-footer">
 <input id="delete" name="submit" data-dismiss="modal" type="button" class="btn btn-default inverted" value="<?php _e('Delete', 'framework'); ?>">

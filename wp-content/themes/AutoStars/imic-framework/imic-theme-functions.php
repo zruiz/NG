@@ -1298,63 +1298,145 @@ foreach($data as $key=>$value)
                                         $save_icon_disable = (imic_value_search_multi_array(get_the_ID(),$saved_car_user))?'disabled':'';
                                         ?>
                                         <!-- Result Item -->
-                                        <div class="result-item format-standard">
-                                            <div class="result-item-image"><?php if(has_post_thumbnail()) { ?>
-                                                <a href="<?php echo esc_url(get_permalink()); ?>" class="media-box"><?php the_post_thumbnail('600x400'); ?></a><?php } ?>
-                                                <?php $start = 0; 
-                                                    $badge_position = array('vehicle-age','premium-listing','third-listing','fourth-listing');
-                                                    if(!empty($badges)) {
-                                                    foreach($badges as $badge):
-                                                        $badge_class = ($start==0)?'default':'success';
-                                                        echo '<span class="label label-'.$badge_class.' '.$badge_position[$start].'">'.$badge.'</span>';
-                                                    $start++; if($start>3) { break; }
-                                                    endforeach; } ?>
-                                                <div class="result-item-view-buttons">
-                                                    <?php if($video!='') { ?>
-                                                    <a href="<?php echo esc_attr($video); ?>" data-rel="prettyPhoto"><i class="fa fa-play"></i> <?php _e('View video','framework'); ?></a><?php } ?>
-                                                    <a href="<?php echo esc_url(get_permalink()); ?>"><i class="fa fa-plus"></i> <?php _e('View details','framework'); ?></a>
-                                                </div>
-                                            </div>
-                                            <div class="result-item-in">
-                                                <h4 class="result-item-title"><a href="<?php echo esc_url(get_permalink()); ?>"><?php echo esc_attr($highlight_value); ?></a>
-                                                <?php 
-                                                if($category_rail=="1"&&is_plugin_active("imi-classifieds/imi-classified.php"))
-                                                {
-                                                    echo imic_get_cats_list(get_the_ID(), "dropdown");
-                                                }
-                                                ?></h4>
-                                                <div class="result-item-cont">
-                                                    <div class="result-item-block col1">
-                                                        <?php echo imic_excerpt(20); ?>
+                                        <div class="result-item format-standard" style="position: relative;">
+                                            <?php 
+                                                $search_filters = (isset($imic_options['search_filter_listing']))?$imic_options['search_filter_listing']:array();
+                                                // $new_search_filters = imic_filter_lang_specs($search_filters);
+                                                // var_dump($new_search_filters); die();
+                                                $specification_data_type = (isset($imic_options['specification_fields_type']))?$imic_options['specification_fields_type']:"0";
+                                                foreach($search_filters as $featured) {
+                                                    $field_type = get_post_meta($featured,'imic_plugin_spec_char_type',true);
+                                                    $value_label = get_post_meta($featured,'imic_plugin_value_label',true);
+                                                    $label_position = get_post_meta($featured,'imic_plugin_lable_position',true);
+                                                    $badge_slug = imic_the_slug($featured);
+                                                    $this_specification = get_post_meta(get_the_ID(), 'feat_data', true);
+                                                    if($specification_data_type=="0")
+                                                    {
+                                                        $spec_key = array_search($featured, $this_specification['sch_title']);
+                                                        $second_key = array_search($featured*111, $this_specification['sch_title']);
+                                                    }
+                                                    else
+                                                    {
+                                                        $spec_key = $second_key = '';
+                                                    }
+                                                    $id = get_the_ID();
+                                                    $feat_val = get_post_meta($id,'int_'.$badge_slug,true);
+                                                    if (get_the_title($featured) == 'Status') {
+                                                        if(is_int($spec_key)) { 
+                                                            $child_val = '';
+                                                            if(is_int($second_key)) 
+                                                            { 
+                                                                $child_val = ' '.$this_specification['start_time'][$second_key]; 
+                                                            }
+                                                            $spec_feat_val = $this_specification['start_time'][$spec_key];
+                                                            if($spec_feat_val!='')
+                                                            {
+                                                                if($label_position==0) {
+                                                                    $status = $value_label.$this_specification['start_time'][$spec_key].$child_val; 
+                                                                }
+                                                                else {
+                                                                    $status = $this_specification['start_time'][$spec_key].$child_val.$value_label;
+                                                                } 
+                                                            } 
+                                                        }
+
+                                                    // if(!empty($details_value)) {
+                                                    //     foreach($details_value as $detail) {
+                                                    //         if(!empty($detail) && $detail == "Bank Owned") {
+                                                    //             $status = $detail;
+                                                    //          }
+                                                    // } } 
+                                                ?>
+
+                                                    <div class="result-item-image"><?php if(has_post_thumbnail()) { ?>
+                                                        <!-- <a href="#" class="media-box"><?php the_post_thumbnail('600x400'); ?></a> -->
+                                                        <?php if(is_user_logged_in()) { 
+                                                        ?>
+                                                        <a href="<?php echo esc_url(get_permalink()); ?>" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() &&  $status == 'Bank Owned') {
+                                                        ?>
+                                                        <a href="#" data-toggle="modal" data-target="#GuestModal" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>                                              
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() && $status == 'Private Sale') {
+                                                        ?>
+                                                        <a href="#" data-toggle="modal" data-target="#GuestModal" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>                                              
+                                                        <?php } else { ?>
+                                                        <a href="<?php echo esc_url(get_permalink()); ?>" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>
+                                                        <?php } } ?>
+                                                        <?php $start = 0; 
+                                                            $badge_position = array('vehicle-age','premium-listing','third-listing','fourth-listing');
+                                                            if(!empty($badges)) {
+                                                            foreach($badges as $badge):
+                                                                $badge_class = ($start==0)?'default':'success';
+                                                                echo '<span class="label label-'.esc_attr($badge_class).' '.esc_attr($badge_position[$start]).'">'.esc_attr($badge).'</span>';
+                                                            $start++; if($start>3) { break; }
+                                                            endforeach; } ?>
+                                                        
                                                     </div>
-                                                    <div class="result-item-block col2">
-                                                        <div class="result-item-pricing">
-                                                            <div class="price"><?php echo esc_attr($unique_value); ?></div>
-                                                        </div>
-                                                        <!-- <div class="result-item-action-buttons">
-                                                            <a <?php echo esc_attr($save_icon_disable); ?> id="" href="#" class="btn btn-default btn-sm save-car"><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id"><?php echo esc_attr(get_the_ID()); ?></span></div><i class="fa <?php echo esc_attr($save_icon); ?>"></i> <?php _e('Save','framework'); ?></a>
-                                                            <a href="<?php echo esc_url(get_permalink()); ?>" class="btn btn-default btn-sm"><?php _e('Enquire','framework'); ?></a><br>
-                                                            <div class="view-distance"><div style="display:none;"><span class="car-lat"><?php echo esc_attr($car_pin[0]); ?></span><span class="car-long"><?php echo esc_attr($car_pin[1]); ?></span></div><a id="<?php echo get_the_ID(); ?>" href="#" class="distance-calc"><i class="fa fa-map-marker"></i> <?php _e('Distance from me?','framework'); ?></a>
-                                                            <div class="input-group">
-                                                                <input type="text" value="<?php echo esc_attr($logged_user_pin); ?>" class="get-distance form-control input-sm" style="display:none;" placeholder="Enter Zipcode">
-                                                                <span class="input-group-btn">
-                                                                    <a href="#" class="btn btn-default btn-sm search-dist" style="display:none;"><?php _e('Get','framework'); ?></a>
-                                                                </span>
-                                                            </div></div>
-                                                        </div> -->
-                                                    </div>
+                                                <div class="result-item-in" style="display:none;">
+                                                    <!-- <input type="hidden" name="permalink" id="permalink" value="<?php echo esc_url(get_permalink()); ?>"> -->
+                                                   <?php if(is_user_logged_in()) { 
+                                                        ?>
+                                                        <h4 class="result-item-title"><a href="<?php echo esc_url(get_permalink()); ?>"><?php echo esc_attr($highlight_value); ?></a>
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() &&  $status == 'Bank Owned') {
+                                                        ?>
+                                                        <h4 class="result-item-title"><a href="#" data-toggle="modal" data-target="#GuestModal"><?php echo esc_attr($highlight_value); ?></a>                                              
+
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() && $status == 'Private Sale') {
+                                                        ?>
+                                                        <h4 class="result-item-title"><a href="#" data-toggle="modal" data-target="#GuestModal"><?php echo esc_attr($highlight_value); ?></a>                                              
+                                                        <?php } else { ?>
+                                                            <h4 class="result-item-title"><a href="<?php echo esc_url(get_permalink()); ?>"><?php echo esc_attr($highlight_value); ?></a>
+                                                        <?php
+                                                        }?> 
+                                                        <?php 
+                                                        if($category_rail=="1"&&is_plugin_active("imi-classifieds/imi-classified.php"))
+                                                        {
+                                                            echo imic_get_cats_list(get_the_ID(), "dropdown");
+                                                        }
+                                                        ?></h4>
                                                 </div>
-                                                <div class="result-item-features">
+                                            <?php } } ?>
+                                             <div class="result-item-features">
                                                     <ul class="inline">
                                                     <?php if(!empty($details_value)) {
+                                                        $i=0;
                                                         foreach($details_value as $detail) {
-                                                            if(!empty($detail)) {
-                                                        echo '<li>'.$detail.'</li>'; }
+                                                            if(!empty($detail) && $i < 2 ) {
+                                                                echo '<li>'.$detail.' |</li>'; 
+                                                            } elseif ($i == 2) {
+                                                                echo '<li>'.$detail.'</li>'; 
+                                                            } elseif ($i > 2) {
+                                                                echo '<li style="display:block;">'.$detail.'</li>'; 
+                                                            } 
+                                                        $i++;
                                                     } } ?>
                                                     </ul>
-                                                </div>
+                                            </div>
+                                            <div class="result-item-view-buttons" style="position: absolute; bottom: 0; right: 0;">
+                                                <?php if($video!='') { ?>
+                                                <a href="<?php echo esc_attr($video); ?>" data-rel="prettyPhoto"><i class="fa fa-play"></i> <?php _e('View video','framework'); ?></a><?php } ?>
+                                                <!-- <a href="<?php echo esc_url(get_permalink()); ?>"><i class="fa fa-plus"></i> <?php _e('View details','framework'); ?></a> -->
+                                                <?php if(is_user_logged_in()) { 
+                                                ?>
+                                                <a href="<?php echo esc_url(get_permalink()); ?>"><i class="fa fa-plus"></i> </a>
+                                                <?php 
+                                                 } elseif(!is_user_logged_in() &&  $status == 'Bank Owned') {
+                                                ?>
+                                                <a href="#" data-toggle="modal" data-target="#GuestModal"><i class="fa fa-plus"></i> </a>                                              
+                                                <?php 
+                                                 } elseif(!is_user_logged_in() && $status == 'Private Sale') {
+                                                ?>
+                                                <a href="#" data-toggle="modal" data-target="#GuestModal"><i class="fa fa-plus"></i></a>                                              
+                                                <?php } else { ?>
+                                                <a href="<?php echo esc_url(get_permalink()); ?>"><i class="fa fa-plus"></i> </a>
+                                                <?php } ?>
                                             </div>
                                         </div>
+
                                         <?php endwhile; else: ?>
                 
                     <div class="text-align-center error-404">
@@ -1604,6 +1686,7 @@ if(!function_exists('imic_create_vehicle'))
         $listing_view = (isset($_POST['listing_view']))?$_POST['listing_view']:'';
         $fields = (isset($_POST['values']))?$_POST['values']:'';
         $tags = (isset($_POST['tags']))?$_POST['tags']:array();
+        $features = (isset($_POST['features']))?$_POST['features']:'';
         $val = $id = $mids = '';
         $data = (isset($_POST['matched']))?$_POST['matched']:'';
         $mids = (isset($_POST['mids']))?$_POST['mids']:'';
@@ -1656,6 +1739,10 @@ if(!function_exists('imic_create_vehicle'))
         {
             update_post_meta($post_id, 'imic_plugin_listing_end_dt', '2020-01-01');
         }
+        }
+        if($features!=''){
+            
+            update_post_meta($post_id,'imic_tab_area2',$features);
         }
         if($category!='')
         {
@@ -2710,14 +2797,15 @@ function imic_agent_register() {
         $pwd1  = $_POST['pwd1'];
         $pwd2 = $_POST['pwd2'];
     } else {
-        $username     = 'guest_'.$_POST['guestemail'];
+        //$username     = 'guest_'.$_POST['guestemail'];
+        $firstname     = $_POST['firstname'];
         $email     = $_POST['guestemail'];
         $pwd1  = 'guest';
         $pwd2 = 'guest';
     }
     
     
-    if(trim($firstname) == '') {
+    if($firstname == '') {
         echo '<div class="alert alert-error">'.__('You must enter your first name.','framework').'</div>';
         exit();
     } else if(trim($email) == '') {

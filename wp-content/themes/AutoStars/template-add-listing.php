@@ -735,7 +735,15 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                             	
                                             </ul>
                                         </div>
-                                   	</div>
+
+                                        <div id="featcontainer">
+											<!-- <label for="featcontent" class="screen-reader-text"><?php _e( 'Yacht Features' ); ?></label> -->
+											<?php
+											$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close' );
+											wp_editor( '', 'featcontent', array( 'media_buttons' => true, 'tinymce' => true, 'quicktags' => $quicktags_settings ) );
+											?>
+										</div>
+	                                </div>
                                 	
                                    <?php if(is_user_logged_in()) { ?>
                                                         <button id="ss" class="btn btn-info pull-right save-searched-value"><?php echo esc_attr_e('Save ','framework'); ?>&amp;<?php echo esc_attr_e(' continue','framework'); ?></button><?php } else { echo '<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#PaymentModal">'.__('Login/Register','framework').'</a>'; } ?>
@@ -774,7 +782,9 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 													$sortable_class = ($sub_fields==1)?"sortable-specs":"";
 													$required = ($required==1)?'mandatory':'';
 													$int_value = ($integer==1)?' integer-val':'';
-													echo '<label>'.__('Select ', 'framework').get_the_title($field).'</label>';
+													if (get_the_title($field) == 'Price') {
+														echo '<label>'.__('Select ', 'framework').get_the_title($field).' (Only numbers are allowed)</label>';
+													} else echo '<label>'.__('Select ', 'framework').get_the_title($field).'</label>';
 														if((count($values)>1)&&($integer==0||$integer==2)) {
                                                         echo '<select '.$disable.' name="'.basename(get_permalink($field)).'" id="'.$input_id.'" class="'.$sortable_class.' form-control selectpicker custom-cars-fields '.$required.'">';
 														echo '<option value="0">'.__('Select','framework').'</option>';
@@ -888,7 +898,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                     			<!-- AD LISTING FORM STEP FOUR -->
                       			<div id="listing-add-form-four" class="tab-pane fade <?php echo ($active_tab4!='')?$active_tab4.' in':''; ?>">
                                     <h3><?php echo esc_attr_e('Upload your listing photos','framework'); ?></h3>
-                                    <div class="lighter"><p><?php echo esc_attr_e('Registered listing owners should include at least one picture.','framework'); ?></p></div>
+                                    <div class="lighter"><p><?php echo esc_attr_e('Registered listing owners should include at least one picture. You can upload up to 30 images.','framework'); ?></p></div>
                                     <?php $content = '';
 										if($update_id!='')
 										{
@@ -925,8 +935,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     </div>
                                     <input value="<?php echo get_post_meta($update_id,'imic_plugin_video_url',true); ?>" name="vehicle-video" id="vehicle-video" type="text" class="form-control" placeholder="Youtube/Video URL">
                                     <hr class="fw">
-                                    <h3><?php echo esc_attr_e('Add some comments about your listing','framework'); ?></h3>
-                                    <div class="lighter"><p><?php echo esc_attr_e('Enter here some impressive wording about your yacht to attract more buyers interest in your Ad listing. This will appear on the search results page as well.','framework'); ?></p></div>
+                                    <h3><?php echo esc_attr_e('Add all features about your listing','framework'); ?></h3>
+                                    <div class="lighter"><p><?php echo esc_attr_e('Include all yacht specifications below, the more accurate and thorough the best it is.','framework'); ?></p></div>
                                     <textarea name="vehicle-detail" id="vehicle-detail" class="form-control" rows="10"><?php echo $content; ?></textarea>
                                     
                                     <?php if(is_user_logged_in()) { ?>
@@ -936,7 +946,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                     			<!-- AD LISTING FORM STEP FIVE -->
                       			<div id="listing-add-form-five" class="tab-pane fade <?php echo ($active_tab5!='')?$active_tab5.' in':''; ?>">
                                 	<h3><?php echo esc_attr_e('About the listing approval process','framework'); ?></h3>
-                            		<div class="lighter"><p><?php echo esc_attr_e('To make sure listings are safe and appropriate for everyone, all listings go through an approval process using the Invictvs ads policies. Most listings are reviewed within 1 business day. However, some reviews take longer because the listing requires a more complex review. Once the listing is approved and published any user of our website will be able to contact you about the listing.','framework'); ?></p></div>
+                            		<div class="lighter"><p><?php echo esc_attr_e('To make sure listings are safe and appropriate for everyone, all listings go through an approval process using the NG Yachting ads policies. Most listings are reviewed within 1 business day. However, some reviews take longer because the listing requires a more complex review. Once the listing is approved and published any user of our website will be able to contact you about the listing.','framework'); ?></p></div>
                                     <div class="btn-group selling-choice" data-toggle="buttons">
                                     <?php $listing_view = get_post_meta($update_id,'imic_plugin_listing_view',true); ?>
                                         <label class="btn btn-default <?php echo ($listing_view=="all"||$listing_view=="")?"active":""; ?>">
@@ -947,6 +957,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                         </label> -->
                                     </div>
                                     <hr class="fw">
+                                    <div class="lighter"><p><?php echo esc_attr_e('Please review your listing carefully before submiting, you will not be able to edit listing once it has been submitted. Once listing is approved you may continue editing your listing.','framework'); ?></p></div>
                                     <?php if($opt_plans!=0&&$eligible_listing!=1) { ?>
                                 	<h3><?php echo esc_attr_e('Enter your billing info','framework'); ?></h3>
                             		<div class="lighter"><p><?php echo esc_attr_e('Payment are accepted using Paypal secure payment gateway and you will be redirected to Paypal payment page.','framework'); ?></p></div>

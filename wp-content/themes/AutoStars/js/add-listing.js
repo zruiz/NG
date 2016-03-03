@@ -136,6 +136,7 @@ jQuery(".tabs-listing").live("click", function(){
 		var $selling_option = jQuery("input[name=Loan-Tenure]:checked").val();
 		var $edit_post = jQuery("#vehicle-id").attr('class');
 		var $mileage = jQuery("#mileage-add").val();
+		var $features = jQuery("#featcontent").val();
 		var $category = imic_get_query_val('list-cat');
 		var $search_val = [], hash;
 		var $specs_ids = [], hash;
@@ -273,6 +274,7 @@ jQuery(".tabs-listing").live("click", function(){
 				mids: $specs_ids,
 				post_id: $edit_post,
 				tags: $tags,
+				features: $features,
 				phone: $phone,
 				email: $email,
 				price: $price,

@@ -40,7 +40,7 @@ $user_name = get_the_title($user_info_id);
 $saved_cars = get_post_meta($user_info_id,'imic_user_saved_cars',true);
 $saved_search = get_post_meta($user_info_id,'imic_user_saved_search',true);
 $listing_url = imic_get_template_url('template-add-listing.php');
-$args_cars = array('post_type'=>'yachts','author'=>$current_user->ID,'posts_per_page'=>-1,'post_status'=>array('publish','draft'));
+$args_cars = array('post_type'=>'yachts','author'=>$current_user->ID,'posts_per_page'=>-1,'post_status'=>array('publish','draft','review'));
 $cars_listing = new WP_Query( $args_cars );
 if ( $cars_listing->have_posts() ) :
 while ( $cars_listing->have_posts() ) :	
@@ -253,7 +253,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                             	//var_dump($role->slug);
                             	//die();
                             	if($role->slug == 'broker' || $role->slug == 'shipyard') { ?>
-                            	  <a href="<?php echo esc_url($listing_url); ?>" class='btn btn-block btn-primary add-listing-btn'><?php echo esc_attr_e('New Ad listing','framework'); ?></a>
+                            	  <a href="<?php echo esc_url($listing_url); ?>" class='btn btn-block btn-primary add-listing-btn'><?php echo esc_attr_e('Add New Listing','framework'); ?></a>
 	                            <?php } ?>
                                 <ul class="list-group">
                                     <li class="list-group-item <?php if($_SERVER['QUERY_STRING']=='') { echo "active"; } ?>"> <a href="<?php echo get_permalink(); ?>"><i class="fa fa-home"></i> <?php echo esc_attr_e('Dashboard','framework'); ?></a></li>
@@ -282,7 +282,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 						$success_msg = $imic_options['payment_success_mail'];
 						$listing_contact_email = '';
 						$admin_mail_to = ($listing_contact_email=='')?get_option('admin_email'):$listing_contact_email;
-						$mail_subject = $user_name .__('successfully added listing.','framework');
+						$mail_subject = __('Listing was submitted successfully','framework');
 						$admin_mail_content = "<p>".$user_name.__(" has added Ad listing.","framework")."</p>";
 						$admin_mail_content .= "<p>".__("Name: ","framework").$user_name."</p>";
 						$admin_mail_content .= "<p>".__("Email: ","framework").$current_user->user_email."</p>";
@@ -307,7 +307,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 										$additional_specs = $imic_options['unique_specs'];
 										$detailed_title = $imic_options['highlighted_specs'];
 										$ads_count = (get_query_var('manage')!=1)?1:-1;
-							$args_cars = array('post_type'=>'cars','author'=>$user_id,'posts_per_page'=>$ads_count,'post_status'=>array('publish','draft'));
+							$args_cars = array('post_type'=>'yachts','author'=>$user_id,'posts_per_page'=>$ads_count,'post_status'=>array('publish','draft','review'));
                         $cars_listing = new WP_Query( $args_cars );
 						if ( $cars_listing->have_posts() ) : ?>
                             <div id="ads-section" class="dashboard-block">
@@ -321,9 +321,9 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                             <tr>
                                                 <td>&nbsp;</td>
                                                 <td><?php echo esc_attr_e('Description','framework'); ?></td>
-                                                <td><?php echo esc_attr_e('Price/Status','framework'); ?></td>
+                                                <td><?php echo esc_attr_e('Price','framework'); ?></td>
                                                 <td><?php echo esc_attr_e('Timestamp','framework'); ?></td>
-                                                <td><?php echo esc_attr_e('Payment','framework'); ?></td>
+                                                <td><?php echo esc_attr_e('Status','framework'); ?></td>
                                                 <td><?php echo esc_attr_e('Actions','framework'); ?></td>
                                             </tr>
                                         </thead>
@@ -334,7 +334,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 										$plan_id = get_post_meta(get_the_ID(),'imic_plugin_car_plan',true);
 										$statuses = get_post_meta(get_the_ID(),'imic_plugin_ad_payment_status',true);
 										$status = "";
-										if($statuses==0) { $status = __("Pending Payment","framework"); $label = "warning"; }
+										if($statuses==0) { $status = __("Pending","framework"); $label = "warning"; }
 										elseif($statuses==1) { $status = __("Active","framework"); $label = "success"; }
 										elseif($statuses==2) { $status = __("Sold","framework"); $label = "primary"; }
 										elseif($statuses==3) { $status = __("Inactive","framework"); $label = "info"; }
@@ -703,7 +703,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 	$dealer_content = esc_sql(trim($_POST['dealer_content']));
 	if($first_name!='') {
 		$ss = wp_update_user( array( 'ID' => $user_id, 'first_name' => $first_name, 'last_name' => $last_name ) ); }
-	if(empty($first_name)) { $msg .= __('Please fill first name','framework')."\r\n"; }
+	if(empty($first_name)) { $msg .= __('Please fill your full name','framework')."\r\n"; }
 	// if(empty($user_zip)) { $msg .= __('Please fill zip code','framework')."\r\n"; }
 		if($msg=='') {
 			wp_set_object_terms($user_info_id, $ustate, 'user-city');
@@ -758,14 +758,14 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="row">
-                                                            <div class="col-md-6">
-                                                            	<label><?php echo esc_attr_e('First name*','framework'); ?></label>
+                                                            <div class="col-md-12">
+                                                            	<label><?php echo esc_attr_e('Full name*','framework'); ?></label>
                                                                 <input name="first-name" value="<?php echo esc_attr($current_user->user_firstname); ?>" type="text" class="form-control" placeholder="" >
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <!-- <div class="col-md-6">
                                                             	<label><?php echo esc_attr_e('Last name','framework'); ?></label>
                                                                 <input name="last-name" value="<?php echo esc_attr($current_user->user_lastname); ?>" type="text" class="form-control" placeholder="">
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-md-6">

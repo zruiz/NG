@@ -43,7 +43,7 @@
 		if(is_plugin_active("imithemes-listing/listing.php")) {
 			$args_team = array('post_type'=>'team','posts_per_page'=>$number);
 			$output .= '<hr class="fw">
-                <div class="text-align-center"><h2 class="uppercase">'.$title.'</h2></div>
+                <div class="text-align-left"><h2 class="uppercase">'.$title.'</h2></div>
                 <div class="spacer-20"></div>
             	<div class="row">
 				<ul class="sort-destination gallery-grid" data-sort-id="gallery">';

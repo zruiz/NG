@@ -13,7 +13,7 @@ else { $address = get_option('admin_email'); }
 echo $car;
 $subject = $email_subject;
 global $imic_options;
-$body = $name. __(' has been contacted you for below enquiry','framework');
+$body = $name. __(' has been contacting you for the below inquiry','framework');
 if(!empty($imic_options[$email_content])){	
 	$u_body = $imic_options[$email_content];
 }else{

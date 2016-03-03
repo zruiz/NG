@@ -150,7 +150,7 @@ function getUrlParams_cats() {
 				}
 				jQuery('ul.inline li').prepend('<i class="fa fa-caret-right"></i> ');
 				jQuery(".format-standard").each(function(){
-					jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
+					//jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
 				});
             },
             error: function(errorThrown) {

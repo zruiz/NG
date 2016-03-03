@@ -90,10 +90,11 @@ function getUrlVars()
 				jQuery("#results-holder").html(data);
 				jQuery('ul.inline li').prepend('<i class="fa fa-caret-right"></i> ');
 				jQuery(".format-standard").each(function(){
-					jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
+					// jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
 				});
 				jQuery('#results-holder').each(function() {
-				jQuery(this).find('.result-item').matchHeight();
+				//jQuery(this).find('.result-item').matchHeight();
+				jQuery(this).find('.result-item').css('height','265');
 			});
             },
             error: function(errorThrown) {
@@ -130,13 +131,16 @@ function getUrlVars()
 				jQuery("#results-holder").html(data);
 				jQuery('ul.inline li').prepend('<i class="fa fa-caret-right"></i> ');
 				jQuery(".format-standard").each(function(){
-					jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
+					// jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
 				});
 				jQuery('body,html').animate({ scrollTop: "212" }, 750, 'easeOutExpo' );
 				jQuery("#"+$page_val).addClass("active");
 				var time = 500;
 				jQuery('#results-holder').each(function() {
-					setTimeout( function(){ jQuery(this).find('.result-item').matchHeight(); }, time);
+					setTimeout( function(){ 
+						//jQuery(this).find('.result-item').matchHeight();
+						jQuery(this).find('.result-item').css('height','265');
+					}, time);
       		time += 1500;
 				});
             },
@@ -168,7 +172,7 @@ function getUrlVars()
 				jQuery("#results-holder").html(data);
 				jQuery('ul.inline li').prepend('<i class="fa fa-caret-right"></i> ');
 				jQuery(".format-standard").each(function(){
-					jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
+					//jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
 				});
             },
             error: function(errorThrown) {
@@ -210,10 +214,11 @@ function getUrlVars()
 				jQuery("#results-holder").html(data);
 				jQuery('ul.inline li').prepend('<i class="fa fa-caret-right"></i> ');
 				jQuery(".format-standard").each(function(){
-					jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
+					// jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
 				});
 				jQuery('#results-holder').each(function() {
-				jQuery(this).find('.result-item').matchHeight();
+				//jQuery(this).find('.result-item').matchHeight();
+				jQuery(this).find('.result-item').css('height','265');
 			});
             },
             error: function(errorThrown) {
@@ -249,7 +254,7 @@ function getUrlVars()
 				jQuery("#results-holder").html(data);
 				jQuery('ul.inline li').prepend('<i class="fa fa-caret-right"></i> ');
 				jQuery(".format-standard").each(function(){
-					jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
+					// jQuery(this).find(".media-box").append("<span class='zoom'><span class='icon'><i class='icon-plus'></i></span></span>");
 				});
 
 				jQuery('input[name=' + $query_var + ']').val($query_val);

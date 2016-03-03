@@ -260,6 +260,68 @@ function imic_vehicle_price($id, $specs, $this_specification = array()) {
 	} //}
 	return $unique_value;
 }
+function imic_vehicle_currency($id, $specs, $this_specification = array()) {
+	global $imic_options;
+	$data_type = (isset($imic_options['specification_fields_type']))?$imic_options['specification_fields_type']:'0';
+	$unique_value = '';
+	if(!empty($specs)) 
+	{
+		$int = get_post_meta($specs,'imic_plugin_spec_char_type',true);
+		$value_label = get_post_meta($specs,'imic_plugin_value_label',true); 
+		$label_position = get_post_meta($specs,'imic_plugin_lable_position',true);
+		if($int==0||$int==2) 
+		{
+			if($int=="0")
+			{
+				if(imic_value_search_multi_array($specs,$this_specification)) 
+				{
+					$unique_key = array_search($specs, $this_specification['sch_title']);
+					if(is_int($unique_key)) 
+					{
+						if($label_position==0) 
+						{
+							$unique_value = $value_label.$this_specification['start_time'][$unique_key].' ';  
+						}
+						else 
+						{
+							$unique_value = $this_specification['start_time'][$unique_key].$value_label.' ';  
+						}
+					} 
+				} 
+			}
+			else
+			{
+				$price_id_slug = imic_the_slug($specs);
+				$char_price = get_post_meta($id, 'char_'.$price_id_slug, true);
+				if($label_position==0) 
+				{
+					$unique_value = $value_label.$char_price.' ';  
+				}
+				else 
+				{
+					$unique_value = $char_price.$value_label.' ';  
+				}
+			}
+		}
+		else 
+		{ 
+			$slug = imic_the_slug($specs);
+			$int_value = get_post_meta($id,'int_'.$slug,true);
+			if($int_value!='') 
+			{
+				if($label_position==0) 
+				{
+					$unique_value = $value_label.$int_value; 
+				}
+				else 
+				{
+					$unique_value = $int_value.$value_label; 
+				}
+			}	 
+		}
+	} //}
+	return $unique_value;
+}
 function imic_vehicle_title($id, $specs, $this_specification) 
 {
 	$highlight_value = '';
@@ -361,6 +423,7 @@ function imic_vehicle_all_specs($id, $specs, $this_specification)
 						$slug = imic_the_slug($details);
 						if($label_position==0) 
 						{
+							
 							$details_value[] = $value_label.get_post_meta($id,'int_'.$slug,true); 
 						}
 						else 
@@ -370,6 +433,7 @@ function imic_vehicle_all_specs($id, $specs, $this_specification)
 					} 
 					else 
 					{
+						$slug = imic_the_slug($details);
 						if(is_int($second_key)) 
 						{ 
 							$val = ' '.$this_specification['start_time'][$second_key]; 
@@ -377,7 +441,8 @@ function imic_vehicle_all_specs($id, $specs, $this_specification)
 						if(is_int($detailed_spec_key)) 
 						{
 							if($label_position==0) 
-							{
+							{	
+
 								$cur_spec = $this_specification['start_time'][$detailed_spec_key];
 								if($cur_spec!='') 
 								{ 
@@ -387,7 +452,10 @@ function imic_vehicle_all_specs($id, $specs, $this_specification)
 								{ 
 									$spec = ''; 
 								} 
-								$details_value[] = $value_label.$spec.$val; 
+								if ($slug == 'currency')
+								    $currency_value = $value_label.$spec.$val;
+								else
+									$details_value[] = $value_label.$spec.$val; 
 							}
 							else 
 							{
@@ -406,7 +474,14 @@ function imic_vehicle_all_specs($id, $specs, $this_specification)
 					$slug = imic_the_slug($details);
 					if($label_position==0) 
 					{
-						$details_value[] = $value_label.get_post_meta($id,'int_'.$slug,true); 
+						//Get Currency Symbol and Price
+						$currency_symbol = '';
+	                    if (strpos($currency_value, 'USD') !== false ) { 
+	                    	$currency_symbol = '$';
+	                    } elseif (strpos($currency_value, 'EUR') !== false )  {
+	                    	$currency_symbol = '€';
+	                    } elseif (strpos($currency_value, 'GBP') !== false )  $currency_symbol = '£'; 
+						$details_value[] = $currency_symbol.' '.number_format($value_label.get_post_meta($id,'int_'.$slug,true)); 
 					}
 					else 
 					{

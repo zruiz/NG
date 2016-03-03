@@ -40,6 +40,7 @@ $highlighted_specs = $new_highlighted_specs;
 $unique_specs = $imic_options['unique_specs'];
 $specifications = get_post_meta(get_the_ID(),'feat_data',true);	
 $unique_value = imic_vehicle_price(get_the_ID(),$unique_specs,$specifications);
+$currency_value = imic_vehicle_currency(get_the_ID(),'1604',$specifications);
 $highlight_value = imic_vehicle_title(get_the_ID(),$highlighted_specs,$specifications);
 $video = get_post_meta(get_the_ID(),'imic_plugin_video_url',true);
 $featured_specifications = (isset($imic_options['side_specifications']))?$imic_options['side_specifications']:array();
@@ -56,9 +57,11 @@ $userLastName = get_the_author_meta('last_name', $post_author_id);
 $user_data = get_userdata(intval($post_author_id));
 $userName = $user_data->display_name;
 if(!empty($userFirstName) || !empty($userLastName)) {
-	$userName = $userFirstName .' '. $userLastName; 
+	$userName = ucfirst($userFirstName) .' '. ucfirst($userLastName); 
 }
 $userEmail = $user_data->user_email;
+$user = (isset($userName)) ? get_user_by('slug', $userName) : ''; 
+$user_info_id = get_user_meta($user->ID,'imic_user_info_id',true);
 
 if($browse_specification_switch==1) {
 get_template_part('bar','one'); 
@@ -134,27 +137,35 @@ $loggedUserEmail = $current_user->user_email;
 	                        <span class="badge-premium-listing"><?php echo esc_attr_e('Premium listing','framework'); ?></span><?php } ?>
 	                        <h2 class="post-title"><?php echo esc_attr($highlight_value); ?></h2>
 	                    </div>
-	                    <div class="btn btn-info price col-md-2"><?php echo esc_attr($unique_value); ?></div>
+	                    <?php 
+	                    $currency_symbol = '';
+	                    if (strpos($currency_value, 'USD') !== false ) { 
+	                    	$currency_symbol = '$';
+	                    } elseif (strpos($currency_value, 'EUR') !== false )  {
+	                    	$currency_symbol = '€';
+	                    } elseif (strpos($currency_value, 'GBP') !== false )  $currency_symbol = '£'; 
+	                    ?>
+	                    <div class="btn btn-info price col-md-2"><?php echo $currency_symbol.' '.esc_attr($unique_value); ?></div>
 	                </div>
                     <div class="row">
                     	<div class="col-md-4">
                     		<div class="row">
-				                <div class="icon-actions">
+				                <div class="icon-actions" style="margin-top:80px;">
 				                    <div class="col-lg-12 col-md-12 col-sm-12 cust-counter">
-				                         <a href="#" data-toggle="modal" data-target="#alertModal" class="" title="<?php echo esc_attr_e('Yacht Alerts','framework'); ?>">
-				                            <div class="fact-ico"><i class="fa fa-map-marker fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Yacht Alerts','framework'); ?></span></i></div>
+				                         <a href="#" data-toggle="modal" data-target="#alertModal" title="<?php echo esc_attr_e('Yacht Alerts','framework'); ?>">
+				                            <div class="fact-ico" style="border-radius: 65px;"><i class="fa icon-alarm-clock fa-3x" style="margin-top: 10px;"><span style="margin-bottom: 10px; padding:0;"><?php echo esc_attr_e('Yacht Alerts','framework'); ?></span></i></div>
 				                            <div class="clearfix"></div>                           
 				                        </a>
 				                    </div>
 				                    <div class="col-lg-12 col-md-12 col-sm-12 cust-counter">
-				                        <a href="#" data-toggle="modal" data-target="#tradeModal" class="" title="<?php echo esc_attr_e('Trade a Yacht','framework'); ?>">
-				                            <div class="fact-ico"> <i class="fa fa-file-o fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Trade A Yacht','framework'); ?></span></i> </div>
+				                        <a href="#" data-toggle="modal" data-target="#tradeModal" title="<?php echo esc_attr_e('Trade a Yacht','framework'); ?>">
+				                            <div class="fact-ico" style="border-radius: 65px;"> <i class="fa fa-file-o fa-3x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Trade A Yacht','framework'); ?></span></i> </div>
 				                            <div class="clearfix"></div>
 				                        </a>
 				                    </div>
 				                    <div class="col-lg-12 col-md-12 col-sm-12 cust-counter">
-				                        <a href="#" data-toggle="modal" data-target="#sellModal" class="" title="<?php echo esc_attr_e('Sell Your Yacht','framework'); ?>">
-				                            <div class="fact-ico"> <i class="fa fa-dollar fa-4x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Sell Your Yacht','framework'); ?></span></i></div>
+				                        <a href="#" data-toggle="modal" data-target="#sellModal" title="<?php echo esc_attr_e('Sell Your Yacht','framework'); ?>">
+				                            <div class="fact-ico" style="border-radius: 65px;"> <i class="fa fa-dollar fa-3x" style="margin-top: 20px;"><span><?php echo esc_attr_e('Sell Your Yacht','framework'); ?></span></i></div>
 				                            <div class="clearfix"></div>
 				                            <h4></h4>
 				                        </a>
@@ -162,9 +173,9 @@ $loggedUserEmail = $current_user->user_email;
 				                </div>
 				            </div>
                         <?php if((!empty($featured_specifications))&&($listing_details==0)) { ?>
-                            <div class="sidebar-widget widget">
+                            <div class="sidebar-widget widget" style="display:none;">
                                 <ul class="list-group">
-                                <?php 
+                                <?php 	
 																$new_featured_specifications = imic_filter_lang_specs($featured_specifications);
 																foreach($new_featured_specifications as $featured) 
 																{
@@ -276,7 +287,7 @@ $loggedUserEmail = $current_user->user_email;
 										{
 											$spec_key = $second_key = '';
 										}
-										$feat_val = get_post_meta($id,'int_'.$badge_slug,true);
+										$feat_val = get_post_meta($id,'int_'.$badge_slugf,true);
 										if($field_type==1&&$feat_val!='') {
 										if($label_position==0) {
 										echo '<li class="list-group-item"> <span class="badge">'.get_the_title($featured).'</span> '.$value_label.get_post_meta($id,'int_'.$badge_slug,true).'</li>'; }
@@ -326,9 +337,9 @@ $loggedUserEmail = $current_user->user_email;
 											$image_full = wp_get_attachment_image_src($car_image,'full','');
 										?>
                                         <?php if(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 0){
-											$Lightbox_init = '<li class="media-box"><a href="' .esc_url($image_full[0]). '" data-rel="prettyPhoto[grouped]">';
+											$Lightbox_init = '<li class="media-box" style="height:450px;"><a href="' .esc_url($image_full[0]). '" data-rel="prettyPhoto[grouped]">';
 										}elseif(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 1){
-											$Lightbox_init = '<li class="media-box"><a href="' .esc_url($image_full[0]). '" class="magnific-gallery-image">';
+											$Lightbox_init = '<li class="media-box" style="height:450px;"><a href="' .esc_url($image_full[0]). '" class="magnific-gallery-image">';
 										}
 										echo $Lightbox_init; ?><img src="<?php echo esc_url($image[0]); ?>" alt=""></a> </li>
 								  <?php } ?>
@@ -350,7 +361,7 @@ $loggedUserEmail = $current_user->user_email;
 										}
 										echo $Lightbox_init;
 											echo '<img src="'.esc_url($image[0]).'" alt=""></a></li>'; } else { ?>
-									<li> <a href="<?php echo esc_url($image_full[0]); ?>" class="media-box"><img src="<?php echo esc_url($image[0]); ?>" alt=""></a> </li>
+									<li style="height:150px;"> <a href="<?php echo esc_url($image_full[0]); ?>" class="media-box"><img src="<?php echo esc_url($image[0]); ?>" alt="" height="150px;"></a> </li>
 								  <?php } $start++; } ?>
                                       </ul>
                                     </div></div><?php } ?>
@@ -372,13 +383,26 @@ $loggedUserEmail = $current_user->user_email;
                     <div class="row">
                     	<!-- Vehicle Details Sidebar -->
                         <div class="col-md-4 vehicle-details-sidebar sidebar">
-                        	<p><h3 class="widgettitle">Meet Your Broker</h3></p>
+                        	<!-- <p><h3 class="widgettitle">Meet Your Broker</h3></p> -->
                         	<div class="vehicle-enquiry-foot">
-                                    <span class="vehicle-enquiry-foot-ico"><i class="fa fa-phone"></i></span>
-                                    <strong><?php echo get_post_meta(get_the_ID(),'imic_plugin_contact_phone',true); ?></strong></br>
-									<?php echo esc_attr_e('Broker Name:','framework'); ?> <a href="<?php echo esc_url(get_author_posts_url($post_author_id)); ?>"><?php echo esc_attr($userName); ?></a></br>
-                                    <?php echo esc_attr_e('Broker Email:','framework'); ?> <a href="<?php echo esc_url(get_author_posts_url($post_author_id)); ?>"><?php echo esc_attr($userEmail); ?></a></br></br>
-                                    <input type="button" data-toggle="modal" data-target="#offerModal" class="btn btn-primary" value="Make An Offer">
+                        		<div class="grid-item-inner" style="width:auto !important;">
+                        			<?php $default_image = (isset($imic_options['default_dealer_image']))?$imic_options['default_dealer_image']:array('url'=>''); ?>
+		                            <a data-toggle="modal" data-target="" href="#" class="media-box"> <?php if(has_post_thumbnail($this_user)) { echo get_the_post_thumbnail($this_user,'600x400'); } else { ?><img src="<?php echo esc_url($default_image['url']); ?>" alt=""><?php } ?></a>
+		                            <div class="grid-content">
+		                            	<div class="post-title">
+			                                <h5>
+			                                	<?php echo esc_attr($userName); ?>
+			                                </h5>
+			                                <p>Yacht Broker</p>
+			                            </div>
+		                                <span class="vehicle-enquiry-foot-ico"><i class="mobile fa fa-mobile"></i><?php echo get_post_meta(get_the_ID(),'imic_plugin_contact_phone',true); ?></span>
+	                                    <span class="vehicle-enquiry-foot-ico"><i class="mail fa fa-envelope-o"></i><?php echo esc_attr($userEmail); ?></span>
+	                                    <!-- <span class="vehicle-enquiry-foot-ico"><i class="mail fa fa-envelope-o"></i><a href="<?php echo esc_url(get_author_posts_url($post_author_id)); ?>"><?php echo esc_attr($userEmail); ?></a></span> -->
+			                        </div>
+			                        <div class="grid-content">
+			                        	<input type="button" data-toggle="modal" data-target="#offerModal" class="btn btn-primary" value="Make An Offer">
+			                        </div>
+		                        </div>
                              </div>
                              <?php dynamic_sidebar($pageSidebar); ?>
                         </div>
@@ -424,13 +448,24 @@ $loggedUserEmail = $current_user->user_email;
 											echo '<table class="table-specifications table table-striped table-hover">
                                                             <tbody>';
 											$new_normal_specifications = imic_filter_lang_specs($normal_specifications);
+											$brand = '';
+											$model = '';
+											$size = '';
+											$year = '';
+											$engine_brand = '';
+											$location = '';
 											foreach($new_normal_specifications as $normal) {
+
 									$field_type = get_post_meta($normal,'imic_plugin_spec_char_type',true);
 									$value_labels = get_post_meta($normal,'imic_plugin_value_label',true);
 										$label_positions = get_post_meta($normal,'imic_plugin_lable_position',true);
 										$badge_slug = imic_the_slug($normal);
 										$this_specification = get_post_meta(get_the_ID(), 'feat_data', true);
 									if($field_type==1) {
+										if (get_the_title($normal) == 'Size')
+											$size = get_post_meta($id,'int_'.$badge_slug,true).$value_labels;
+										if (get_the_title($normal) == 'Builder Year')
+											$year = $value_labels.get_post_meta($id,'int_'.$badge_slug,true);
 										if($label_positions==0) {
 											echo '<tr>
                                                             		<td>'.get_the_title($normal).'</td>
@@ -442,6 +477,7 @@ $loggedUserEmail = $current_user->user_email;
                                                             		<td>'.get_post_meta($id,'int_'.$badge_slug,true).$value_labels.'</td>
                                                             	</tr>'; }
 									} else {
+
 										if($specification_data_type=="0")
 										{
 											$spec_key = array_search($normal, $this_specification['sch_title']);
@@ -459,6 +495,14 @@ $loggedUserEmail = $current_user->user_email;
 												$child_val = ' '.$this_specification['start_time'][$second_key]; 
 											}
 											$value_this = $this_specification['start_time'][$spec_key];
+											if (get_the_title($normal) == 'Brand')
+												$brand = $value_labels.$value_this.$child_val;
+											if (get_the_title($normal) == 'Model')
+												$model = $value_labels.$value_this.$child_val;
+											if (get_the_title($normal) == 'Engine Brand')
+												$engine_brand = $value_labels.$value_this.$child_val;
+											if (get_the_title($normal) == 'Location')
+												$location = $value_labels.$value_this.$child_val;
 											if($value_this!="select") 
 											{
 												if($label_positions==0) 
@@ -482,6 +526,7 @@ $loggedUserEmail = $current_user->user_email;
 											$feat_slug_char = imic_the_slug($normal);
 											$spec_key_val = get_post_meta(get_the_ID(), 'char_'.$feat_slug_char, true);
 											$spec_key_val_child = get_post_meta(get_the_ID(), 'child_'.$feat_slug_char, true);
+
 											if($spec_key_val!="select") 
 											{
 												if($label_positions==0) 
@@ -545,7 +590,6 @@ $loggedUserEmail = $current_user->user_email;
                                                             		<td>'.get_post_meta($id,'int_'.$badge_slug,true).$value_labels.'</td>
                                                             	</tr>'; }
 									} else {
-										
 										if($specification_data_type=="0")
 										{
 											$spec_key = array_search($normal, $this_specification['sch_title']);
@@ -753,7 +797,7 @@ $loggedUserEmail = $current_user->user_email;
                                                 <span class="vehicle-meta"><?php foreach($details_value as $value) { echo esc_attr($value).', '; } ?> <?php echo esc_attr_e('by','framework'); ?> <abbr class="user-type" title="Listed by <?php echo esc_attr($author_role); ?>"><?php echo esc_attr($author_role); ?></abbr></span>
                                                 <?php if($img_src!='') { ?>
                                                 <a href="<?php echo esc_url(add_query_arg($additional_spec_slug, $additional_specs_all[$this_key]['imic_plugin_specification_values'],$browse_listing)); ?>" title="<?php echo esc_attr_e('View all ','framework'); echo esc_attr($additional_specs_all[$this_key]['imic_plugin_specification_values']); ?>" class="vehicle-body-type"><img src="<?php echo esc_attr($additional_specs_all[$this_key]['imic_plugin_spec_image']); ?>" alt=""></a><?php } ?>
-                                                <span class="vehicle-cost"><?php echo esc_attr($unique_value); ?></span>
+                                                <span class="vehicle-cost"><?php echo esc_attr(number_format($unique_value)); ?></span>
                                                 <?php 
 												if($category_rail=="1"&&is_plugin_active("imi-classifieds/imi-classified.php"))
 												{
@@ -1291,7 +1335,7 @@ $loggedUserEmail = $current_user->user_email;
             	<p><?php echo esc_attr_e('Ready to make an offer and/or discuss all details with a broker? Please fill up the form below and we will contact you right away!','framework'); ?></p>
                 <form class="enquiry-vehicle">
                 <input type="hidden" name="email_content" value="enquiry_form">
-				<input type="hidden" name="Subject" id="subject" value="<?php echo esc_attr_e('Make an offer','framework'); ?>">
+				<input type="hidden" name="Subject" id="subject" value="<?php echo esc_attr_e('Offer was submitted successfully','framework'); ?>">
                 <input type="hidden" name="Vehicle_ID" value="<?php echo esc_attr(get_the_ID()); ?>">
                 	<p><?php echo esc_attr_e('PERSONAL INFORMATION','framework'); ?></p>
                      <div class="input-group">
@@ -1347,27 +1391,13 @@ $loggedUserEmail = $current_user->user_email;
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                <input type="text" name="Make" class="form-control" placeholder="<?php echo esc_attr_e('Make','framework'); ?>">
+                                <input type="text" name="Make" class="form-control" placeholder="<?php echo esc_attr_e('Make','framework'); ?>" value="<?php echo esc_attr($brand); ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                <input type="text" name="Model" class="form-control" placeholder="<?php echo esc_attr_e('Model','framework'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                <input type="text" name="Size" class="form-control" placeholder="<?php echo esc_attr_e('Size','framework'); ?>">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                <input type="text" name="Year" class="form-control" placeholder="<?php echo esc_attr_e('Year','framework'); ?>">
+                                <input type="text" name="Model" class="form-control" placeholder="<?php echo esc_attr_e('Model','framework'); ?>" value="<?php echo esc_attr($model); ?>">
                             </div>
                         </div>
                     </div>
@@ -1375,13 +1405,27 @@ $loggedUserEmail = $current_user->user_email;
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-list"></i></span>
-                                <input type="text" name="Engine" class="form-control" placeholder="<?php echo esc_attr_e('Engine Brand','framework'); ?>">
+                                <input type="text" name="Size" class="form-control" placeholder="<?php echo esc_attr_e('Size','framework'); ?>" value="<?php echo esc_attr($size); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Year" class="form-control" placeholder="<?php echo esc_attr_e('Year','framework'); ?>" value="<?php echo esc_attr($year); ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-list"></i></span>
+                                <input type="text" name="Engine" class="form-control" placeholder="<?php echo esc_attr_e('Engine Brand','framework'); ?>" value="<?php echo esc_attr($engine_brand); ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                <input type="text" name="Location" class="form-control" placeholder="<?php echo esc_attr_e('Location','framework'); ?>">
+                                <input type="text" name="Location" class="form-control" placeholder="<?php echo esc_attr_e('Location','framework'); ?>" value="<?php echo esc_attr($location); ?>">
                             </div>
                         </div>
                     </div>
