@@ -84,7 +84,7 @@ if(is_plugin_active("imithemes-listing/listing.php")) { ?>
 										<!-- Recently Listed Vehicles -->
                             <section class="listing-block recent-vehicles">
                                 <div class="listing-header">
-                                    <h3><?php echo esc_attr_e('Our Recently Listed Vehicles','framework'); ?></h3>
+                                    <h3><?php echo esc_attr_e('Our Recently Listed Yachts','framework'); ?></h3>
                                 </div>
                                 <div class="listing-container">
                                     <div class="carousel-wrapper">

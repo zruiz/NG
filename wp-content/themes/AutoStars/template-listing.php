@@ -139,7 +139,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                     </ul>
                                 </div>
                                 <div class="tool-box-foot">
-                                    <?php if ( !is_user_logged_in() ) { ?><a href="#" data-target="#PaymentModal" data-toggle="modal" class="btn btn-xs btn-primary pull-right"><?php _e('Signin/Join','framework'); ?></a><?php } if((!empty($_SESSION['saved_vehicle_id1'])||!empty($_SESSION['saved_vehicle_id2'])||!empty($_SESSION['saved_vehicle_id3']))&&(is_user_logged_in())) { echo '<a href="#" rel="popup-save" class="btn btn-xs btn-primary pull-right save-car"><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id">unsaved</span></div>Save</a>'; } ?>
+                                    <?php if ( !is_user_logged_in() ) { ?><a href="#" data-target="#PaymentModal" data-toggle="modal" class="btn btn-xs btn-primary pull-right"><?php _e('Sign in/Join','framework'); ?></a><?php } if((!empty($_SESSION['saved_vehicle_id1'])||!empty($_SESSION['saved_vehicle_id2'])||!empty($_SESSION['saved_vehicle_id3']))&&(is_user_logged_in())) { echo '<a href="#" rel="popup-save" class="btn btn-xs btn-primary pull-right save-car"><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id">unsaved</span></div>Save</a>'; } ?>
                                     <a href="<?php echo esc_url(imic_get_template_url("template-compare.php")); ?>" class="btn btn-xs btn-info compare-in-box" disabled><?php _e('Compare','framework'); ?>()</a>
                                 </div>
                             </div>
@@ -198,7 +198,7 @@ $qrs = imic_queryToArray($_SERVER['QUERY_STRING']);
                                     </ul>
                                 </div>
                                 <div class="tool-box-foot">
-                                <?php if ( !is_user_logged_in() ) { ?><a href="#" data-target="#PaymentModal" data-toggle="modal" class="btn btn-xs btn-primary pull-right"><?php _e('Signin/Join','framework'); ?></a><?php } if((!empty($_SESSION['search_page1']))||(!empty($_SESSION['search_page2']))||(!empty($_SESSION['search_page3']))&&(is_user_logged_in())) { echo '<a href="#" id="popup-search" class="btn btn-xs btn-primary pull-right save-search"><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id">unsaved</span></div>Save</a>'; } ?>
+                                <?php if ( !is_user_logged_in() ) { ?><a href="#" data-target="#PaymentModal" data-toggle="modal" class="btn btn-xs btn-primary pull-right"><?php _e('Sign in/Join','framework'); ?></a><?php } if((!empty($_SESSION['search_page1']))||(!empty($_SESSION['search_page2']))||(!empty($_SESSION['search_page3']))&&(is_user_logged_in())) { echo '<a href="#" id="popup-search" class="btn btn-xs btn-primary pull-right save-search"><div class="vehicle-details-access" style="display:none;"><span class="vehicle-id">unsaved</span></div>Save</a>'; } ?>
                                 </div>
                             </div>
                         </li>

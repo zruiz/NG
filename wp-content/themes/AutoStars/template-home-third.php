@@ -59,7 +59,7 @@ if($browse_specification_switch==4)
 					$vehicle_count = get_post_meta($id,'imic_home_vehicle_count',true);
 					$vehicle_title = get_post_meta($id,'imic_home_vehicle_title',true);
 					$vehicle_column = get_post_meta($id,'imic_home_vehicle_column',true);
-					$args_cars = array('post_type'=>'cars','posts_per_page'=>$vehicle_count,'post_status'=>'publish','meta_query'=>array('relation' => 'AND',array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'='),array('key' => 'imic_plugin_listing_end_dt','value' => date('Y-m-d'),'compare' => '>=')));
+					$args_cars = array('post_type'=>'yachts','posts_per_page'=>$vehicle_count,'post_status'=>'publish','meta_query'=>array('relation' => 'AND',array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'='),array('key' => 'imic_plugin_listing_end_dt','value' => date('Y-m-d'),'compare' => '>=')));
 					$cars_listing = new WP_Query( $args_cars );
 					if ( $cars_listing->have_posts() ) :
 					 ?>

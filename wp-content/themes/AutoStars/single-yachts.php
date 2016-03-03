@@ -78,7 +78,7 @@ $vehicle_status = get_post_meta(get_the_ID(),'imic_plugin_ad_payment_status',tru
 if($vehicle_status!=1) {
 	echo '<div class="main" role="main">
     	<div id="content" class="content full">
-        	<div class="container"><div class="row"><p>'.__('Vehicle might be sold or not active','framework').'</p></div></div></div></div>';
+        	<div class="container"><div class="row"><p>'.__('Yacht might be sold or not active','framework').'</p></div></div></div></div>';
 } else {
 $save1 = (isset($_SESSION['saved_vehicle_id1']))?$_SESSION['saved_vehicle_id1']:'';
 $save2 = (isset($_SESSION['saved_vehicle_id2']))?$_SESSION['saved_vehicle_id2']:'';

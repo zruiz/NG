@@ -106,7 +106,7 @@ if($browse_specification_switch==4)
 										$additional_specs_all = get_post_meta($additional_specs,'specifications_value',true);
 										$highlighted_specs = (isset($imic_options['highlighted_specs']))?$imic_options['highlighted_specs']:array();
 										$unique_specs = (isset($imic_options['unique_specs']))?$imic_options['unique_specs']:'';	
-										$args_cars = array('post_type'=>'cars','posts_per_page'=>$vehicle_count,'post_status'=>'publish','meta_query'=>array('relation' => 'AND',array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'='),array('key' => 'imic_plugin_listing_end_dt','value' => date('Y-m-d'),'compare' => '>=')));
+										$args_cars = array('post_type'=>'yachts','posts_per_page'=>$vehicle_count,'post_status'=>'publish','meta_query'=>array('relation' => 'AND',array('key'=>'imic_plugin_ad_payment_status','value'=>'1','compare'=>'='),array('key' => 'imic_plugin_listing_end_dt','value' => date('Y-m-d'),'compare' => '>=')));
 										$cars_listing = new WP_Query( $args_cars );
 										if ( $cars_listing->have_posts() ) :
 										while ( $cars_listing->have_posts() ) :	
@@ -315,7 +315,7 @@ if($browse_specification_switch==4)
                                                                 <?php echo imic_excerpt(10); ?>
                                                                 <div class="dealer-block-add">
                                                                     <span><?php echo esc_attr_e('Member since ','framework'); ?><strong><?php if(!empty($user_info)) { echo date("M, Y", strtotime($user_info->user_registered)); } ?></strong></span>
-                                                                    <span><?php echo esc_attr_e('Active listings ','framework'); ?><strong><?php echo imic_count_user_posts_by_type($user_id,'cars'); ?></strong></span>
+                                                                    <span><?php echo esc_attr_e('Active listings ','framework'); ?><strong><?php echo imic_count_user_posts_by_type($user_id,'yachts'); ?></strong></span>
                                                                 </div>
                                                             </div>
                                                             <div class="text-align-center"><a href="<?php echo esc_url(get_author_posts_url($user_id)); ?>" class="btn btn-default"><?php echo esc_attr_e('View profile','framework'); ?></a></div>

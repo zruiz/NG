@@ -113,7 +113,7 @@ if($browse_specification_switch==4)
                         </div><?php } else { ?>
 						<div class="comp-table-col">
                         	<strong><?php echo esc_attr($highlighted_specs_val); ?></strong>
-                            <span class="price"><?php echo __('This vehicle might be sold or not active','framework'); ?></span>
+                            <span class="price"><?php echo __('This yacht might be sold or not active','framework'); ?></span>
                         </div>
 						<?php } } ?>
                     </div>
@@ -128,7 +128,7 @@ if($browse_specification_switch==4)
 						<?php } } ?>
                     </div>
                 	<div class="comp-feature-head comp-table-row">
-                        <div class="comp-table-col"><?php echo esc_attr_e('Vehicle details','framework'); ?></div>
+                        <div class="comp-table-col"><?php echo esc_attr_e('Yacht details','framework'); ?></div>
                     </div>
                 	<?php foreach($newarray as $ss) {
 						echo ''.$ss;
