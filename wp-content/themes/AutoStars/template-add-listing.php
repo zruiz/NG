@@ -315,8 +315,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     <a href="javascript:void(0);">
                                         <span class="step-state"></span>
                                         <span class="step-icon"><i class="fa fa-image"></i></span>
-                                        <strong class="step-title"><?php echo esc_attr_e('Add photos ','framework'); ?>&amp;<?php echo esc_attr_e(' comments','framework'); ?></strong>
-                                        <span class="step-desc"><?php echo esc_attr_e('Add some pics ','framework'); ?>&amp;<?php echo esc_attr_e(' description','framework'); ?></span>
+                                        <strong class="step-title"><?php echo esc_attr_e('Add photos ','framework'); ?>&amp;<?php echo esc_attr_e(' description','framework'); ?></strong>
+                                        <span class="step-desc"><?php echo esc_attr_e('Add more info about your listing','framework'); ?></span>
                                     </a>
                                 </li>
                                 <li class="tabs-listing <?php echo esc_attr($tab_class5.' '.$active_tab5); ?>" data-target="#listing-add-form-five" data-rel="listing-add-form-five" data-toggle="tab">
@@ -683,8 +683,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                             
                     			<!-- AD LISTING FORM STEP TWO -->
                       			<div id="listing-add-form-two" class="tab-pane fade <?php echo ($active_tab2!='')?$active_tab2.' in':''; ?>">
-                        			<h3><?php echo esc_attr_e('Additional features','framework'); ?></h3>
-                            		<div class="lighter"><p><?php echo esc_attr_e('Features selected can either factory fitted or after market features.','framework'); ?></p></div>
+                        			<h3><?php echo esc_attr_e('Add all features about your listing','framework'); ?></h3>
+                            		<div class="lighter"><p><?php echo esc_attr_e('Include all yacht specifications below, the more accurate and thorough the best it is.','framework'); ?></p></div>
                                     <div class="panel panel-default">
   										<div class="panel-body">
                                         	<ul class="optional-features-list" id="dynamic-tags">
@@ -739,8 +739,10 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                         <div id="featcontainer">
 											<!-- <label for="featcontent" class="screen-reader-text"><?php _e( 'Yacht Features' ); ?></label> -->
 											<?php
+											//$featcontent = (!empty(get_post_meta($update_id,'imic_tab_area1',true))) ? get_post_meta($update_id,'imic_tab_area1',true) : '';
+											$featcontent = get_post_meta($update_id,'imic_tab_area1',true);
 											$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close' );
-											wp_editor( '', 'featcontent', array( 'media_buttons' => true, 'tinymce' => true, 'quicktags' => $quicktags_settings ) );
+											wp_editor( $featcontent, 'featcontent', array( 'media_buttons' => true, 'tinymce' => true, 'quicktags' => $quicktags_settings ) );
 											?>
 										</div>
 	                                </div>
@@ -935,8 +937,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     </div>
                                     <input value="<?php echo get_post_meta($update_id,'imic_plugin_video_url',true); ?>" name="vehicle-video" id="vehicle-video" type="text" class="form-control" placeholder="Youtube/Video URL">
                                     <hr class="fw">
-                                    <h3><?php echo esc_attr_e('Add all features about your listing','framework'); ?></h3>
-                                    <div class="lighter"><p><?php echo esc_attr_e('Include all yacht specifications below, the more accurate and thorough the best it is.','framework'); ?></p></div>
+                                    <h3><?php echo esc_attr_e('Description','framework'); ?></h3>
+                                    <div class="lighter"><p><?php echo esc_attr_e('Describe your listing.','framework'); ?></p></div>
                                     <textarea name="vehicle-detail" id="vehicle-detail" class="form-control" rows="10"><?php echo $content; ?></textarea>
                                     
                                     <?php if(is_user_logged_in()) { ?>
@@ -957,7 +959,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                         </label> -->
                                     </div>
                                     <hr class="fw">
-                                    <div class="lighter"><p><?php echo esc_attr_e('Please review your listing carefully before submiting, you will not be able to edit listing once it has been submitted. Once listing is approved you may continue editing your listing.','framework'); ?></p></div>
+                                    <!-- <div class="lighter"><p><?php echo esc_attr_e('Please review your listing carefully before submiting, you will not be able to edit listing once it has been submitted. Once listing is approved you may continue editing your listing.','framework'); ?></p></div> -->
                                     <?php if($opt_plans!=0&&$eligible_listing!=1) { ?>
                                 	<h3><?php echo esc_attr_e('Enter your billing info','framework'); ?></h3>
                             		<div class="lighter"><p><?php echo esc_attr_e('Payment are accepted using Paypal secure payment gateway and you will be redirected to Paypal payment page.','framework'); ?></p></div>

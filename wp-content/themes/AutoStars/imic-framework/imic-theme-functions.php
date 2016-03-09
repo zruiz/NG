@@ -1742,7 +1742,7 @@ if(!function_exists('imic_create_vehicle'))
         }
         if($features!=''){
             
-            update_post_meta($post_id,'imic_tab_area2',$features);
+            update_post_meta($post_id,'imic_tab_area1',$features);
         }
         if($category!='')
         {
@@ -2655,7 +2655,7 @@ add_action('user_register','imic_add_user_info');
 if(!function_exists('imic_user_activation')) {
 function imic_user_activation() {
     // Attempt to activate the user
-    $errors = activate_new_user( $_GET['key'], $_GET['login'] );
+    $errors = activate_new_user( $_GET['key'], $_GET['login'], $_GET['role'] );
 
     $redirect_to = 'index.php';
 
@@ -2678,7 +2678,7 @@ add_action('user_activation','imic_user_activation');
  * @param string $login User's username for logging in
  * @return bool|WP_Error True if successful, WP_Error otherwise
  */
-function activate_new_user( $key, $login ) {
+function activate_new_user( $key, $login, $role ) {
     global $wpdb;
 
     $key = preg_replace( '/[^a-z0-9]/i', '', $key );
@@ -2709,9 +2709,11 @@ function activate_new_user( $key, $login ) {
 
     // Set user role
     $user_object = new WP_User( $user->ID );
-    $user_object->set_role( get_option( 'default_role' ) );
+    if ($role !== "Broker")
+        $user_object->set_role( get_option( 'default_role' ) );
+    else $user_object->set_role( 'dealer' );
 
-    do_action( 'new_user_activated', $user->ID );
+    //do_action( 'new_user_activated', $user->ID );
 
     return true;
 }
@@ -2736,7 +2738,7 @@ add_action('new_user_activated','imic_new_user_activated');
  *
  * @param int $user_id The user's ID
  */
- function new_user_activation_notification( $user_id ) {
+ function new_user_activation_notification( $user_id, $role ) {
     global $wpdb, $current_site;
 
     $user = new WP_User( $user_id );
@@ -2758,7 +2760,7 @@ add_action('new_user_activated','imic_new_user_activated');
         $blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
     }
 
-    $activation_url = add_query_arg( array( 'action' => 'activate', 'key' => $key, 'login' => rawurlencode( $user_login ) ), wp_login_url() );
+    $activation_url = add_query_arg( array( 'action' => 'activate', 'key' => $key, 'role' => $role, 'login' => rawurlencode( $user_login ) ), wp_login_url() );
 
     $title    = sprintf( __( '[%s] Activate Your Account', 'framework' ), $blogname );
     $message  = sprintf( __( 'Thanks for registering at %s! To complete the activation of your account please click the following link: ', 'framework' ), $blogname ) . "\r\n\r\n";
@@ -2768,14 +2770,14 @@ add_action('new_user_activated','imic_new_user_activated');
     $message = apply_filters( 'user_activation_notification_message', $message, $activation_url, $user_id );
 
     $address = 'info@ngyachting.com';
-    $msg = wordwrap( $message, 70 );
+    $msg = wordwrap( $message, 100 );
 
     $header = "From: $address" . PHP_EOL;
     $header .= "Reply-To: $address" . PHP_EOL;
     $header .= "MIME-Version: 1.0" . PHP_EOL;
     $header .= "Content-Type: text/html; charset=\"iso-8859-1\"\n";
 
-    mail( $user_email, $title, $msg);
+    wp_mail( $user_email, $title, $msg);
 }
 
 /* Agent Register Funtion
@@ -2792,7 +2794,10 @@ function imic_agent_register() {
     
     if ($_POST['guestemail'] == '') {
         //$username     = $_POST['username'];
+        $role = (isset($_POST['roles']))?esc_sql(trim($_POST['roles'])):'';
         $firstname     = $_POST['firstname'];
+        $title     = $_POST['title'];
+        $phone     = $_POST['phone'];
         $email    = $_POST['email'];
         $pwd1  = $_POST['pwd1'];
         $pwd2 = $_POST['pwd2'];
@@ -2808,7 +2813,13 @@ function imic_agent_register() {
     if($firstname == '') {
         echo '<div class="alert alert-error">'.__('You must enter your first name.','framework').'</div>';
         exit();
-    } else if(trim($email) == '') {
+    }else if($title == '' && $role == 'Broker') {
+        echo '<div class="alert alert-error">'.__('You must enter your title.','framework').'</div>';
+        exit();
+    }else if($phone == '' && $role == 'Broker') {
+        echo '<div class="alert alert-error">'.__('You must enter your phone number.','framework').'</div>';
+        exit();
+    }else if(trim($email) == '') {
         echo '<div class="alert alert-error">'.__('You must enter email address.','framework').'</div>';
         exit();
     } else if(!isEmail($email)) {
@@ -2887,8 +2898,9 @@ update_user_meta($user_id,'imic_user_info_id',$post_id);
 update_post_meta($post_id,'imic_user_reg_id',$user_id);
 wp_update_user( array( 'ID' => $user_id, 'first_name' => $firstname) );
 //wp_update_user( array( 'ID' => $user_id, 'first_name' => $firstname, 'last_name' => $last_name ) );
-
-
+$user_info_id = get_user_meta($user_id,'imic_user_info_id',true);
+update_post_meta( $user_info_id, 'imic_user_company_tagline', $title );
+update_post_meta( $user_info_id, 'imic_user_telephone', $phone );
                             
             if (is_wp_error($user_id)) {
                 $err = 'Error on user creation.';
@@ -2899,7 +2911,7 @@ wp_update_user( array( 'ID' => $user_id, 'first_name' => $firstname) );
                                 //$info_register['user_login'] = $email;
                                 //$info_register['user_password'] = $pwd1;
                                 //wp_signon( $info_register, false );
-                                new_user_activation_notification($user_id); 
+                                new_user_activation_notification($user_id, $role); 
                                }
         }
     }
@@ -2909,8 +2921,8 @@ wp_update_user( array( 'ID' => $user_id, 'first_name' => $firstname) );
     endif;
     
     if (!empty($success)) :
-        mail($admin_mail_to, $mail_subject, $admin_msg, $admin_headers);    
-        mail($email, $mail_subject, $dealer_msg, $dealer_headers);  
+        wp_mail($admin_mail_to, $mail_subject, $admin_msg);    
+        wp_mail($email, $mail_subject, $dealer_msg);  
         echo '<div class="alert alert-success">' . $success . '</div>';
     endif;
     die();

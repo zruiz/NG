@@ -375,7 +375,7 @@ function retrieve_password() {
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'login';
 $errors = new WP_Error();
 
-if ( isset($_GET['key']) )
+if ( isset($_GET['key']) && isset($_GET['action']) != 'activate')
 	$action = 'resetpass';
 
 // validate action so as to default to the login screen
@@ -424,8 +424,8 @@ $interim_login = isset($_REQUEST['interim-login']);
 switch ($action) {
 
 case 'activate' :
-do_action( 'user_activation' );
-exit();
+	do_action( 'user_activation' );
+	exit();
 
 case 'postpass' :
 	if ( ! array_key_exists( 'post_password', $_POST ) ) {

@@ -17,10 +17,18 @@ jQuery(function($){
 	});
 
 	jQuery('.broker').hide();
+	jQuery('.title').hide();
+	jQuery('.phone').hide();
 	jQuery('#user-role-popup').on('change', function() {
 		if (jQuery('#user-role-popup').val() == 'Broker') {
 			jQuery('.broker').slideDown('slow');
-		}else jQuery('.broker').slideUp('slow');
+			jQuery('.title').show();
+			jQuery('.phone').show();
+		}else { 
+			jQuery('.broker').slideUp('slow');
+			jQuery('.title').hide();
+			jQuery('.phone').hide();
+		}
 	});
 
 	// jQuery('.result-item-in').click(function() {

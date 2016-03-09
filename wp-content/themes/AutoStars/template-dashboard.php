@@ -783,7 +783,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                                                 <input name="company-name" value="<?php echo get_post_meta($user_info_id,'imic_user_company',true); ?>" type="text" class="form-control" placeholder="">
                                                             </div>
                                                             <div class="col-md-6">
-                                                            	<label><?php echo esc_attr_e('Company Tagline','framework'); ?></label>
+                                                            	<label><?php echo esc_attr_e('Title','framework'); ?></label>
                                                                 <input name="company-tagline" value="<?php echo get_post_meta($user_info_id,'imic_user_company_tagline',true); ?>" type="text" class="form-control" placeholder="">
                                                             </div>
                                                         </div>

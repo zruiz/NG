@@ -689,8 +689,9 @@ p.meta-data{
 	padding:30px;
 }
 .result-item-image .media-box img{
-	max-height: 195px;
-	min-width: 273px;
+	/*max-height: 195px;*/
+	/*min-width: 273px;*/
+	width: 100% !important;
 }
 .social-icons, .social-icons-colored{
 	margin:0;
@@ -3423,7 +3424,7 @@ body.boxed .is-sticky .actions-bar{
 	background: #fff none repeat scroll 0 0;
 	box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
     /*height: 280px;*/
-    width: 260px;
+    width: 240px;
     text-align: center;
     margin-top: 40px;
 }
@@ -6323,8 +6324,14 @@ p.demo_store{
 		margin:0 auto 30px;
 		width: 100%;
 	}
+	#listing-images{
+		max-height: 250px !important;
+	}
 }
 @media only screen and (min-width: 480px) and (max-width: 767px) {
+	#listing-images{
+		max-height: 350px !important;
+	}
 }
 @media print {.single-vehicle-details .recent-vehicles, .calculator-widget, .seller-contact-widget, .additional-images, .single-listing-actions, .badge-premium-listing, .utility-bar, .page-header, .header-right, .navbar, .site-footer{
 	display:none;
@@ -6338,7 +6345,7 @@ body{
 }
 @media
 only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2)
 only screen and (     -o-min-device-pixel-ratio: 2/1),
 only screen and (        min-device-pixel-ratio: 2),
 only screen and (                min-resolution: 192dpi),

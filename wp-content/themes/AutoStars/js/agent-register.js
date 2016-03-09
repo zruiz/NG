@@ -53,6 +53,8 @@ jQuery(document).ready(function() {
 				action: 'imic_agent_register',
 				//role: jQuery('#role-popup').val(),
 				firstname: jQuery('#firstname-popup').val(),
+				title: jQuery('#title-popup').val(),
+				phone: jQuery('#phone-popup').val(),
 				email: jQuery('#email-popup').val(),
 				guestemail: jQuery('#guest-email-popup').val(),
 				pwd1: jQuery('#pwd1-popup').val(),

@@ -90,6 +90,14 @@ global $imic_options;
                         <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <input type="text" name="firstname" id="firstname-popup" class="form-control" placeholder="<?php echo esc_attr_e('Full Name','framework'); ?>">
                         </div>
+                        <div class="input-group title">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" name="title" id="title-popup" class="form-control" placeholder="<?php echo esc_attr_e('Title','framework'); ?>">
+                        </div>
+                        <div class="input-group phone">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input type="text" name="phone" id="phone-popup" class="form-control" placeholder="<?php echo esc_attr_e('Phone','framework'); ?>">
+                        </div>
                         <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                         <input type="email" name="email" id="email-popup" class="form-control" placeholder="<?php echo esc_attr_e('Email','framework'); ?>">

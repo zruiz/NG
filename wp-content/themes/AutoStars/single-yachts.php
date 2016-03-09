@@ -62,6 +62,8 @@ if(!empty($userFirstName) || !empty($userLastName)) {
 $userEmail = $user_data->user_email;
 $user = (isset($userName)) ? get_user_by('slug', $userName) : ''; 
 $user_info_id = get_user_meta($user->ID,'imic_user_info_id',true);
+$userTitle = get_post_meta($this_user,'imic_user_company_tagline',true);
+$userPhone = get_post_meta($this_user,'imic_user_telephone',true);
 
 if($browse_specification_switch==1) {
 get_template_part('bar','one'); 
@@ -317,7 +319,7 @@ $loggedUserEmail = $current_user->user_email;
                             <div class="single-listing-images">
                             
                             	<div class="listing-slider">
-                                    <div id="listing-images" class="flexslider format-gallery">
+                                    <div id="listing-images" class="flexslider format-gallery" >
                                     <?php $cars_images = get_post_meta(get_the_ID(),'imic_plugin_vehicle_images',false);
 									  if(empty($cars_images)) 
 									  { 
@@ -337,11 +339,13 @@ $loggedUserEmail = $current_user->user_email;
 											$image_full = wp_get_attachment_image_src($car_image,'full','');
 										?>
                                         <?php if(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 0){
-											$Lightbox_init = '<li class="media-box" style="height:450px;"><a href="' .esc_url($image_full[0]). '" data-rel="prettyPhoto[grouped]">';
+											$Lightbox_init_desk = '<li class="media-box hidden-sm hidden-xs" style="height:450px;"><a href="' .esc_url($image_full[0]). '" data-rel="prettyPhoto[grouped]">';
+											$Lightbox_init_mob = '<li class="media-box hidden-md hidden-lg" style="height:450px;">';
 										}elseif(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 1){
-											$Lightbox_init = '<li class="media-box" style="height:450px;"><a href="' .esc_url($image_full[0]). '" class="magnific-gallery-image">';
+											$Lightbox_init = '<li class="media-box" style="height:450px;"><a href="' .esc_url($image_full[0]). '" class="magnific-gallery-image hidden-sm hidden-xs">';
 										}
-										echo $Lightbox_init; ?><img src="<?php echo esc_url($image[0]); ?>" alt=""></a> </li>
+										echo $Lightbox_init_desk; ?><img src="<?php echo esc_url($image[0]); ?>" alt=""></a> </li>
+										<?php echo $Lightbox_init_mob; ?><img src="<?php echo esc_url($image[0]); ?>" alt=""></li>
 								  <?php } ?>
                                       </ul>
                                     </div>
@@ -384,8 +388,8 @@ $loggedUserEmail = $current_user->user_email;
                     	<!-- Vehicle Details Sidebar -->
                         <div class="col-md-4 vehicle-details-sidebar sidebar">
                         	<!-- <p><h3 class="widgettitle">Meet Your Broker</h3></p> -->
-                        	<div class="vehicle-enquiry-foot">
-                        		<div class="grid-item-inner" style="width:auto !important;">
+                        	<div class="col-md-11 col-sm-4 vehicle-enquiry-foot">
+                        		<div class="grid-item-inner" style="width:276px !important; margin:0 auto;">
                         			<?php $default_image = (isset($imic_options['default_dealer_image']))?$imic_options['default_dealer_image']:array('url'=>''); ?>
 		                            <a data-toggle="modal" data-target="" href="#" class="media-box"> <?php if(has_post_thumbnail($this_user)) { echo get_the_post_thumbnail($this_user,'600x400'); } else { ?><img src="<?php echo esc_url($default_image['url']); ?>" alt=""><?php } ?></a>
 		                            <div class="grid-content">
@@ -393,9 +397,9 @@ $loggedUserEmail = $current_user->user_email;
 			                                <h5>
 			                                	<?php echo esc_attr($userName); ?>
 			                                </h5>
-			                                <p>Yacht Broker</p>
+			                                <p><?php echo esc_attr($userTitle); ?></p>
 			                            </div>
-		                                <span class="vehicle-enquiry-foot-ico"><i class="mobile fa fa-mobile"></i><?php echo get_post_meta(get_the_ID(),'imic_plugin_contact_phone',true); ?></span>
+		                                <span class="vehicle-enquiry-foot-ico"><i class="mobile fa fa-mobile"></i><?php echo esc_attr($userPhone); ?></span>
 	                                    <span class="vehicle-enquiry-foot-ico"><i class="mail fa fa-envelope-o"></i><?php echo esc_attr($userEmail); ?></span>
 	                                    <!-- <span class="vehicle-enquiry-foot-ico"><i class="mail fa fa-envelope-o"></i><a href="<?php echo esc_url(get_author_posts_url($post_author_id)); ?>"><?php echo esc_attr($userEmail); ?></a></span> -->
 			                        </div>
@@ -501,8 +505,7 @@ $loggedUserEmail = $current_user->user_email;
 												$model = $value_labels.$value_this.$child_val;
 											if (get_the_title($normal) == 'Engine Brand')
 												$engine_brand = $value_labels.$value_this.$child_val;
-											if (get_the_title($normal) == 'Location')
-												$location = $value_labels.$value_this.$child_val;
+												
 											if($value_this!="select") 
 											{
 												if($label_positions==0) 
@@ -526,7 +529,8 @@ $loggedUserEmail = $current_user->user_email;
 											$feat_slug_char = imic_the_slug($normal);
 											$spec_key_val = get_post_meta(get_the_ID(), 'char_'.$feat_slug_char, true);
 											$spec_key_val_child = get_post_meta(get_the_ID(), 'child_'.$feat_slug_char, true);
-
+											if (get_the_title($normal) == 'Location')
+												$location = $value_labels.$spec_key_val;
 											if($spec_key_val!="select") 
 											{
 												if($label_positions==0) 
@@ -590,6 +594,7 @@ $loggedUserEmail = $current_user->user_email;
                                                             		<td>'.get_post_meta($id,'int_'.$badge_slug,true).$value_labels.'</td>
                                                             	</tr>'; }
 									} else {
+
 										if($specification_data_type=="0")
 										{
 											$spec_key = array_search($normal, $this_specification['sch_title']);
@@ -628,8 +633,8 @@ $loggedUserEmail = $current_user->user_email;
                                         	echo '</ul>';
 										}
 										elseif( $tab['property_description']=="[location]") {
-											
-											echo do_shortcode('[gmap address="'.$add.'"]');
+											echo esc_attr($location);
+											//echo do_shortcode('[gmap address="'.$add.'"]');
 										}
 										elseif(($tab['property_description']=="[tab-area1]")&&($tab_data1!='')) {
 											echo do_shortcode($tab_data1);
