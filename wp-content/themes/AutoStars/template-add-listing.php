@@ -299,8 +299,8 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     <a href="javascript:void(0);">
                                         <span class="step-state"></span>
                                         <span class="step-icon"><i class="fa fa-list-alt"></i></span>
-                                        <strong class="step-title"><?php echo esc_attr_e('Select Features','framework'); ?></strong>
-                                        <span class="step-desc"><?php echo esc_attr_e('Select features of your listing','framework'); ?></span>
+                                        <strong class="step-title"><?php echo esc_attr_e('Features','framework'); ?></strong>
+                                        <span class="step-desc"><?php echo esc_attr_e('Insert features','framework'); ?></span>
                                     </a>
                                 </li>
                                 <li class="tabs-listing <?php echo esc_attr($tab_class3.' '.$active_tab3); ?>" data-target="#listing-add-form-three" data-rel="listing-add-form-three" data-toggle="tab">
@@ -742,7 +742,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
 											//$featcontent = (!empty(get_post_meta($update_id,'imic_tab_area1',true))) ? get_post_meta($update_id,'imic_tab_area1',true) : '';
 											$featcontent = get_post_meta($update_id,'imic_tab_area1',true);
 											$quicktags_settings = array( 'buttons' => 'strong,em,link,block,del,ins,img,ul,ol,li,code,close' );
-											wp_editor( $featcontent, 'featcontent', array( 'media_buttons' => true, 'tinymce' => true, 'quicktags' => $quicktags_settings ) );
+											wp_editor( $featcontent, 'featcontent', array( 'media_buttons' => false, 'tinymce' => true, 'quicktags' => false) );
 											?>
 										</div>
 	                                </div>
@@ -938,7 +938,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     <input value="<?php echo get_post_meta($update_id,'imic_plugin_video_url',true); ?>" name="vehicle-video" id="vehicle-video" type="text" class="form-control" placeholder="Youtube/Video URL">
                                     <hr class="fw">
                                     <h3><?php echo esc_attr_e('Description','framework'); ?></h3>
-                                    <div class="lighter"><p><?php echo esc_attr_e('Describe your listing.','framework'); ?></p></div>
+                                    <div class="lighter"><p><?php echo esc_attr_e('This is where you put your catch phrase/teaser, insist on key features, extras included in sale, price being aggressive or level of motivation to sell.','framework'); ?></p></div>
                                     <textarea name="vehicle-detail" id="vehicle-detail" class="form-control" rows="10"><?php echo $content; ?></textarea>
                                     
                                     <?php if(is_user_logged_in()) { ?>

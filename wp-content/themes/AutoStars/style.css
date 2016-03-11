@@ -691,7 +691,8 @@ p.meta-data{
 .result-item-image .media-box img{
 	/*max-height: 195px;*/
 	/*min-width: 273px;*/
-	width: 100% !important;
+	/*width: 100% !important;*/
+	width: 750px !important;
 }
 .social-icons, .social-icons-colored{
 	margin:0;
@@ -6326,6 +6327,9 @@ p.demo_store{
 	}
 	#listing-images{
 		max-height: 250px !important;
+	}
+	.result-item-image .media-box img{
+		width: 100% !important;
 	}
 }
 @media only screen and (min-width: 480px) and (max-width: 767px) {

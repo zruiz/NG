@@ -357,6 +357,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
 										//print_r($detailed_specs);
 										$details_value = imic_vehicle_all_specs(get_the_ID(),$detailed_specs,$specifications);
 										$price = imic_vehicle_price(get_the_ID(),$additional_specs,$specifications);
+										$currency = imic_vehicle_currency(get_the_ID(),'1604',$specifications);
 										$new_highlighted_specs = imic_filter_lang_specs_admin($detailed_title, get_the_ID());
 										$detailed_title = $new_highlighted_specs;
 										$title = imic_vehicle_title(get_the_ID(),$detailed_title,$specifications);
@@ -398,7 +399,13 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                                     </ul>
                                                     </div>
                                                 </td>
-                                                <td><span class="price"><?php echo esc_attr($price); ?></span></td>
+                                                <?php  $currency_symbol = '';
+									                    if (strpos($currency, 'USD') !== false ) { 
+									                    	$currency_symbol = '$';
+									                    } elseif (strpos($currency, 'EUR') !== false )  {
+									                    	$currency_symbol = '€';
+									                    } elseif (strpos($currency, 'GBP') !== false )  $currency_symbol = '£'; ?>
+                                                <td><span class="price"><?php echo esc_attr($currency_symbol.''.$price); ?></span></td>
                                                 <td><span class="text-success"><?php echo esc_attr_e('Created on','framework'); ?></span> <?php echo esc_attr(get_the_date(get_option('date_format'))); echo esc_attr_e(' @ ','framework'); echo esc_attr(get_the_date(get_option('time_format'))); ?></td>
                                                 <td align="center"><span id="ad-<?php echo esc_attr(get_the_ID()); ?>" class="label label-<?php echo esc_attr($label); ?>"><?php echo esc_attr($status); ?></span></td>
                                                 <td align="center">
@@ -797,7 +804,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                                       	<label><?php echo esc_attr_e('Description','framework'); ?></label>
                                                         <textarea class="form-control" rows="5" name="dealer_content"><?php echo do_shortcode($content); ?></textarea>
                                                       	<div class="row">
-                                                            <div class="col-md-6">
+                                                            <!-- <div class="col-md-6">
                                                             <?php $user_avatar = get_post_meta($user_info_id,'imic_user_logo',true);
 															$image_avatar = wp_get_attachment_image_src( $user_avatar, '', '' );
 															if(!empty($image_avatar)) {  ?>
@@ -805,11 +812,11 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                                             <?php } ?>
                                                             	<label><?php echo esc_attr_e('Banner Image','framework'); ?></label>
                                                                 <input name="bannerimage" type="file">
-                                                            </div>
+                                                            </div> -->
                                                             <div class="col-md-6">
                                                             <?php if(has_post_thumbnail($user_info_id)) {
 															echo get_the_post_thumbnail($user_info_id,'200x200'); } ?>
-                                                            	<label><?php echo esc_attr_e('Company/User Image','framework'); ?></label>
+                                                            	<label><?php echo esc_attr_e('Company/Profile Image','framework'); ?></label>
                                                                 <input name="userimage" type="file">
                                                             </div>
                                                         </div>

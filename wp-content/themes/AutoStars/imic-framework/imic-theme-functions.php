@@ -1406,11 +1406,11 @@ foreach($data as $key=>$value)
                                                         $i=0;
                                                         foreach($details_value as $detail) {
                                                             if(!empty($detail) && $i < 2 ) {
-                                                                echo '<li>'.$detail.' |</li>'; 
+                                                                echo '<li>'.strtoupper($detail).' |</li>'; 
                                                             } elseif ($i == 2) {
-                                                                echo '<li>'.$detail.'</li>'; 
+                                                                echo '<li>'.strtoupper($detail).'</li>'; 
                                                             } elseif ($i > 2) {
-                                                                echo '<li style="display:block;">'.$detail.'</li>'; 
+                                                                echo '<li style="display:block;">'.ucfirst($detail).'</li>'; 
                                                             } 
                                                         $i++;
                                                     } } ?>
