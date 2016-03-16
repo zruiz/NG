@@ -289,7 +289,7 @@ $loggedUserEmail = $current_user->user_email;
 										{
 											$spec_key = $second_key = '';
 										}
-										$feat_val = get_post_meta($id,'int_'.$badge_slugf,true);
+										$feat_val = get_post_meta($id,'int_'.$badge_slug,true);
 										if($field_type==1&&$feat_val!='') {
 										if($label_position==0) {
 										echo '<li class="list-group-item"> <span class="badge">'.get_the_title($featured).'</span> '.$value_label.get_post_meta($id,'int_'.$badge_slug,true).'</li>'; }
@@ -339,13 +339,12 @@ $loggedUserEmail = $current_user->user_email;
 											$image_full = wp_get_attachment_image_src($car_image,'full','');
 										?>
                                         <?php if(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 0){
-											$Lightbox_init_desk = '<li class="media-box hidden-sm hidden-xs" style="height:450px;"><a href="' .esc_url($image_full[0]). '" data-rel="prettyPhoto[grouped]">';
-											$Lightbox_init_mob = '<li class="media-box hidden-md hidden-lg" style="height:450px;">';
+											$Lightbox_init = '<li class="media-box" style="height:450px;">';
+											//$Lightbox_init = '<li class="media-box" style="height:450px;"><a class="slide-link" href="' .esc_url($image_full[0]). '" data-rel="prettyPhoto[grouped]">';
 										}elseif(isset($imic_options['switch_lightbox']) && $imic_options['switch_lightbox']== 1){
 											$Lightbox_init = '<li class="media-box" style="height:450px;"><a href="' .esc_url($image_full[0]). '" class="magnific-gallery-image hidden-sm hidden-xs">';
 										}
-										echo $Lightbox_init_desk; ?><img src="<?php echo esc_url($image[0]); ?>" alt=""></a> </li>
-										<?php echo $Lightbox_init_mob; ?><img src="<?php echo esc_url($image[0]); ?>" alt=""></li>
+										echo $Lightbox_init; ?><img src="<?php echo esc_url($image[0]); ?>" alt=""></li>
 								  <?php } ?>
                                       </ul>
                                     </div>

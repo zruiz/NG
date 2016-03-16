@@ -40,6 +40,8 @@
 		), $atts));
 		
 		$output = '';
+		$title_string = '';
+		$_title = '';
 		if(is_plugin_active("imithemes-listing/listing.php")) {
 			$args_team = array('post_type'=>'team','posts_per_page'=>$number);
 			$output .= '<hr class="fw">
@@ -52,11 +54,16 @@
 			while ( $team_listing->have_posts() ) :	
 			$team_listing->the_post();
 			$social = imic_social_staff_icon();
+			$post_id = get_post(get_the_ID());
+			$title_string = explode('.', $post_id->post_content);
+			$_title = $title_string[0];
 			$output .= '<li class="col-md-'.$column.' col-sm-'.$column.' grid-item format-image">
                         <div class="grid-item-inner">
                             <a data-toggle="modal" data-target="#team-modal-'.(get_the_ID()+2648).'" href="#" class="media-box"> '.get_the_post_thumbnail(get_the_ID(),'600x400').' </a>
                             <div class="grid-content">
-                                <h3 class="post-title"><a data-toggle="modal" data-target="#team-modal-'.(get_the_ID()+2648).'" href="#" class="">'.get_the_title().'</a></h3><p>'.imic_excerpt(10).'</p>'.$social.'</div>
+                                <h3 class="post-title"><a data-toggle="modal" data-target="#team-modal-'.(get_the_ID()+2648).'" href="#" class="">'.get_the_title().'</a><span style="display:block; font-size:13px; color: #999;">'.$_title.'</span></h3>
+                                <p>'.implode(' ', array_slice(explode(' ', $title_string[1]), 0, 15)).'...</p>'.$social.'
+                            </div>
                         </div>
                     </li>';
 				$output .= '<div class="modal fade team-modal" id="team-modal-'.(get_the_ID()+2648).'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

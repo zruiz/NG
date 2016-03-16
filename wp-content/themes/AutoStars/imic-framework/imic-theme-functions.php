@@ -1361,6 +1361,11 @@ foreach($data as $key=>$value)
                                                          } elseif(!is_user_logged_in() && $status == 'Private Sale') {
                                                         ?>
                                                         <a href="#" data-toggle="modal" data-target="#GuestModal" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>                                              
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() && $status == 'Shipyard/Dealer Stock') {
+                                                        ?>
+                                                        <a href="#" data-toggle="modal" data-target="#GuestModal" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>                                              
+                                                        
                                                         <?php } else { ?>
                                                         <a href="<?php echo esc_url(get_permalink()); ?>" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>
                                                         <?php } } ?>
@@ -1388,6 +1393,11 @@ foreach($data as $key=>$value)
                                                          } elseif(!is_user_logged_in() && $status == 'Private Sale') {
                                                         ?>
                                                         <h4 class="result-item-title"><a href="#" data-toggle="modal" data-target="#GuestModal"><?php echo esc_attr($highlight_value); ?></a>                                              
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() && $status == 'Shipyard/Dealer Stock') {
+                                                        ?>
+                                                        <h4 class="result-item-title"><a href="#" data-toggle="modal" data-target="#GuestModal"><?php echo esc_attr($highlight_value); ?></a>                                              
+                                                        
                                                         <?php } else { ?>
                                                             <h4 class="result-item-title"><a href="<?php echo esc_url(get_permalink()); ?>"><?php echo esc_attr($highlight_value); ?></a>
                                                         <?php
@@ -1431,6 +1441,10 @@ foreach($data as $key=>$value)
                                                  } elseif(!is_user_logged_in() && $status == 'Private Sale') {
                                                 ?>
                                                 <a href="#" data-toggle="modal" data-target="#GuestModal"><i class="fa fa-plus"></i></a>                                              
+                                                <?php 
+                                                 } elseif(!is_user_logged_in() && $status == 'Shipyard/Dealer Stock') {
+                                                ?>
+                                                <a href="#" data-toggle="modal" data-target="#GuestModal"><i class="fa fa-plus"></i></a>
                                                 <?php } else { ?>
                                                 <a href="<?php echo esc_url(get_permalink()); ?>"><i class="fa fa-plus"></i> </a>
                                                 <?php } ?>
@@ -3132,7 +3146,7 @@ function imic_price_guide() {
    $count++; } 
    } 
    $arr = array();
-   $args_cars = array('post_type'=>'yahcts','meta_query' => $arrays,'posts_per_page'=>10,'post_status'=>'publish');
+   $args_cars = array('post_type'=>'yachts','meta_query' => $arrays,'posts_per_page'=>10,'post_status'=>'publish');
     $cars_listing = new WP_Query( $args_cars );
     if ( $cars_listing->have_posts() ) :
     while ( $cars_listing->have_posts() ) : 

@@ -6328,8 +6328,21 @@ p.demo_store{
 	#listing-images{
 		max-height: 250px !important;
 	}
-	.result-item-image .media-box img{
+	/*.result-item-image .media-box img{
 		width: 100% !important;
+	}*/
+	#listing-images .media-box a.slide-link{
+		pointer-events: none;
+		cursor: default;
+	}
+	#listing-images .media-box .slide-link img{
+		max-height: 350px !important;
+	}
+	.additional-images{
+		max-height: 120px !important;
+	}
+	.additional-images img{
+		max-height: 100px !important;
 	}
 }
 @media only screen and (min-width: 480px) and (max-width: 767px) {

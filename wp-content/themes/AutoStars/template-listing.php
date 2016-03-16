@@ -875,6 +875,10 @@ $cars_listing = new WP_Query( $args_cars );
                                                          } elseif(!is_user_logged_in() && $status == 'Private Sale') {
                                                         ?>
                                                         <a href="#" data-toggle="modal" data-target="#GuestModal" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>                                              
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() && $status == 'Shipyard/Dealer Stock') {
+                                                        ?>
+                                                        <a href="#" data-toggle="modal" data-target="#GuestModal" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>                                              
                                                         <?php } else { ?>
                                                         <a href="<?php echo esc_url(get_permalink()); ?>" class="media-box"><?php the_post_thumbnail('600x400'); ?></a>
                                                         <?php } } ?>
@@ -902,6 +906,11 @@ $cars_listing = new WP_Query( $args_cars );
                                                          } elseif(!is_user_logged_in() && $status == 'Private Sale') {
                                                         ?>
                                                         <h4 class="result-item-title"><a href="#" data-toggle="modal" data-target="#GuestModal"><?php echo esc_attr($highlight_value); ?></a>                                              
+                                                        <?php 
+                                                         } elseif(!is_user_logged_in() && $status == 'Shipyard/Dealer Stock') {
+                                                        ?>
+                                                        <h4 class="result-item-title"><a href="#" data-toggle="modal" data-target="#GuestModal"><?php echo esc_attr($highlight_value); ?></a>                                              
+                                                        
                                                         <?php } else { ?>
                                                             <h4 class="result-item-title"><a href="<?php echo esc_url(get_permalink()); ?>"><?php echo esc_attr($highlight_value); ?></a>
                                                         <?php
@@ -947,6 +956,10 @@ $cars_listing = new WP_Query( $args_cars );
                                                  } elseif(!is_user_logged_in() && $status == 'Private Sale') {
                                                 ?>
                                                 <a href="#" data-toggle="modal" data-target="#GuestModal"><i class="fa fa-plus"></i></a>                                              
+                                                <?php 
+                                                 } elseif(!is_user_logged_in() && $status == 'Shipyard/Dealer Stock') {
+                                                ?>
+                                                <a href="#" data-toggle="modal" data-target="#GuestModal"><i class="fa fa-plus"></i></a> 
                                                 <?php } else { ?>
                                                 <a href="<?php echo esc_url(get_permalink()); ?>"><i class="fa fa-plus"></i> </a>
                                                 <?php } ?>

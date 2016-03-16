@@ -939,7 +939,7 @@ $specification_data_type = (isset($imic_options['specification_fields_type']))?$
                                     <hr class="fw">
                                     <h3><?php echo esc_attr_e('Description','framework'); ?></h3>
                                     <div class="lighter"><p><?php echo esc_attr_e('This is where you put your catch phrase/teaser, insist on key features, extras included in sale, price being aggressive or level of motivation to sell.','framework'); ?></p></div>
-                                    <textarea name="vehicle-detail" id="vehicle-detail" class="form-control" rows="10"><?php echo $content; ?></textarea>
+                                    <textarea name="vehicle-detail" id="vehicle-detail" class="form-control" required rows="10"><?php echo $content; ?></textarea>
                                     
                                     <?php if(is_user_logged_in()) { ?>
                                                         <button type="submit" name="upload" id="ss" class="btn btn-info pull-right save-searched-value"><?php echo esc_attr_e('Save ','framework'); ?>&amp;<?php echo esc_attr_e(' continue','framework'); ?></button><?php } else { echo '<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#PaymentModal">'.__('Login/Register','framework').'</a>'; } ?>

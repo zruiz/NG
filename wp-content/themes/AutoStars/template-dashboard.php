@@ -440,7 +440,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                             <div id="saved-cars-section" class="dashboard-block">
                             	<div class="dashboard-block-head">
                                 <?php if((count($saved_cars)>3)&&(esc_attr(get_query_var('saved'))!=1)) { ?>
-                                	<a href="<?php echo esc_url(add_query_arg('saved',1,get_permalink())); ?>" class="btn btn-default btn-sm pull-right"><?php echo esc_attr_e('See all cars ','framework'); echo '('.count($saved_cars).')'; ?></a><?php } ?>
+                                	<a href="<?php echo esc_url(add_query_arg('saved',1,get_permalink())); ?>" class="btn btn-default btn-sm pull-right"><?php echo esc_attr_e('See all yachts ','framework'); echo '('.count($saved_cars).')'; ?></a><?php } ?>
                             		<h3><?php echo esc_attr_e('Saved Yachts','framework'); ?></h3>
                                 </div>
                                 <div class="table-responsive">
@@ -450,7 +450,7 @@ $specification_type = (isset($imic_options['short_specifications']))?$imic_optio
                                             <tr>
                                                 <td>&nbsp;</td>
                                                 <td><?php echo esc_attr_e('Description','framework'); ?></td>
-                                                <td><?php echo esc_attr_e('Price/Status','framework'); ?></td>
+                                                <td><?php echo esc_attr_e('Price','framework'); ?></td>
                                                 <td><?php echo esc_attr_e('Timestamp','framework'); ?></td>
                                                 <td><?php echo esc_attr_e('Actions','framework'); ?></td>
                                             </tr>

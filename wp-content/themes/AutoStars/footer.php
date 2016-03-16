@@ -438,7 +438,7 @@ global $imic_options;
 <h4 id="mymodalLabel" class="modal-title"><?php echo esc_attr_e('Delete Selected Items','framework'); ?></h4>
 </div>
 <div class="modal-body">
-<?php echo esc_attr_e('Do you really want to delete?','framework'); ?>
+<?php echo esc_attr_e('Please click delete to remove this listing from your list or click close to cancel.','framework'); ?>
 </div>
 <div class="modal-footer">
 <input id="delete" name="submit" data-dismiss="modal" type="button" class="btn btn-default inverted" value="<?php _e('Delete', 'framework'); ?>">

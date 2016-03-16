@@ -236,6 +236,7 @@ function getUrlVars()
 			jQuery("li#"+$query_var).remove();
 			jQuery("#search-tab").append('<li id="'+$query_var+'"><a href="javascript:void(0);">'+$query_val+' <i class="fa fa-times"></i></a></li>');
     //$query_val = $query_val;
+    HistoryPush(UpdateQueryString("paged",null,''));
 	HistoryPush(UpdateQueryString($query_var,$query_val,''));
     //history.pushState('', '', UpdateQueryString($query_var,$query_val,''));
 		var $vars = getUrlParams();
